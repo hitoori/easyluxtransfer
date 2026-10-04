@@ -1,3 +1,4 @@
+import { t, useLocale } from '../../i18n/locale'
 import ClientStories from './ClientStories'
 import JourneyRequest from './JourneyRequest'
 
@@ -12,24 +13,25 @@ const bookingSteps = [
 ]
 
 export default function HomeClosingSections({ onPlanJourney }: HomeClosingSectionsProps) {
+  useLocale()
   return (
     <div className="home-closing">
       <section className="h2-process booking-process" aria-labelledby="booking-process-title">
         <div className="booking-process-intro">
-          <p className="h2-kicker">Process</p>
-          <h2 id="booking-process-title">How booking works.</h2>
+          <p className="h2-kicker">{t("Process")}</p>
+          <h2 id="booking-process-title">{t("How booking works.")}</h2>
         </div>
         <ol className="booking-process-steps">
           {bookingSteps.map(([number, title, copy]) => (
             <li key={number}>
-              <span className="booking-process-number" aria-hidden="true">{number}</span>
-              <h3>{title}</h3>
-              <p>{copy}</p>
+              <span className="booking-process-number" aria-hidden="true">{t(number)}</span>
+              <h3>{t(title)}</h3>
+              <p>{t(copy)}</p>
             </li>
           ))}
         </ol>
         <button type="button" className="booking-process-start" onClick={onPlanJourney}>
-          Request a quote <span aria-hidden="true">→</span>
+          {t("Request a quote ")}<span aria-hidden="true">{"→"}</span>
         </button>
       </section>
 

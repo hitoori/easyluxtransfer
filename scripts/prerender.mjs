@@ -11,17 +11,17 @@ try {
   const template = (await readFile('dist/client/index.html', 'utf8'))
     .replace(/<title>[\s\S]*?<\/title>/g, '')
     .replace(/<meta\b(?=[^>]*(?:name|property)="(?:description|robots|og:[^"]+|twitter:[^"]+)")[^>]*>/g, '')
-    .replace(/<link\b(?=[^>]*rel="canonical")[^>]*>/g, '')
+    .replace(/<link\b(?=[^>]*rel="(?:canonical|alternate)")[^>]*>/g, '')
     .replace(/<div id="root">[\s\S]*?<\/div>\s*<\/body>/, '<div id="root"></div>\n</body>')
-  for (const page of pages) {
-    const { content, head } = renderPage(page)
+  for (const language of ['en', 'ru']) for (const page of [...pages, 'not-found']) {
+    const { content, head } = renderPage(page, language)
     const componentName = page === 'faq' ? 'FAQ' : page[0].toUpperCase() + page.slice(1)
     const route = manifest[`src/pages/${componentName}.tsx`]
     const routeHead = (route?.css ?? []).map(file => `<link rel="stylesheet" href="${base}${file}" />`).join('\n') + (route ? `\n<link rel="modulepreload" href="${base}${route.file}" />` : '')
-    const html = template.replace(/<title>[\s\S]*?<\/title>/, '').replace(/<meta\s+name="description"[\s\S]*?\/>/, '').replace('</head>', () => `${head}\n${routeHead}\n</head>`).replace('<div id="root"></div>', () => `<div id="root">${content}</div>`)
-    const directory = page === 'home' ? 'dist/client' : path.join('dist/client', page)
+    const html = template.replace(/<html\s+lang="[^"]*"/, `<html lang="${language}"`).replace(/<title>[\s\S]*?<\/title>/, '').replace(/<meta\s+name="description"[\s\S]*?\/>/, '').replace('</head>', () => `${head}\n${routeHead}\n</head>`).replace('<div id="root"></div>', () => `<div id="root">${content}</div>`)
+    const directory = path.join('dist/client', language === 'ru' ? 'ru' : '', page === 'home' || page === 'not-found' ? '' : page)
     await mkdir(directory, { recursive: true })
-    await writeFile(path.join(directory, 'index.html'), html)
+    await writeFile(path.join(directory, page === 'not-found' ? '404.html' : 'index.html'), html)
   }
-  console.log(`Prerendered ${pages.length} pages with content, canonical URLs and social metadata.`)
+  console.log(`Prerendered ${pages.length * 2} pages in English and Russian with canonical URLs and language alternates.`)
 } finally { await server.close() }

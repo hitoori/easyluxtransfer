@@ -1,3 +1,4 @@
+import { message, t, useLocale } from '../i18n/locale'
 import OptimizedImage from './OptimizedImage'
 import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react'
 import { useCookieConsent } from './CookieConsent'
@@ -34,6 +35,7 @@ interface PlaceInputProps {
 }
 
 export default function PlaceInput({ value, onChange, className, placeholder, label, invalid, onMetadataChange, inputId, describedBy }: PlaceInputProps) {
+  const { language } = useLocale()
   const { maps: mapsAllowed } = useCookieConsent()
   const [suggestions, setSuggestions] = useState<Prediction[]>([])
   const [open, setOpen] = useState(false)
@@ -119,6 +121,7 @@ export default function PlaceInput({ value, onChange, className, placeholder, la
         session.current ??= new AutocompleteSessionToken()
         const result = await AutocompleteSuggestion.fetchAutocompleteSuggestions({
           input: value,
+          language,
           sessionToken: session.current,
         })
         if (id === requestId.current) { setAvailable(true); setSuggestions(result.suggestions.flatMap(item => item.placePrediction ? [item.placePrediction] : [])) }
@@ -130,7 +133,7 @@ export default function PlaceInput({ value, onChange, className, placeholder, la
       }
     }, 300)
     return () => { window.clearTimeout(timer); requestId.current++ }
-  }, [value, open, mapsAllowed])
+  }, [value, open, mapsAllowed, language])
 
   const choose = async (prediction: Prediction) => {
     const selection = ++selectionId.current
@@ -169,11 +172,11 @@ export default function PlaceInput({ value, onChange, className, placeholder, la
         if (event.key === 'ArrowUp' && suggestions.length) { event.preventDefault(); setActive((active + suggestions.length - 1) % suggestions.length) }
         if (event.key === 'Enter' && open && active >= 0 && suggestions[active]) { event.preventDefault(); void choose(suggestions[active]) }
       }}
-      placeholder={placeholder}
+      placeholder={t(placeholder)}
       title={value || undefined}
       className={`place-input ${className}`}
       autoComplete="off"
-      aria-label={label}
+      aria-label={t(label)}
       aria-invalid={invalid}
       aria-describedby={describedBy}
       aria-expanded={visible}
@@ -182,9 +185,9 @@ export default function PlaceInput({ value, onChange, className, placeholder, la
       aria-autocomplete={mapsAllowed && available ? 'list' : 'none'}
       role="combobox"
     />
-    {visible && <span ref={popup} id={listId} popover="manual" role="listbox" aria-label={`${label} suggestions`} className="place-suggestions" style={position}>
+    {visible && <span ref={popup} id={listId} popover="manual" role="listbox" aria-label={message('{0} suggestions', t(label))} className="place-suggestions" style={position}>
       {suggestions.map((item, index) => <button key={item.placeId} id={`${listId}-${index}`} type="button" role="option" tabIndex={-1} aria-selected={index === active} onPointerDown={event => event.preventDefault()} onClick={() => void choose(item)}>{item.text.toString()}</button>)}
-      <span className="flex justify-end border-t border-white/10 bg-white px-3 py-1.5"><OptimizedImage src={`${import.meta.env.BASE_URL}images/powered_by_google_on_white.png`} alt="Powered by Google" width={59} height={18} className="h-[18px] w-auto" /></span>
+      <span className="flex justify-end border-t border-white/10 bg-white px-3 py-1.5"><OptimizedImage src={`${import.meta.env.BASE_URL}images/powered_by_google_on_white.png`} alt={t("Powered by Google")} width={59} height={18} className="h-[18px] w-auto" /></span>
     </span>}
   </span>
 }

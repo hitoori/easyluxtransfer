@@ -1,3 +1,4 @@
+import { countLabel, getLanguage, getLocale, message, t, withRenderLanguage } from '../i18n/translate'
 import type { PlaceMetadata } from './PlaceInput'
 import { bookingExtras, euro, extraPrice, extraPriceLabel, type BookingService } from '../config/bookingExtras'
 
@@ -93,7 +94,7 @@ export const newContact = (): ContactDetails => ({ fullName: '', email: '', phon
 export function readableDateTime(value: string) {
   if (!value) return 'Not provided'
   const date = new Date(value)
-  return Number.isNaN(date.getTime()) ? value : new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }).format(date)
+  return Number.isNaN(date.getTime()) ? value : new Intl.DateTimeFormat(getLocale(), { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }).format(date)
 }
 export function localDateTime(date = new Date()) {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}T${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`
@@ -122,7 +123,7 @@ export function routeContext(draft: JourneyDraft) {
 }
 
 function checkFuture(value: string, label: string, now: number) {
-  if (!value) return `Select ${label}.`
+  if (!value) return message("Select {0}.", t(label))
   const time = new Date(value).getTime()
   return !Number.isFinite(time) || time <= now ? 'Choose a future date and time.' : ''
 }
@@ -219,7 +220,7 @@ export function journeyReview(service: BookingService, draft: JourneyDraft): Rev
     if (service === 'hourly') { add('Duration', draft.duration); add('Estimated finish', estimatedEnd(draft)); add('Rough plan', draft.plan); add('Final drop-off', draft.finalUndecided ? 'Not decided yet' : draft.finalDropoff.text) }
     else { add('Trip category', draft.category); add('Places to visit', draft.exactDestination); add('Approximate return time', draft.returnUnsure ? 'Not sure yet' : draft.approximateReturnTime); add('Return location', draft.differentDayReturn ? draft.returnLocation.text : draft.pickup.text); add('Journey arrangement', draft.arrangement); add('Itinerary planning help', draft.itineraryHelp ? 'Requested' : ''); if (draft.category === 'Prosecco Hills') add('Winery visits / tastings', 'Arranged separately unless included in the quote') }
   }
-  if (service !== 'tours') draft.stops.forEach((stop, index) => add(`Stop ${index + 1}`, `${stop.location.text} · ${stop.duration === 'Other' ? stop.otherDuration : stop.duration}`))
+  if (service !== 'tours') draft.stops.forEach((stop, index) => add(message("Stop {0}", t(index + 1)), `${stop.location.text} · ${stop.duration === 'Other' ? stop.otherDuration : t(stop.duration)}`))
   return rows
 }
 export function passengerReview(details: PassengerDetails): ReviewEntry[] {
@@ -227,7 +228,7 @@ export function passengerReview(details: PassengerDetails): ReviewEntry[] {
     { label: 'Passengers', value: String(details.passengers) }, { label: 'Large suitcases', value: String(details.largeLuggage) }, { label: 'Cabin bags', value: String(details.cabinBags) },
   ]
   if (details.oversized) rows.push({ label: 'Oversized luggage', value: details.oversizedDetails })
-  if (details.childSeatsEnabled) rows.push({ label: 'Child seats', value: details.childAges.map((age, index) => `Child ${index + 1}: ${age.value} ${age.unit}`).join('; ') })
+  if (details.childSeatsEnabled) rows.push({ label: 'Child seats', value: details.childAges.map((age, index) => message('Child {0}: {1}', index + 1, getLanguage() === 'ru' ? countLabel(age.value, age.unit) : `${age.value} ${age.unit}`)).join('; ') })
   if (details.specialRequests) rows.push({ label: 'Special requests', value: details.specialRequests })
   return rows
 }
@@ -237,13 +238,13 @@ export function selectedExtras(service: BookingService, details: PassengerDetail
 export function priceReview(service: BookingService, draft: JourneyDraft, passengers: PassengerDetails): ReviewEntry[] {
   const extras = selectedExtras(service, passengers)
   const rows: ReviewEntry[] = [{ label: 'Journey price', value: 'To be confirmed' }]
-  extras.filter(item => item.price !== null).forEach(({ extra, quantity, price }) => rows.push({ label: `${extra.name} × ${quantity}`, value: `${extraPriceLabel(extra)} · ${extra.estimated ? 'Est. ' : ''}${euro(price! * quantity)}` }))
-  if (extras.length) rows.push({ label: 'Estimated extras subtotal', value: extras.every(item => item.price === null) ? 'To be confirmed' : `${euro(extras.reduce((sum, item) => sum + (item.price ?? 0) * item.quantity, 0))} · excludes journey, water taxi and unpriced extras` })
-  extras.filter(item => item.price === null).forEach(({ extra, quantity }) => rows.push({ label: `Price on request · ${extra.name} × ${quantity}`, value: 'Quoted separately; excluded from numeric subtotal' }))
+  extras.filter(item => item.price !== null).forEach(({ extra, quantity, price }) => rows.push({ label: `${t(extra.name)} × ${quantity}`, value: `${extraPriceLabel(extra)} · ${extra.estimated ? t('Est. ') : ''}${euro(price! * quantity)}` }))
+  if (extras.length) rows.push({ label: 'Estimated extras subtotal', value: extras.every(item => item.price === null) ? 'To be confirmed' : message("{0} · excludes journey, water taxi and unpriced extras", t(euro(extras.reduce((sum, item) => sum + (item.price ?? 0) * item.quantity, 0)))) })
+  extras.filter(item => item.price === null).forEach(({ extra, quantity }) => rows.push({ label: message("Price on request · {0} × {1}", t(extra.name), t(quantity)), value: 'Quoted separately; excluded from numeric subtotal' }))
   if (passengers.childSeatsEnabled) rows.push({ label: 'Child seat charges', value: 'To be confirmed with your quote' })
   if (service === 'transfer' && routeContext(draft).water) rows.push({ label: 'Water taxi (separate from road transfer)', value: draft.waterChoice === 'no' ? 'Arranged by you; not included' : '€100–140 estimated; final quote confirms charges' })
   return rows
 }
 export function bookingDetails(service: BookingService, draft: JourneyDraft, passengers: PassengerDetails, contact: ContactDetails) {
-  return [...journeyReview(service, draft), ...passengerReview(passengers), ...priceReview(service, draft, passengers), { label: 'Preferred contact', value: contact.preferredContact === 'whatsapp' ? 'WhatsApp' : 'Email' }].map(row => `${row.label}: ${row.value}`).join('\n')
+  return withRenderLanguage('en', () => [...journeyReview(service, draft), ...passengerReview(passengers), ...priceReview(service, draft, passengers), { label: 'Preferred contact', value: contact.preferredContact === 'whatsapp' ? 'WhatsApp' : 'Email' }].map(row => `${row.label}: ${row.value}`).join('\n'))
 }

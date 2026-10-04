@@ -34,6 +34,24 @@ function bookingApi(localEnv) {
   return { name: 'booking-api', configureServer: attach, configurePreviewServer: attach };
 }
 
+// Match Cloudflare's clean page URLs when reviewing prerendered pages locally.
+function pagePreview() {
+  return {
+    name: 'prerendered-page-preview',
+    configurePreviewServer(server) {
+      server.middlewares.use((req, res, next) => {
+        const pathname = new URL(req.url || '/', 'http://localhost').pathname;
+        if (!/^\/(?:ru(?:\/(?:services|about|faq|contact|cookies))?|services|about|faq|contact|cookies)\/?$/.test(pathname)) return next();
+        try {
+          const html = readFileSync(path.resolve('dist/client', pathname.replace(/^\/|\/$/g, ''), 'index.html'));
+          res.setHeader('content-type', 'text/html; charset=utf-8');
+          res.end(html);
+        } catch { next(); }
+      });
+    },
+  };
+}
+
 export default defineConfig(({ mode }) => ({
   // Cloudflare serves this site from the domain root. Keep the GitHub Pages
   // subpath only for its separate workflow.
@@ -52,5 +70,5 @@ export default defineConfig(({ mode }) => ({
       clientFiles: ["./src/main.tsx"],
     },
   },
-  plugins: [react(), tailwindcss(), bookingApi(loadEnv(mode, process.cwd(), ''))],
+  plugins: [react(), tailwindcss(), bookingApi(loadEnv(mode, process.cwd(), '')), pagePreview()],
 }));

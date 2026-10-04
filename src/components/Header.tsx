@@ -1,18 +1,21 @@
+import { t, useLocale } from '../i18n/locale'
 import { preloadPage } from '../config/pageLoaders'
 import OptimizedImage from './OptimizedImage'
 import { useEffect, useRef, useState, type MouseEvent } from 'react'
 import { navigationItems } from '../config/navigation'
 import { pagePath, type Page } from '../types/navigation'
 import { publicAsset } from '../lib/publicAsset'
+import LanguageSwitcher from './LanguageSwitcher'
 
 const logoImage = publicAsset('images/brand/easy-lux-logo-wordmark.png')
 
 interface HeaderProps {
-  currentPage: Page
+  currentPage: Page | undefined
   navigate: (page: Page) => void
 }
 
 export default function Header({ currentPage, navigate }: HeaderProps) {
+  useLocale()
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 
@@ -81,11 +84,11 @@ export default function Header({ currentPage, navigate }: HeaderProps) {
           href={pagePath('home')}
           onClick={event => followPageLink(event, 'home')}
           className="group flex h-full shrink-0 items-center text-left"
-          aria-label="Easy Lux — Home"
+          aria-label={t("Easy Lux — Home")}
         >
           <OptimizedImage
             src={logoImage}
-            alt="Easy Lux"
+            alt={t("Easy Lux")}
             loading="eager" sizes="72px"
             className={`translate-y-0.5 object-contain drop-shadow-[0_3px_8px_rgba(0,0,0,0.72)] transition-[width,height,transform] duration-500 group-hover:scale-[1.03] ${
               headerElevated
@@ -94,14 +97,14 @@ export default function Header({ currentPage, navigate }: HeaderProps) {
             }`}
           />
           <span className="ml-2 border-l border-[var(--border-gold)] pl-2.5 text-[7px] font-medium uppercase leading-[1.65] tracking-[0.16em] text-[rgba(236,230,219,0.82)] sm:ml-3 sm:pl-3 sm:text-[8px] sm:tracking-[0.19em] lg:ml-3.5 lg:pl-3.5">
-            <span className="block whitespace-nowrap">Your driver</span>
-            <span className="block whitespace-nowrap">Around Italy</span>
+            <span className="block whitespace-nowrap">{t("Your driver")}</span>
+            <span className="block whitespace-nowrap">{t("Around Italy")}</span>
           </span>
         </a>
 
         {/* Right-aligned desktop navigation */}
         <div className="ml-auto hidden items-center justify-end gap-7 xl:flex 2xl:gap-10">
-          <nav className="flex items-center gap-7 2xl:gap-10" aria-label="Main navigation">
+          <nav className="flex items-center gap-7 2xl:gap-10" aria-label={t("Main navigation")}>
             {navigationItems.map((link) => (
               <a
                 key={link.page}
@@ -116,16 +119,17 @@ export default function Header({ currentPage, navigate }: HeaderProps) {
                     : 'text-[rgba(236,230,219,0.68)] hover:text-cream'
                 }`}
               >
-                {link.label}
+                {t(link.label)}
               </a>
             ))}
           </nav>
+          <LanguageSwitcher page={currentPage ?? 'home'} />
           <a
             href={pagePath('contact')}
             onClick={event => followPageLink(event, 'contact')}
             className="flex shrink-0 items-center gap-2 rounded-sm border border-[rgba(194,154,69,0.72)] bg-[rgba(13,14,15,0.16)] px-7 py-4 text-[16px] font-medium tracking-[0.02em] text-gold-light shadow-[0_4px_18px_rgba(0,0,0,0.2)] transition-all duration-300 hover:bg-gold hover:text-[var(--background)] 2xl:px-8 2xl:py-[18px] 2xl:text-[17px]"
           >
-            {currentPage === 'home' || currentPage === 'services' ? 'Request a Quote' : 'Book Your Ride'}
+            {t(currentPage === 'home' || currentPage === 'services' ? 'Request a Quote' : 'Book Your Ride')}
           </a>
         </div>
 
@@ -135,7 +139,7 @@ export default function Header({ currentPage, navigate }: HeaderProps) {
             ref={menuButtonRef}
             onClick={() => setMenuOpen(value => !value)}
             className="flex h-11 w-11 shrink-0 flex-col items-center justify-center gap-1.5 rounded-sm p-2.5"
-            aria-label="Toggle menu"
+            aria-label={t("Toggle menu")}
             aria-expanded={menuOpen}
             aria-controls="mobile-navigation"
           >
@@ -161,6 +165,7 @@ export default function Header({ currentPage, navigate }: HeaderProps) {
         }`}
       >
         <nav className="flex flex-col gap-3 border-t border-[rgba(194,154,69,0.1)] bg-[var(--background-secondary)] px-6 py-6">
+          <LanguageSwitcher page={currentPage ?? 'home'} onChange={() => setMenuOpen(false)} />
           {navigationItems.map((link) => (
             <a
               key={link.page}
@@ -175,7 +180,7 @@ export default function Header({ currentPage, navigate }: HeaderProps) {
                   : 'text-[rgba(200,192,181,0.7)] hover:text-cream'
               }`}
             >
-              {link.label}
+              {t(link.label)}
             </a>
           ))}
           <a
@@ -183,7 +188,7 @@ export default function Header({ currentPage, navigate }: HeaderProps) {
             onClick={event => followPageLink(event, 'contact')}
             className="mt-5 border border-gold py-5 text-[16px] font-medium tracking-[0.02em] text-gold transition-all duration-300 hover:bg-gold hover:text-[var(--background)]"
           >
-            {currentPage === 'home' || currentPage === 'services' ? 'Request a Quote' : 'Book Your Ride'}
+            {t(currentPage === 'home' || currentPage === 'services' ? 'Request a Quote' : 'Book Your Ride')}
           </a>
         </nav>
       </div>

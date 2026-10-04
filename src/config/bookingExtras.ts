@@ -1,3 +1,4 @@
+import { getLocale, t } from '../i18n/translate'
 export type BookingService = 'transfer' | 'hourly' | 'tours'
 
 export interface BookingExtra {
@@ -24,8 +25,8 @@ export const bookingExtras: BookingExtra[] = [
 ]
 
 export const extraPrice = (extra: BookingExtra) => extra.previewOnly && !import.meta.env.DEV ? null : extra.price
-export const euro = (amount: number) => new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(amount)
+export const euro = (amount: number) => new Intl.NumberFormat(getLocale(), { style: 'currency', currency: 'EUR', minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(amount)
 export const extraPriceLabel = (extra: BookingExtra) => {
   const price = extraPrice(extra)
-  return price === null ? 'Price on request' : `${extra.estimated ? 'Est. ' : ''}${euro(price)} / ${extra.unit}`
+  return price === null ? 'Price on request' : `${extra.estimated ? t('Est. ') : ''}${euro(price)} / ${t(extra.unit)}`
 }

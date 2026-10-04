@@ -1,3 +1,4 @@
+import { getLocale, message, t, useLocale } from '../../i18n/locale'
 import OptimizedImage from '../OptimizedImage'
 import { useRef, useState } from 'react'
 import { useScrollReveal } from '../../hooks/useScrollReveal'
@@ -43,10 +44,11 @@ const services = [
 
 const initialRouteCount = 5
 
-const formatPrice = (price: number) => `€${new Intl.NumberFormat('en-GB').format(price)}`
+const formatPrice = (price: number) => `€${new Intl.NumberFormat(getLocale()).format(price)}`
 const displayRoutePlace = (place: string) => place.replace(/ (TV|VE|PD|VR|BZ|BL)$/, '')
 
 export default function HomeSections({ navigate, onBookRoute, onPlanJourney }: HomeSectionsProps) {
+  useLocale()
   const flowRef = useRef<HTMLDivElement>(null)
   useScrollReveal(flowRef, '.home-flow-section')
   const [visibleRouteCount, setVisibleRouteCount] = useState(initialRouteCount)
@@ -72,15 +74,13 @@ export default function HomeSections({ navigate, onBookRoute, onPlanJourney }: H
         <div className="mx-auto max-w-[1340px]">
           <div className="flex flex-col items-center text-center">
             <h2 className="font-display text-[clamp(44px,13vw,54px)] font-normal leading-[1.02] text-cream sm:text-[68px] lg:text-[80px]">
-              Our services
-            </h2>
+              {t("Our services")}</h2>
             <button
               type="button"
               onClick={() => navigate('services')}
               className="group mt-4 flex items-center gap-2 text-[12px] font-medium text-gold transition-colors hover:text-gold-light"
             >
-              Explore transfer services
-              <ArrowRight
+              {t("Explore transfer services")}<ArrowRight
                 size={14}
                 className="transition-transform group-hover:translate-x-1"
                 aria-hidden="true"
@@ -103,10 +103,10 @@ export default function HomeSections({ navigate, onBookRoute, onPlanJourney }: H
                 }`}
               >
                 <span className="home-service-title max-w-[270px] font-display text-[27px] leading-[1.02] text-cream xl:text-[28px]">
-                  {service.title}
+                  {t(service.title)}
                 </span>
                 <span className="home-service-description mt-4 max-w-[290px] text-[14px] leading-[1.68] text-[var(--text-muted)]">
-                  {service.description}
+                  {t(service.description)}
                 </span>
                 <ArrowRight
                   size={14}
@@ -126,21 +126,21 @@ export default function HomeSections({ navigate, onBookRoute, onPlanJourney }: H
         className="home-flow-section order-2 h2-fleet"
       >
         <div className="h2-fleet-editorial">
-          <OptimizedImage className="h2-fleet-exterior" src={publicAsset('images/home/vehicle/chauffeur-pickup.jpg')} alt="Chauffeur welcoming a passenger into a black private transfer van" />
+          <OptimizedImage className="h2-fleet-exterior" src={publicAsset('images/home/vehicle/chauffeur-pickup.jpg')} alt={t("Chauffeur welcoming a passenger into a black private transfer van")} />
           <div className="h2-fleet-content">
             <div className="h2-fleet-heading">
-              <p className="h2-kicker">Private vehicle</p>
-              <h2 id="home-vehicle-title">The right vehicle for your group.</h2>
-              <p>Tell us how many people and bags are travelling. We’ll confirm a suitable vehicle before you book.</p>
+              <p className="h2-kicker">{t("Private vehicle")}</p>
+              <h2 id="home-vehicle-title">{t("The right vehicle for your group.")}</h2>
+              <p>{t("Tell us how many people and bags are travelling. We’ll confirm a suitable vehicle before you book.")}</p>
             </div>
             <div className="h2-fleet-gallery">
-              <OptimizedImage src={publicAsset('images/shared/private-van-passenger-cabin.png')} sizes="(max-width: 760px) 100vw, 35vw" alt="Passenger seating inside the private transfer van" />
-              <OptimizedImage src={publicAsset('images/home/vehicle/chauffeur-luggage-assistance.png')} sizes="(max-width: 760px) 100vw, 35vw" alt="Chauffeur assisting with luggage" />
+              <OptimizedImage src={publicAsset('images/shared/private-van-passenger-cabin.png')} sizes="(max-width: 760px) 100vw, 35vw" alt={t("Passenger seating inside the private transfer van")} />
+              <OptimizedImage src={publicAsset('images/home/vehicle/chauffeur-luggage-assistance.png')} sizes="(max-width: 760px) 100vw, 35vw" alt={t("Chauffeur assisting with luggage")} />
             </div>
             <div className="h2-fleet-benefits">
-              <article><h3>Prepared for you</h3><p>Passenger and luggage details checked before confirmation.</p></article>
-              <article><h3>Comfort on board</h3><p>Climate control, water and charging.</p></article>
-              <article><h3>Help with luggage</h3><p>Your driver assists with luggage at pick-up and arrival.</p></article>
+              <article><h3>{t("Prepared for you")}</h3><p>{t("Passenger and luggage details checked before confirmation.")}</p></article>
+              <article><h3>{t("Comfort on board")}</h3><p>{t("Climate control, water and charging.")}</p></article>
+              <article><h3>{t("Help with luggage")}</h3><p>{t("Your driver assists with luggage at pick-up and arrival.")}</p></article>
             </div>
           </div>
         </div>
@@ -154,28 +154,25 @@ export default function HomeSections({ navigate, onBookRoute, onPlanJourney }: H
           <div className="flex flex-col gap-7 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <h2 className="font-display text-[44px] font-normal leading-[0.98] text-cream sm:text-[54px]">
-                Popular Routes &amp; Prices
-              </h2>
+                {t("Popular Routes & Prices")}</h2>
               <p className="mt-4 max-w-[650px] text-[14px] leading-[1.7] text-[var(--text-muted)]">
-                Indicative one-way fares from Venice. We’ll confirm the vehicle and final price with your quote.
-              </p>
+                {t("Indicative one-way fares from Venice. We’ll confirm the vehicle and final price with your quote.")}</p>
             </div>
             <button
               type="button"
               onClick={onPlanJourney}
               className="group flex min-h-[48px] w-fit shrink-0 items-center gap-3 border border-[rgba(194,154,69,0.55)] px-5 text-[12px] font-semibold uppercase tracking-[0.1em] text-gold-light transition-colors hover:bg-gold hover:text-[var(--background)]"
             >
-              Request a different route
-              <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" aria-hidden="true" />
+              {t("Request a different route")}<ArrowRight size={16} className="transition-transform group-hover:translate-x-1" aria-hidden="true" />
             </button>
           </div>
 
           <div className="mt-11 hidden grid-cols-[minmax(0,2fr)_0.54fr_0.54fr_0.68fr_176px] items-end border-b border-[rgba(36,41,44,0.9)] pb-4 text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--text-metadata)] lg:grid">
-            <span>Route</span>
-            <span className="text-center">Sedan</span>
-            <span className="text-center">Van</span>
-            <span className="text-center">Minibus 12</span>
-            <span className="text-right">Action</span>
+            <span>{t("Route")}</span>
+            <span className="text-center">{t("Sedan")}</span>
+            <span className="text-center">{t("Van")}</span>
+            <span className="text-center">{t("Minibus 12")}</span>
+            <span className="text-right">{t("Action")}</span>
           </div>
 
           <div id="additional-popular-routes" className="mt-7 lg:mt-0">
@@ -188,7 +185,7 @@ export default function HomeSections({ navigate, onBookRoute, onPlanJourney }: H
                   <span className="w-0.5 shrink-0 bg-[var(--gold)]" aria-hidden="true" />
                   <div>
                     <h3 className="font-display text-[24px] leading-[1.1] text-cream sm:text-[27px]">
-                      {displayRoutePlace(route.from)} → {displayRoutePlace(route.to)}
+                      {t(displayRoutePlace(route.from))} {" → "}{t(displayRoutePlace(route.to))}
                     </h3>
                   </div>
                 </div>
@@ -201,10 +198,10 @@ export default function HomeSections({ navigate, onBookRoute, onPlanJourney }: H
                   ].map(([label, price]) => (
                     <div key={label} className="text-center lg:border-l lg:border-[rgba(36,41,44,0.9)] lg:px-3">
                       <span className="block text-[11px] uppercase tracking-[0.1em] text-[var(--text-metadata)] lg:hidden">
-                        {label}
+                        {t(label)}
                       </span>
                       <span className="mt-1 block text-[18px] tabular-nums text-[var(--text-secondary)] lg:mt-0 lg:text-[20px]">
-                        {formatPrice(price as number)}
+                        {t(formatPrice(price as number))}
                       </span>
                     </div>
                   ))}
@@ -220,10 +217,9 @@ export default function HomeSections({ navigate, onBookRoute, onPlanJourney }: H
                     })
                   }
                   className="min-h-[44px] whitespace-nowrap border border-[rgba(194,154,69,0.5)] px-4 !text-[11px] !font-semibold !leading-none uppercase tracking-[0.09em] text-gold-light transition-colors hover:bg-gold hover:text-[var(--background)]"
-                  aria-label={`Request transfer from ${displayRoutePlace(route.from)} to ${displayRoutePlace(route.to)}`}
+                  aria-label={message('Request transfer from {0} to {1}', t(displayRoutePlace(route.from)), t(displayRoutePlace(route.to)))}
                 >
-                  Request this route
-                </button>
+                  {t("Request this route")}</button>
               </article>
             ))}
           </div>
@@ -237,7 +233,7 @@ export default function HomeSections({ navigate, onBookRoute, onPlanJourney }: H
               aria-controls="additional-popular-routes"
               className="group flex items-center gap-3 px-2 text-[12px] font-semibold uppercase tracking-[0.1em] text-[var(--gold)] transition-colors hover:text-gold-light"
             >
-              {allPopularRoutesVisible ? 'View all routes & prices' : 'Show more routes'}
+              {t(allPopularRoutesVisible ? 'View all routes & prices' : 'Show more routes')}
               {allPopularRoutesVisible ? (
                 <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" aria-hidden="true" />
               ) : (

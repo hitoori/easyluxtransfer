@@ -1,3 +1,4 @@
+import { t, useLocale } from '../../i18n/locale'
 import type { Page } from '../../types/navigation'
 
 const questions = [
@@ -8,21 +9,22 @@ const questions = [
 ]
 
 export default function PricingGuide({ navigate }: { navigate: (page: Page) => void }) {
+  useLocale()
   return <section className="services-pricing-guide" aria-labelledby="services-pricing-title">
     <div className="svc-shell services-pricing-layout">
       <div className="services-pricing-heading">
         <div>
-          <p className="svc-eyebrow">Useful to know</p>
-          <h2 id="services-pricing-title">Quick answers</h2>
+          <p className="svc-eyebrow">{t("Useful to know")}</p>
+          <h2 id="services-pricing-title">{t("Quick answers")}</h2>
         </div>
         <button type="button" className="services-pricing-link" onClick={() => navigate('faq')}>
-          Explore all FAQs <span aria-hidden="true">→</span>
+          {t("Explore all FAQs ")}<span aria-hidden="true">{"→"}</span>
         </button>
       </div>
       <div className="services-pricing-questions">
         {questions.map(([question, answer]) => <details key={question}>
-          <summary>{question}<span aria-hidden="true" /></summary>
-          <p>{answer}</p>
+          <summary>{t(question)}<span aria-hidden="true" /></summary>
+          <p>{t(answer)}</p>
         </details>)}
       </div>
     </div>

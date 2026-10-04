@@ -1,3 +1,4 @@
+import { t, useLocale } from '../i18n/locale'
 import { consentStorageKey as storageKey, readStoredConsent, type StoredConsent } from '../lib/consentStorage'
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from 'react'
 import { pagePath } from '../types/navigation'
@@ -12,6 +13,7 @@ function readConsent(): StoredConsent | null {
 }
 
 export function CookieConsentProvider({ children }: { children: ReactNode }) {
+  useLocale()
   const [maps, setMaps] = useState(false)
   const [chosen, setChosen] = useState(false)
   const [settings, setSettings] = useState(false)
@@ -49,27 +51,28 @@ export function CookieConsentProvider({ children }: { children: ReactNode }) {
   return <ConsentContext.Provider value={{ maps, chosen, openSettings, save }}>
     {children}
     {ready && !chosen && <aside className="cookie-banner" aria-labelledby="cookie-banner-title">
-      <div className="cookie-banner-copy"><span className="cookie-eyebrow">Easy Lux · Your privacy</span><h2 id="cookie-banner-title">Cookies & privacy</h2><p>We use essential browser storage to remember your privacy preferences. {addressSuggestionsConfigured ? 'With your permission, Google can also suggest addresses for your journey. ' : ''}We do not use advertising or analytics trackers. <a href={pagePath('cookies')}>Privacy Policy</a>.</p></div>
+      <div className="cookie-banner-copy"><span className="cookie-eyebrow">{t("Easy Lux · Your privacy")}</span><h2 id="cookie-banner-title">{t("Cookies & privacy")}</h2><p>{t("We use essential browser storage to remember your privacy preferences. ")}{t(addressSuggestionsConfigured ? 'With your permission, Google can also suggest addresses for your journey. ' : '')}{t("We do not use advertising or analytics trackers. ")}<a href={pagePath('cookies')}>{t("Privacy Policy")}</a>{"."}</p></div>
       <div className="cookie-actions">
-        <button type="button" onClick={() => save(false)}>Essential only</button>
-        <button type="button" onClick={() => save(true)}>Accept all</button>
-        <button type="button" className="cookie-settings-link" onClick={openSettings}>Manage preferences</button>
+        <button type="button" onClick={() => save(false)}>{t("Essential only")}</button>
+        <button type="button" onClick={() => save(true)}>{t("Accept all")}</button>
+        <button type="button" className="cookie-settings-link" onClick={openSettings}>{t("Manage preferences")}</button>
       </div>
     </aside>}
     <dialog ref={dialogRef} className="cookie-dialog" aria-labelledby="cookie-dialog-title" onCancel={() => setSettings(false)} onClose={() => setSettings(false)}>
-      <button type="button" className="cookie-close" aria-label="Close privacy preferences" onClick={() => setSettings(false)}>×</button>
-      <span className="cookie-eyebrow">Easy Lux · Your privacy</span>
-      <h2 id="cookie-dialog-title">Privacy preferences</h2>
-      <p>Essential storage remembers your choice for up to 180 days. It is always enabled. This website has no advertising or analytics trackers.</p>
-      {addressSuggestionsConfigured ? <label className="cookie-option"><input type="checkbox" checked={draftMaps} onChange={event => setDraftMaps(event.target.checked)} /><span><strong>Google address suggestions</strong><small>Optional. When used, your typed address and connection data are sent to Google. You can enter an address manually with this disabled.</small></span></label> : <p>No optional services are currently configured.</p>}
-      {addressSuggestionsConfigured && <p className="cookie-detail">Disabling a Google service that has already loaded refreshes the page to stop it. Any unsent form entries will be cleared.</p>}
-      <div className="cookie-actions"><button type="button" onClick={() => save(false)}>Essential only</button><button type="button" onClick={() => save(draftMaps)}>Save preferences</button></div>
-      <a href={pagePath('cookies')}>Privacy Policy</a>
+      <button type="button" className="cookie-close" aria-label={t("Close privacy preferences")} onClick={() => setSettings(false)}>{"×"}</button>
+      <span className="cookie-eyebrow">{t("Easy Lux · Your privacy")}</span>
+      <h2 id="cookie-dialog-title">{t("Privacy preferences")}</h2>
+      <p>{t("Essential storage remembers your choice for up to 180 days. It is always enabled. This website has no advertising or analytics trackers.")}</p>
+      {addressSuggestionsConfigured ? <label className="cookie-option"><input type="checkbox" checked={draftMaps} onChange={event => setDraftMaps(event.target.checked)} /><span><strong>{t("Google address suggestions")}</strong><small>{t("Optional. When used, your typed address and connection data are sent to Google. You can enter an address manually with this disabled.")}</small></span></label> : <p>{t("No optional services are currently configured.")}</p>}
+      {addressSuggestionsConfigured && <p className="cookie-detail">{t("Disabling a Google service that has already loaded refreshes the page to stop it. Any unsent form entries will be cleared.")}</p>}
+      <div className="cookie-actions"><button type="button" onClick={() => save(false)}>{t("Essential only")}</button><button type="button" onClick={() => save(draftMaps)}>{t("Save preferences")}</button></div>
+      <a href={pagePath('cookies')}>{t("Privacy Policy")}</a>
     </dialog>
   </ConsentContext.Provider>
 }
 
 export function CookieSettingsButton() {
+  useLocale()
   const { openSettings } = useCookieConsent()
-  return <button type="button" onClick={openSettings}>Cookie settings</button>
+  return <button type="button" onClick={openSettings}>{t("Cookie settings")}</button>
 }

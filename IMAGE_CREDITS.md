@@ -20,3 +20,7 @@ The project uses owner-provided imagery, generated visuals, and licensed stock p
 | `services/water-taxi/venice-lagoon-water-taxi.jpg` | Claudio Schwarz, [Unsplash](https://unsplash.com/photos/YRHF4nGGDfo) |
 
 Other images supplied by the project owner have no verified public source recorded here. Stock images are subject to the [Unsplash License](https://unsplash.com/license/) or [Pexels License](https://www.pexels.com/license/), as applicable.
+
+## Russian Water Taxi maps
+
+The four `venice-water-taxi-*-ru.webp` assets are Russian text localizations of the existing approved Water Taxi maps, edited with the built-in image generation tool on 4 October 2026. Original English maps remain unchanged. Editable Russian PNG copies are in `assets/source-images/images/services/water-taxi/`; these diagrams illustrate the transfer connection rather than navigational directions.

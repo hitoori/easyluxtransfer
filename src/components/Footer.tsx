@@ -1,3 +1,4 @@
+import { message, t, useLocale } from '../i18n/locale'
 import { CookieSettingsButton } from './CookieConsent'
 import OptimizedImage from './OptimizedImage'
 import { FacebookLogo, InstagramLogo, TiktokLogo } from '@phosphor-icons/react'
@@ -22,6 +23,7 @@ const navigation: { label: string; page: Page }[] = [
 ]
 
 export default function Footer({ navigate }: { navigate: (page: Page) => void }) {
+  useLocale()
   const followPageLink = (event: MouseEvent<HTMLAnchorElement>, page: Page) => {
     if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
     event.preventDefault()
@@ -32,42 +34,42 @@ export default function Footer({ navigate }: { navigate: (page: Page) => void })
     <footer className="home-footer">
       <div className="home-footer-main">
         <div className="home-footer-brand">
-          <a href={pagePath('home')} className="home-footer-logo" onClick={event => followPageLink(event, 'home')} aria-label="Easy Lux — Home">
-            <OptimizedImage src={publicAsset('images/brand/easy-lux-logo-wordmark.png')} alt="Easy Lux" width={80} height={88} loading="lazy" />
-            <span className="home-footer-tagline">Your driver<br />Around Italy</span>
+          <a href={pagePath('home')} className="home-footer-logo" onClick={event => followPageLink(event, 'home')} aria-label={t("Easy Lux — Home")}>
+            <OptimizedImage src={publicAsset('images/brand/easy-lux-logo-wordmark.png')} alt={t("Easy Lux")} width={80} height={88} loading="lazy" />
+            <span className="home-footer-tagline">{t("Your driver")}<br />{t("Around Italy")}</span>
           </a>
-          <h2>Private Chauffeur</h2>
-          <p>Private transfers from Venice across Italy and Europe.<br />Airport pick-ups, hourly chauffeurs and journeys on request.</p>
-          <div className="home-footer-social" aria-label="Easy Lux social media">
+          <h2>{t("Private Chauffeur")}</h2>
+          <p>{t("Private transfers from Venice across Italy and Europe.")}<br />{t("Airport pick-ups, hourly chauffeurs and journeys on request.")}</p>
+          <div className="home-footer-social" aria-label={t("Easy Lux social media")}>
             {socialChannels.map(({ label, href, Icon }) => href
-              ? <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={`${label} — Easy Lux`}><Icon size={21} weight="regular" aria-hidden="true" /></a>
-              : <button key={label} type="button" disabled aria-label={`${label} — link coming soon`} title={`${label} — link coming soon`}><Icon size={21} weight="regular" aria-hidden="true" /></button>
+              ? <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={t(`${label} — Easy Lux`)}><Icon size={21} weight="regular" aria-hidden="true" /></a>
+              : <button key={label} type="button" disabled aria-label={message('{0} — link coming soon', label)} title={message('{0} — link coming soon', label)}><Icon size={21} weight="regular" aria-hidden="true" /></button>
             )}
           </div>
         </div>
         <nav aria-labelledby="home-footer-services">
-          <h3 id="home-footer-services">Services</h3>
-          <ul>{services.map((service) => <li key={service}><a href={pagePath('services')} onClick={event => followPageLink(event, 'services')}>{service}</a></li>)}</ul>
+          <h3 id="home-footer-services">{t("Services")}</h3>
+          <ul>{services.map((service) => <li key={service}><a href={pagePath('services')} onClick={event => followPageLink(event, 'services')}>{t(service)}</a></li>)}</ul>
         </nav>
         <nav aria-labelledby="home-footer-navigation">
-          <h3 id="home-footer-navigation">Navigation</h3>
-          <ul>{navigation.map(({ label, page }) => <li key={page}><a href={pagePath(page)} onClick={event => followPageLink(event, page)}>{label}</a></li>)}</ul>
+          <h3 id="home-footer-navigation">{t("Navigation")}</h3>
+          <ul>{navigation.map(({ label, page }) => <li key={page}><a href={pagePath(page)} onClick={event => followPageLink(event, page)}>{t(label)}</a></li>)}</ul>
         </nav>
         <div className="home-footer-contact">
-          <h3>Contact</h3>
+          <h3>{t("Contact")}</h3>
           <dl>
-            <div><dt>Phone & WhatsApp</dt><dd className="home-footer-phones">{company.phones.map((phone, index) => <span key={phone.tel}>{index > 0 && <span className="home-footer-phone-divider" aria-hidden="true">/</span>}<a href={phone.tel}>{phone.display}</a></span>)}</dd></div>
-            <div><dt>Email</dt><dd><a href={`mailto:${company.email}`}>{company.email}</a></dd></div>
-            <div><dt>Operational base</dt><dd>{company.serviceArea}</dd></div>
-            <div><dt>Registered office</dt><dd>{company.registeredOffice}</dd></div>
+            <div><dt>{t("Phone & WhatsApp")}</dt><dd className="home-footer-phones">{company.phones.map((phone, index) => <span key={phone.tel}>{index > 0 && <span className="home-footer-phone-divider" aria-hidden="true">{"/"}</span>}<a href={phone.tel}>{t(phone.display)}</a></span>)}</dd></div>
+            <div><dt>{t("Email")}</dt><dd><a href={`mailto:${company.email}`}>{t(company.email)}</a></dd></div>
+            <div><dt>{t("Operational base")}</dt><dd>{t(company.serviceArea)}</dd></div>
+            <div><dt>{t("Registered office")}</dt><dd>{t(company.registeredOffice)}</dd></div>
           </dl>
         </div>
       </div>
       <div className="home-footer-bottom">
-        <p>© <span suppressHydrationWarning>{new Date().getFullYear()}</span> Easy Lux Transfer. All rights reserved.</p>
-        <div className="home-footer-legal" aria-label="Legal and privacy information">
-          <a href={pagePath('cookies')} onClick={event => followPageLink(event, 'cookies')}>Privacy Policy</a>
-          <button type="button" disabled title="Document not yet published">Terms</button>
+        <p>{"© "}<span suppressHydrationWarning>{t(new Date().getFullYear())}</span> {t(" Easy Lux Transfer. All rights reserved.")}</p>
+        <div className="home-footer-legal" aria-label={t("Legal and privacy information")}>
+          <a href={pagePath('cookies')} onClick={event => followPageLink(event, 'cookies')}>{t("Privacy Policy")}</a>
+          <button type="button" disabled title={t("Document not yet published")}>{t("Terms")}</button>
           <CookieSettingsButton />
         </div>
       </div>

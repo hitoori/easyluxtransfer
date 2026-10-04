@@ -1,3 +1,4 @@
+import { getLocale } from '../../i18n/translate'
 import { transferRoutes } from '../../data/transferRoutes'
 
 export const serviceOptions = [
@@ -20,4 +21,4 @@ export const italyRoutes = serviceRoutes(['venice-milan', 'venice-florence', 've
 export const mountainRoutes = serviceRoutes(['venice-cortina', 'venice-corvara', 'venice-canazei', 'venice-ortisei', 'venice-bolzano', 'venice-trento', 'venice-alleghe', 'venice-alpe-di-siusi', 'venice-alta-badia', 'venice-arabba'])
 export const coastalRoutes = serviceRoutes(['venice-lido-di-jesolo', 'venice-cavallino-treporti', 'venice-caorle', 'venice-chioggia', 'venice-adria', 'venice-albarella'])
 export const cruiseRoutes = serviceRoutes(['venice-ravenna-cruise-port', 'venice-trieste-cruise-port', 'venice-fusina-cruise-terminal'])
-export const priceLabel = (amount: number) => `€${new Intl.NumberFormat('en-GB').format(amount)}`
+export const priceLabel = (amount: number) => `€${new Intl.NumberFormat(getLocale()).format(amount)}`

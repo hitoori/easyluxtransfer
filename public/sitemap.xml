@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://easyluxtransfer.com/</loc></url>
-  <url><loc>https://easyluxtransfer.com/services</loc></url>
-  <url><loc>https://easyluxtransfer.com/about</loc></url>
-  <url><loc>https://easyluxtransfer.com/faq</loc></url>
-  <url><loc>https://easyluxtransfer.com/contact</loc></url>
-  <url><loc>https://easyluxtransfer.com/cookies</loc></url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url><loc>https://easyluxtransfer.com/</loc><xhtml:link rel="alternate" hreflang="en" href="https://easyluxtransfer.com/" /><xhtml:link rel="alternate" hreflang="ru" href="https://easyluxtransfer.com/ru" /><xhtml:link rel="alternate" hreflang="x-default" href="https://easyluxtransfer.com/" /></url>
+  <url><loc>https://easyluxtransfer.com/services</loc><xhtml:link rel="alternate" hreflang="en" href="https://easyluxtransfer.com/services" /><xhtml:link rel="alternate" hreflang="ru" href="https://easyluxtransfer.com/ru/services" /><xhtml:link rel="alternate" hreflang="x-default" href="https://easyluxtransfer.com/services" /></url>
+  <url><loc>https://easyluxtransfer.com/about</loc><xhtml:link rel="alternate" hreflang="en" href="https://easyluxtransfer.com/about" /><xhtml:link rel="alternate" hreflang="ru" href="https://easyluxtransfer.com/ru/about" /><xhtml:link rel="alternate" hreflang="x-default" href="https://easyluxtransfer.com/about" /></url>
+  <url><loc>https://easyluxtransfer.com/faq</loc><xhtml:link rel="alternate" hreflang="en" href="https://easyluxtransfer.com/faq" /><xhtml:link rel="alternate" hreflang="ru" href="https://easyluxtransfer.com/ru/faq" /><xhtml:link rel="alternate" hreflang="x-default" href="https://easyluxtransfer.com/faq" /></url>
+  <url><loc>https://easyluxtransfer.com/contact</loc><xhtml:link rel="alternate" hreflang="en" href="https://easyluxtransfer.com/contact" /><xhtml:link rel="alternate" hreflang="ru" href="https://easyluxtransfer.com/ru/contact" /><xhtml:link rel="alternate" hreflang="x-default" href="https://easyluxtransfer.com/contact" /></url>
+  <url><loc>https://easyluxtransfer.com/cookies</loc><xhtml:link rel="alternate" hreflang="en" href="https://easyluxtransfer.com/cookies" /><xhtml:link rel="alternate" hreflang="ru" href="https://easyluxtransfer.com/ru/cookies" /><xhtml:link rel="alternate" hreflang="x-default" href="https://easyluxtransfer.com/cookies" /></url>
+  <url><loc>https://easyluxtransfer.com/ru</loc><xhtml:link rel="alternate" hreflang="en" href="https://easyluxtransfer.com/" /><xhtml:link rel="alternate" hreflang="ru" href="https://easyluxtransfer.com/ru" /><xhtml:link rel="alternate" hreflang="x-default" href="https://easyluxtransfer.com/" /></url>
+  <url><loc>https://easyluxtransfer.com/ru/services</loc><xhtml:link rel="alternate" hreflang="en" href="https://easyluxtransfer.com/services" /><xhtml:link rel="alternate" hreflang="ru" href="https://easyluxtransfer.com/ru/services" /><xhtml:link rel="alternate" hreflang="x-default" href="https://easyluxtransfer.com/services" /></url>
+  <url><loc>https://easyluxtransfer.com/ru/about</loc><xhtml:link rel="alternate" hreflang="en" href="https://easyluxtransfer.com/about" /><xhtml:link rel="alternate" hreflang="ru" href="https://easyluxtransfer.com/ru/about" /><xhtml:link rel="alternate" hreflang="x-default" href="https://easyluxtransfer.com/about" /></url>
+  <url><loc>https://easyluxtransfer.com/ru/faq</loc><xhtml:link rel="alternate" hreflang="en" href="https://easyluxtransfer.com/faq" /><xhtml:link rel="alternate" hreflang="ru" href="https://easyluxtransfer.com/ru/faq" /><xhtml:link rel="alternate" hreflang="x-default" href="https://easyluxtransfer.com/faq" /></url>
+  <url><loc>https://easyluxtransfer.com/ru/contact</loc><xhtml:link rel="alternate" hreflang="en" href="https://easyluxtransfer.com/contact" /><xhtml:link rel="alternate" hreflang="ru" href="https://easyluxtransfer.com/ru/contact" /><xhtml:link rel="alternate" hreflang="x-default" href="https://easyluxtransfer.com/contact" /></url>
+  <url><loc>https://easyluxtransfer.com/ru/cookies</loc><xhtml:link rel="alternate" hreflang="en" href="https://easyluxtransfer.com/cookies" /><xhtml:link rel="alternate" hreflang="ru" href="https://easyluxtransfer.com/ru/cookies" /><xhtml:link rel="alternate" hreflang="x-default" href="https://easyluxtransfer.com/cookies" /></url>
 </urlset>

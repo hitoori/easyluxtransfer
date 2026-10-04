@@ -1,15 +1,11 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { readFileSync } from 'node:fs'
-import ts from 'typescript'
+import { typescriptModule } from './load-typescript.mjs'
 
 // Exercise the actual TypeScript rules without mounting the UI or making any
 // network requests. Both local mock-up prices and production prices are covered.
-const dataModule = source => `data:text/javascript;base64,${Buffer.from(ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText).toString('base64')}`
 async function loadModel(preview) {
-  const config = dataModule(readFileSync(new URL('../src/config/bookingExtras.ts', import.meta.url), 'utf8').replaceAll('import.meta.env.DEV', String(preview)))
-  const source = readFileSync(new URL('../src/components/bookingModel.ts', import.meta.url), 'utf8').replace("'../config/bookingExtras'", JSON.stringify(config))
-  return import(dataModule(source))
+  return import(typescriptModule(new URL('../src/components/bookingModel.ts', import.meta.url), preview))
 }
 const model = await loadModel(true)
 const productionModel = await loadModel(false)

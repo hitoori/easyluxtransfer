@@ -1,3 +1,4 @@
+import { t, useLocale } from '../../i18n/locale'
 import OptimizedImage from '../OptimizedImage'
 import { useEffect, useRef } from 'react'
 import { ArrowRight } from '@phosphor-icons/react'
@@ -5,6 +6,7 @@ import type { JourneyRequest } from './serviceData'
 import './prosecco-hills.css'
 
 export default function ProseccoHills({ onRequest }: { onRequest: (request: JourneyRequest) => void }) {
+  useLocale()
   const sectionRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
@@ -46,18 +48,18 @@ export default function ProseccoHills({ onRequest }: { onRequest: (request: Jour
   }, [])
 
   return <section ref={sectionRef} id="service-prosecco" className="ph-section" aria-labelledby="prosecco-title">
-    <OptimizedImage className="ph-backdrop" src={publicAsset('images/home/private-journeys/prosecco-hills.jpg')} alt="" aria-hidden="true" width={2400} height={1601} loading="lazy" decoding="async" />
+    <OptimizedImage className="ph-backdrop" src={publicAsset('images/home/private-journeys/prosecco-hills.jpg')} alt={""} aria-hidden="true" width={2400} height={1601} loading="lazy" decoding="async" />
     <div className="ph-shell">
       <div className="ph-copy">
-        <p className="ph-eyebrow">PROSECCO HILLS · VENETO</p>
-        <h2 id="prosecco-title">From Venice to the Prosecco Hills.</h2>
-        <p className="ph-description">Private transfers from Venice to Conegliano, Valdobbiadene or another destination in the Prosecco Hills.</p>
+        <p className="ph-eyebrow">{t("PROSECCO HILLS · VENETO")}</p>
+        <h2 id="prosecco-title">{t("From Venice to the Prosecco Hills.")}</h2>
+        <p className="ph-description">{t("Private transfers from Venice to Conegliano, Valdobbiadene or another destination in the Prosecco Hills.")}</p>
       </div>
     </div>
     <div className="ph-footer">
-      <p className="ph-route"><span>Venice</span><span className="ph-route-arrow" aria-hidden="true">→</span><span>Conegliano</span><span className="ph-route-arrow" aria-hidden="true">→</span><span>Valdobbiadene</span></p>
-      <p className="ph-note">One-way or return, with waiting time on request. Winery visits, tastings and guided tours are not included.</p>
-      <button type="button" className="ph-cta" onClick={() => onRequest({ service: 'prosecco', pickup: 'Venice', destination: 'Prosecco Hills' })}>Plan your trip <ArrowRight size={19} weight="light" aria-hidden="true" /></button>
+      <p className="ph-route"><span>{t("Venice")}</span><span className="ph-route-arrow" aria-hidden="true">{"→"}</span><span>{t("Conegliano")}</span><span className="ph-route-arrow" aria-hidden="true">{"→"}</span><span>{t("Valdobbiadene")}</span></p>
+      <p className="ph-note">{t("One-way or return, with waiting time on request. Winery visits, tastings and guided tours are not included.")}</p>
+      <button type="button" className="ph-cta" onClick={() => onRequest({ service: 'prosecco', pickup: 'Venice', destination: 'Prosecco Hills' })}>{t("Plan your trip ")}<ArrowRight size={19} weight="light" aria-hidden="true" /></button>
     </div>
   </section>
 }

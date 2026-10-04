@@ -1,3 +1,4 @@
+import { message, t, useLocale } from '../i18n/locale'
 import OptimizedImage from '../components/OptimizedImage'
 import { prepareImage, useCarousel } from '../hooks/useCarousel'
 import { useRef, useState } from 'react'
@@ -42,6 +43,7 @@ const heroSlides = [
 const prepareHero = (index: number) => prepareImage(heroSlides[index].url, '100vw')
 
 export default function Home({ navigate }: HomeProps) {
+  useLocale()
   const heroRef = useRef<HTMLElement>(null)
   const carousel = useCarousel(heroSlides.length, 8000, heroRef, prepareHero)
   const activeSlide = carousel.activeIndex
@@ -67,7 +69,7 @@ export default function Home({ navigate }: HomeProps) {
         className="h2-hero relative overflow-hidden bg-[var(--background)]"
       >
         {heroSlides.map((slide, index) => (index === activeSlide || index === carousel.previousIndex) ? (
-          <OptimizedImage key={slide.url} src={slide.url} alt={slide.label}
+          <OptimizedImage key={slide.url} src={slide.url} alt={t(slide.label)}
             aria-hidden={index !== activeSlide}
             className={`hero-slide ${index === activeSlide ? 'active' : ''}`}
             style={{ objectPosition: slide.position }} sizes="100vw"
@@ -77,13 +79,13 @@ export default function Home({ navigate }: HomeProps) {
         <div className="h2-hero-shade" />
 
         <div className="h2-hero-copy">
-          <p className="h2-kicker">PRIVATE CHAUFFEUR SERVICE · VENICE &amp; TREVISO</p>
+          <p className="h2-kicker">{t("PRIVATE CHAUFFEUR SERVICE · VENICE & TREVISO")}</p>
           <h1>
-            Private transfers from<br className="home-hero-mobile-break" />{' '}
-            Venice,<br className="home-hero-desktop-break" />{' '}
-            <span>across Italy<br className="home-hero-mobile-break" />{' '}and Europe.</span>
+            {t("Private transfers from")}<br className="home-hero-mobile-break" />{' '}
+            {t("Venice,")}<br className="home-hero-desktop-break" />{' '}
+            <span>{t("across Italy")}<br className="home-hero-mobile-break" />{' '}{t("and Europe.")}</span>
           </h1>
-          <p className="h2-lead">Airport pick-ups, city transfers, a chauffeur by the hour and longer journeys.</p>
+          <p className="h2-lead">{t("Airport pick-ups, city transfers, a chauffeur by the hour and longer journeys.")}</p>
         </div>
 
         <div
@@ -93,16 +95,16 @@ export default function Home({ navigate }: HomeProps) {
           <div className="mx-auto w-full">
             <BookingForm prefill={routePrefill} />
           </div>
-          <nav {...carousel.interactionProps} className="hero-photo-nav" aria-label="Hero photographs">
+          <nav {...carousel.interactionProps} className="hero-photo-nav" aria-label={t("Hero photographs")}>
             <p className="hero-photo-caption" aria-live="polite" aria-atomic="true">
-              {heroSlides[activeSlide].caption}
+              {t(heroSlides[activeSlide].caption)}
             </p>
             <div className="hero-photo-controls">
               {heroSlides.map((slide, index) => (
                 <button
                   key={slide.label}
                   type="button"
-                  aria-label={`Show ${slide.label} background`}
+                  aria-label={message('Show {0} background', t(slide.label))}
                   aria-current={index === activeSlide ? 'true' : undefined}
                   onClick={() => void carousel.select(index)}
                 >
@@ -113,9 +115,9 @@ export default function Home({ navigate }: HomeProps) {
           </nav>
         </div>
         <p className="sr-only" aria-live="polite">
-          {routePrefill
-            ? `${routePrefill.pickup} to ${routePrefill.destination} added to the booking form.`
-            : ''}
+          {t(routePrefill
+            ? message('{0} to {1} added to the booking form.', t(routePrefill.pickup), t(routePrefill.destination))
+            : '')}
         </p>
       </section>
 

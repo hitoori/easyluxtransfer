@@ -1,3 +1,4 @@
+import { message, t } from '../../i18n/translate'
 import type { JourneyService } from './serviceData'
 
 export interface QuoteDraft {
@@ -18,7 +19,7 @@ export const localDate = (date = new Date()) => `${date.getFullYear()}-${String(
 
 export function validateQuote(draft: QuoteDraft, step: number, now = new Date()): QuoteErrors {
   const errors: QuoteErrors = {}
-  const required = (key: keyof QuoteDraft, label: string) => { if (!String(draft[key]).trim()) errors[key] = `Please enter ${label}.` }
+  const required = (key: keyof QuoteDraft, label: string) => { if (!String(draft[key]).trim()) errors[key] = message("Please enter {0}.", t(label)) }
   if (step === 0) {
     required('pickup', 'your pick-up location'); required('destination', 'your destination')
     required('date', 'a travel date'); required('time', 'a pick-up time')

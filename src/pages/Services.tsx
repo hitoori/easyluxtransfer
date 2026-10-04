@@ -1,3 +1,4 @@
+import { t, useLocale } from '../i18n/locale'
 import OptimizedImage from '../components/OptimizedImage'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useScrollReveal } from '../hooks/useScrollReveal'
@@ -35,6 +36,7 @@ import PricingGuide from '../components/services/PricingGuide'
 import FloatingServiceNav from '../components/services/FloatingServiceNav'
 
 export default function Services({ navigate }: { navigate: (page: Page) => void }) {
+  useLocale()
   const pageRef = useRef<HTMLDivElement>(null)
   useScrollReveal(pageRef, ':scope > section:not(.services-masthead)')
   const [activeSection, setActiveSection] = useState<JourneyService | null>(null)
@@ -108,22 +110,22 @@ export default function Services({ navigate }: { navigate: (page: Page) => void 
 
   return <div ref={pageRef} className={`services-new-page services-experience${activeSection === 'hourly' ? ' is-hourly-active' : ''}${activeSection === 'water-taxi' ? ' is-water-taxi-active' : ''}${activeSection === 'europe' ? ' is-europe-active' : ''}`}>
     <section className="services-masthead" aria-labelledby="services-title">
-      <OptimizedImage className="services-masthead-photo" src={publicAsset('images/services/water-taxi/venice-lagoon-water-taxi.jpg')} alt="Boat crossing the Venetian lagoon near Santa Maria della Salute" width={2200} height={1650} fetchPriority="high" />
+      <OptimizedImage className="services-masthead-photo" src={publicAsset('images/services/water-taxi/venice-lagoon-water-taxi.jpg')} alt={t("Boat crossing the Venetian lagoon near Santa Maria della Salute")} width={2200} height={1650} fetchPriority="high" />
       <div className="services-masthead-shell">
         <div className="services-masthead-copy">
-          <p className="services-masthead-eyebrow">SERVICES &amp; PRICES</p>
-          <h1 id="services-title">Private transfers from Venice and Treviso.</h1>
-          <p className="services-masthead-description">Airport pick-ups, Water Taxi connections, chauffeurs by the hour and longer routes across Italy and Europe.</p>
+          <p className="services-masthead-eyebrow">{t("SERVICES & PRICES")}</p>
+          <h1 id="services-title">{t("Private transfers from Venice and Treviso.")}</h1>
+          <p className="services-masthead-description">{t("Airport pick-ups, Water Taxi connections, chauffeurs by the hour and longer routes across Italy and Europe.")}</p>
           <div className="services-masthead-actions">
-            <button type="button" className="services-masthead-primary" onClick={() => scrollTo('airport')}>EXPLORE SERVICES ↓</button>
+            <button type="button" className="services-masthead-primary" onClick={() => scrollTo('airport')}>{t("EXPLORE SERVICES ↓")}</button>
           </div>
         </div>
       </div>
-      <nav id="services-directory" className="services-masthead-nav services-top-navigation" aria-label="Choose a service">
+      <nav id="services-directory" className="services-masthead-nav services-top-navigation" aria-label={t("Choose a service")}>
         {serviceOptions.filter(([id]) => id !== 'custom').map(([id, label]) =>
           <button key={id} type="button" aria-current={activeSection === id ? 'location' : undefined}
             onClick={() => scrollTo(id)}>
-            <span>{label}</span>
+            <span>{t(label)}</span>
           </button>)}
       </nav>
     </section>
@@ -147,20 +149,20 @@ export default function Services({ navigate }: { navigate: (page: Page) => void 
       onMouseDown={(event) => { if (event.target === event.currentTarget) closeMeetingPoint() }}
       onAnimationEnd={(event) => { if (event.target === event.currentTarget && meetingClosing) setMeetingOpen(false) }}
     ><div className="svc-modal-panel svc-meeting-modal-panel">
-      <button type="button" className="svc-modal-close" onClick={closeMeetingPoint} aria-label="Close meeting point guide"><span aria-hidden="true">×</span></button>
+      <button type="button" className="svc-modal-close" onClick={closeMeetingPoint} aria-label={t("Close meeting point guide")}><span aria-hidden="true">{"×"}</span></button>
       <div className="svc-meeting-modal-copy">
-        <p className="svc-eyebrow">Meeting point</p>
-        <h2 id="meeting-title">Where to meet your chauffeur</h2>
-        <p id="meeting-description">After collecting your luggage, follow the Arrivals signs. Your chauffeur will wait nearby holding a tablet with your name.</p>
+        <p className="svc-eyebrow">{t("Meeting point")}</p>
+        <h2 id="meeting-title">{t("Where to meet your chauffeur")}</h2>
+        <p id="meeting-description">{t("After collecting your luggage, follow the Arrivals signs. Your chauffeur will wait nearby holding a tablet with your name.")}</p>
       </div>
       <div className="svc-meeting-gallery">
         <figure>
-          <div className="svc-meeting-photo"><OptimizedImage src={`${import.meta.env.BASE_URL}images/services/airport/venice-airport-arrivals.jpeg`} alt="Arrivals exit at Venice Marco Polo Airport" /></div>
-          <figcaption><span>01</span><strong>Exit through Arrivals</strong></figcaption>
+          <div className="svc-meeting-photo"><OptimizedImage src={`${import.meta.env.BASE_URL}images/services/airport/venice-airport-arrivals.jpeg`} alt={t("Arrivals exit at Venice Marco Polo Airport")} /></div>
+          <figcaption><span>{"01"}</span><strong>{t("Exit through Arrivals")}</strong></figcaption>
         </figure>
         <figure>
-          <div className="svc-meeting-photo"><OptimizedImage src={`${import.meta.env.BASE_URL}images/services/airport/venice-airport-change.jpeg`} alt="Currency exchange counter marked Change inside Venice Marco Polo Airport" /></div>
-          <figcaption><span>02</span><strong>Nearby reference point</strong><small>Look for the CHANGE office.</small></figcaption>
+          <div className="svc-meeting-photo"><OptimizedImage src={`${import.meta.env.BASE_URL}images/services/airport/venice-airport-change.jpeg`} alt={t("Currency exchange counter marked Change inside Venice Marco Polo Airport")} /></div>
+          <figcaption><span>{"02"}</span><strong>{t("Nearby reference point")}</strong><small>{t("Look for the CHANGE office.")}</small></figcaption>
         </figure>
       </div>
     </div></div>}

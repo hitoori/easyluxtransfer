@@ -68,3 +68,6 @@
   .privacy-heading h1 { font-size: 40px; }
 }
 @media (prefers-reduced-motion: reduce) { .privacy-cookie-action button { transition: none; } }
+
+html[lang='ru'] .privacy-page { overflow-wrap: anywhere; }
+@media (max-width: 700px) { html[lang='ru'] .privacy-heading h1 { font-size: clamp(26px, 7.6vw, 40px); } }

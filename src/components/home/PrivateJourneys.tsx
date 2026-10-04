@@ -1,3 +1,4 @@
+import { t, useLocale } from '../../i18n/locale'
 import OptimizedImage from '../OptimizedImage'
 import { prepareImage, useCarousel } from '../../hooks/useCarousel'
 import { useRef, useState } from 'react'
@@ -46,6 +47,7 @@ interface PrivateJourneysProps {
 const prepareJourney = (index: number) => prepareImage(destinations[index].image, '(max-width: 760px) 100vw, 80vw')
 
 export default function PrivateJourneys({ onBookRoute }: PrivateJourneysProps) {
+  useLocale()
   const [selectedJourneyIndex, setSelectedJourneyIndex] = useState(0)
   const sectionRef = useRef<HTMLElement>(null)
   const carousel = useCarousel(destinations.length, 8000, sectionRef, prepareJourney)
@@ -60,12 +62,12 @@ export default function PrivateJourneys({ onBookRoute }: PrivateJourneysProps) {
     <section ref={sectionRef} {...carousel.interactionProps} data-home-prosecco className="private-journeys home-flow-section" aria-labelledby="private-journeys-title">
       <div className="private-journeys-layout">
         <div className="private-journeys-copy">
-          <p className="private-journeys-kicker">Private journeys</p>
-          <h2 id="private-journeys-title">Journeys from Venice.</h2>
-          <p className="private-journeys-intro">Travel to the Prosecco Hills, Dolomites, coast or cruise terminals. Stops and return pick-up can be arranged in advance.</p>
+          <p className="private-journeys-kicker">{t("Private journeys")}</p>
+          <h2 id="private-journeys-title">{t("Journeys from Venice.")}</h2>
+          <p className="private-journeys-intro">{t("Travel to the Prosecco Hills, Dolomites, coast or cruise terminals. Stops and return pick-up can be arranged in advance.")}</p>
         </div>
 
-        <div className="private-journeys-tabs" role="tablist" aria-label="Private journey destinations">
+        <div className="private-journeys-tabs" role="tablist" aria-label={t("Private journey destinations")}>
           {destinations.map((destination, index) => (
             <button
               key={destination.id} id={`journey-tab-${destination.id}`} type="button" role="tab"
@@ -85,30 +87,30 @@ export default function PrivateJourneys({ onBookRoute }: PrivateJourneysProps) {
                 document.getElementById(`journey-tab-${destinations[next].id}`)?.focus()
               }}
             >
-              <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>{destination.label}
+              <span aria-hidden="true">{t(String(index + 1).padStart(2, '0'))}</span>{t(destination.label)}
             </button>
           ))}
         </div>
 
           <div id="private-journey-panel" className="private-journeys-visual" role="tabpanel" aria-labelledby={`journey-tab-${selected.id}`} tabIndex={0}>
             <div className="private-journeys-photo">
-              {carousel.previousIndex !== null && <OptimizedImage key={`out-${destinations[carousel.previousIndex].id}`} className="is-outgoing" src={destinations[carousel.previousIndex].image} alt="" aria-hidden="true" decoding="async" />}
-              <OptimizedImage key={`in-${photo.id}`} className="is-current" src={photo.image} alt={photo.alt} loading="lazy" sizes="(max-width: 760px) 100vw, 80vw" decoding="async" />
-              <span className="private-journeys-photo-caption">{photo.label}</span>
+              {carousel.previousIndex !== null && <OptimizedImage key={`out-${destinations[carousel.previousIndex].id}`} className="is-outgoing" src={destinations[carousel.previousIndex].image} alt={""} aria-hidden="true" decoding="async" />}
+              <OptimizedImage key={`in-${photo.id}`} className="is-current" src={photo.image} alt={t(photo.alt)} loading="lazy" sizes="(max-width: 760px) 100vw, 80vw" decoding="async" />
+              <span className="private-journeys-photo-caption">{t(photo.label)}</span>
             </div>
           <div className="private-journeys-route" aria-live="polite">
             <div className="private-journeys-stops">
-              <small>Route</small>
-              <p className="private-journeys-desktop-route">{selected.stops.map((stop, index) => <span key={stop}>{index > 0 && <span className="private-journeys-route-arrow" aria-hidden="true">→</span>}{stop}</span>)}</p>
-              <p className="private-journeys-mobile-route">Venice <span aria-hidden="true">→</span> {selected.label}</p>
+              <small>{t("Route")}</small>
+              <p className="private-journeys-desktop-route">{selected.stops.map((stop, index) => <span key={stop}>{index > 0 && <span className="private-journeys-route-arrow" aria-hidden="true">{"→"}</span>}{t(stop)}</span>)}</p>
+              <p className="private-journeys-mobile-route">{t("Venice ")}<span aria-hidden="true">{"→"}</span> {t(selected.label)}</p>
             </div>
             <div className="private-journeys-terms">
-              <small>Journey</small>
-              <p className="private-journeys-desktop-terms">{selected.journey}</p>
-              <p className="private-journeys-mobile-terms">Private car <span>·</span> Waiting time <span>·</span> Return journey</p>
+              <small>{t("Journey")}</small>
+              <p className="private-journeys-desktop-terms">{t(selected.journey)}</p>
+              <p className="private-journeys-mobile-terms">{t("Private car ")}<span>{"·"}</span> {t(" Waiting time ")}<span>{"·"}</span> {t(" Return journey")}</p>
             </div>
             <button className="private-journeys-plan" type="button" onClick={() => onBookRoute({ pickup: 'Venice', destination: selected.destination, airportMode: 'none' })}>
-              Plan this journey <span aria-hidden="true">→</span>
+              {t("Plan this journey ")}<span aria-hidden="true">{"→"}</span>
             </button>
           </div>
         </div>

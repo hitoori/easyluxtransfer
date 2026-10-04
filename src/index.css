@@ -1059,3 +1059,14 @@ input[type='datetime-local']::-webkit-calendar-picker-indicator {
 @media(prefers-reduced-motion:reduce) {
   [data-motion-state] { translate: none !important; transition: none !important; }
 }
+/* Keep the existing typography; both self-hosted families include Cyrillic. */
+.language-switcher { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+.language-switcher a { display: grid; place-items: center; min-width: 36px; min-height: 44px; color: var(--muted, #aaa59c); font-size: 13px; letter-spacing: .06em; border-bottom: 1px solid transparent; transition: color .2s, border-color .2s; }
+.language-switcher a:hover, .language-switcher a[aria-current] { color: var(--gold, #c29a45); border-bottom-color: var(--gold, #c29a45); }
+.language-switcher a:focus-visible { outline: 1px solid var(--gold, #c29a45); outline-offset: 3px; }
+@media (min-width: 1280px) {
+  html[lang="ru"] header .xl\:flex { gap: 18px; }
+  html[lang="ru"] header .xl\:flex > nav:not(.language-switcher) { gap: 18px; }
+  html[lang="ru"] header .xl\:flex > nav:not(.language-switcher) a { font-size: 15px; }
+  html[lang="ru"] header .xl\:flex > a { padding-left: 18px; padding-right: 18px; font-size: 15px; }
+}
