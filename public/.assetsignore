@@ -1,0 +1,3 @@
+# Exclude local filesystem metadata and the build manifest from public hosting.
+**/.DS_Store
+.vite/**
