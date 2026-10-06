@@ -199,8 +199,8 @@ export function validateContact(details: ContactDetails): Errors {
 }
 
 export type ReviewEntry = { label: string; value: string }
-export function journeyReview(service: BookingService, draft: JourneyDraft): ReviewEntry[] {
-  const rows: ReviewEntry[] = [{ label: 'Service', value: serviceNames[service] }, { label: 'Pick-up', value: draft.pickup.text }]
+export function journeyReview(service: BookingService, draft: JourneyDraft, serviceLabel = serviceNames[service]): ReviewEntry[] {
+  const rows: ReviewEntry[] = [{ label: 'Service', value: serviceLabel }, { label: 'Pick-up', value: draft.pickup.text }]
   const add = (label: string, value: string) => { if (value) rows.push({ label, value }) }
   if (service === 'transfer') {
     const context = routeContext(draft)
@@ -245,6 +245,6 @@ export function priceReview(service: BookingService, draft: JourneyDraft, passen
   if (service === 'transfer' && routeContext(draft).water) rows.push({ label: 'Water taxi (separate from road transfer)', value: draft.waterChoice === 'no' ? 'Arranged by you; not included' : '€100–140 estimated; final quote confirms charges' })
   return rows
 }
-export function bookingDetails(service: BookingService, draft: JourneyDraft, passengers: PassengerDetails, contact: ContactDetails) {
-  return withRenderLanguage('en', () => [...journeyReview(service, draft), ...passengerReview(passengers), ...priceReview(service, draft, passengers), { label: 'Preferred contact', value: contact.preferredContact === 'whatsapp' ? 'WhatsApp' : 'Email' }].map(row => `${row.label}: ${row.value}`).join('\n'))
+export function bookingDetails(service: BookingService, draft: JourneyDraft, passengers: PassengerDetails, contact: ContactDetails, serviceLabel?: string) {
+  return withRenderLanguage('en', () => [...journeyReview(service, draft, serviceLabel), ...passengerReview(passengers), ...priceReview(service, draft, passengers), { label: 'Preferred contact', value: contact.preferredContact === 'whatsapp' ? 'WhatsApp' : 'Email' }].map(row => `${row.label}: ${row.value}`).join('\n'))
 }

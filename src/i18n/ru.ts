@@ -655,6 +655,9 @@ Look for the CHANGE office.¦Ориентируйтесь на пункт CHANGE
 From the airport¦Из аэропорта
 Airport pick-ups at¦Встреча в аэропортах
 Marco Polo and Treviso.¦Марко Поло и Тревизо.
+and Treviso.¦и Тревизо.
+Private transfers across Italy¦Индивидуальные трансферы по Италии
+and into Europe.¦и в другие страны Европы.
 We track your flight and adjust the pick-up time if needed. Your driver will meet you at the agreed point, help with your luggage and take you directly to your destination.¦Мы отслеживаем рейс и при необходимости корректируем время встречи. Водитель встретит вас в согласованном месте, поможет с багажом и доставит к месту назначения.
 REQUEST YOUR TRANSFER¦ЗАКАЗАТЬ ТРАНСФЕР
 Flight tracking¦Отслеживание рейса
@@ -669,6 +672,8 @@ Direct transfer¦Прямой трансфер
 Departures sign inside the airport terminal¦Указатель зоны вылета в аэропорту
 Address to address¦От адреса до адреса
 Direct transfers between addresses.¦Прямые поездки между адресами.
+Direct transfers between¦Прямые поездки между
+addresses.¦адресами.
 Travel between hotels, stations and other road-accessible addresses. We confirm the pick-up point and luggage space in advance.¦Поездки между отелями, вокзалами и другими адресами с автомобильным подъездом. Место подачи и багажное пространство согласуем заранее.
 Private journey¦Индивидуальная поездка
 Flexible pick-up¦Удобное место подачи
@@ -942,10 +947,17 @@ Five stars¦Пять звёзд
 Private day journey¦Индивидуальная однодневная поездка
 Group transfer¦Групповой трансфер
 Private transfer¦Индивидуальный трансфер
-Our flight was delayed, but Mihai was there when we arrived. The V-Class was spotless, and the drive was really comfortable.¦Наш рейс задержался, но Михай уже ждал нас по прибытии. V-Class был безупречно чистым, а поездка была очень комфортной.
-We booked a driver for our day in the Dolomites. The timing worked well, and we could just enjoy the stops instead of worrying about the drive.¦Мы заказали водителя на день в Доломитах. Всё было хорошо спланировано: мы наслаждались остановками, не думая о дороге.
-The Prosecco Hills were one of our favourite days in Italy. We had time to enjoy the places we visited without feeling rushed.¦Поездка на холмы Просекко стала одним из лучших дней в Италии. Мы успели насладиться каждым местом без спешки.
-The driver arrived on time, and there was plenty of room for all of us and our bags. Everything was straightforward.¦Водитель приехал вовремя, всем пассажирам и багажу хватило места. Всё прошло легко и понятно.
+Google review¦Отзыв в Google
+Translated by Google¦Переведено Google
+Translation¦Перевод отзыва
+Read full review¦Читать отзыв полностью
+Show less¦Свернуть отзыв
+Impeccable chauffeur service in every way. Extremely professional, punctual, and courteous driver.¦Безупречный сервис с личным водителем во всех отношениях. Исключительно профессиональный, пунктуальный и вежливый водитель.
+Impeccable chauffeur service in every way. Extremely professional, punctual, and courteous driver. The car was spotless, comfortable, and the journey was truly pleasant. You could sense great customer service and the utmost professionalism in their work. Safe driving, discretion, and helpfulness are rare. An excellent experience, I highly recommend them to anyone looking for quality and reliability. I will definitely use them again in the future!¦Безупречный сервис с личным водителем во всех отношениях. Исключительно профессиональный, пунктуальный и вежливый водитель. Автомобиль был безупречно чистым и комфортным, а поездка доставила настоящее удовольствие. Чувствовались прекрасное обслуживание клиентов и высочайший профессионализм в работе. Безопасное вождение, тактичность и готовность помочь встречаются редко. Отличный опыт, настоятельно рекомендую всем, кто ищет качество и надёжность. Обязательно воспользуюсь их услугами снова!
+Catalina was amazing. She did everything to make sure we were comfortable, on time, and got to where we needed to go.¦Каталина была замечательной. Она сделала всё, чтобы нам было комфортно, чтобы мы приехали вовремя и добрались туда, куда нам было нужно.
+Catalina was amazing. She did everything to make sure we were comfortable, on time, and got to where we needed to go. She was willing to do whatever it takes to make sure we were taken care of. I highly recommend using this service for any of your travel/transfer needs on your trip or holiday.¦Каталина была замечательной. Она сделала всё, чтобы нам было комфортно, чтобы мы приехали вовремя и добрались туда, куда нам было нужно. Она была готова сделать всё необходимое, чтобы о нас позаботились. Настоятельно рекомендую этот сервис для любых поездок и трансферов во время путешествия или отпуска.
+New car. Very polite and attentive driver. I really enjoyed the ride!¦Новый автомобиль. Очень вежливый и внимательный водитель. Мне очень понравилась поездка!
+Very professional service, the young and friendly driver took me to my destination in great comfort.¦Очень профессиональный сервис, молодой и дружелюбный водитель с большим комфортом доставил меня к месту назначения.
 Share your journey¦Расскажите о поездке
 Tell us your route, date, passengers and any stops or special requests.¦Укажите маршрут, дату, число пассажиров, остановки и особые пожелания.
 Confirm the details¦Согласуйте детали
@@ -1086,6 +1098,21 @@ Explore our services¦Посмотреть наши услуги
 Useful to know¦Полезная информация
 Quick answers¦Краткие ответы
 Explore all FAQs¦Все вопросы и ответы
+
+Continue to add passengers and contact details.¦Продолжите, чтобы указать пассажиров и контактные данные.
+Tell us where you’d like to go.¦Расскажите, куда вы хотите поехать.
+Share your travel plans. We’ll check availability and send you a quote for your journey.¦Поделитесь планами поездки. Мы проверим доступность и пришлём предложение с её стоимостью.
+Next: journey details, passengers and extras.¦Далее: детали поездки, пассажиры и дополнительные услуги.
+VENICE & TREVISO¦ВЕНЕЦИЯ И ТРЕВИЗО
+PRIVATE CHAUFFEUR SERVICE¦УСЛУГИ ЛИЧНОГО ВОДИТЕЛЯ
+Private transfers in¦Индивидуальные трансферы
+Venice & Treviso.¦в Венеции и Тревизо.
+Airport pick-ups, hourly chauffeurs and journeys across Italy & Europe.¦Встреча в аэропорту, почасовая аренда с водителем и поездки по Италии и Европе.
+Private transfers across Italy & Europe.¦Индивидуальные трансферы по Италии и Европе.
+Airport transfers, hourly chauffeurs and private day trips.¦Трансферы в аэропорт, почасовая аренда с водителем и индивидуальные поездки на день.
+Transfer¦Трансфер
+Day Trips¦Поездки на день
+City, airport or address¦Город, аэропорт или адрес
 `.trim().split('\n').map(line => line.split('¦'))))
 Object.assign(russian, {
   'Wine / Prosecco': 'Вино / Просекко',
@@ -1107,3 +1134,52 @@ Object.assign(russian, {
 })
 
 Object.assign(russian, { 'Child {0}: {1}': 'Ребёнок {0}: {1}' })
+
+Object.assign(russian, Object.fromEntries(`
+Venice & Treviso Private Transfers | Easy Lux Transfer¦Трансферы в Венеции и Тревизо | Easy Lux Transfer
+Venice Transfer Services & Prices | Easy Lux Transfer¦Услуги и цены на трансферы | Easy Lux Transfer
+About Our Chauffeur Service | Easy Lux Transfer¦О нашем сервисе личного водителя | Easy Lux Transfer
+Transfer Booking FAQ | Easy Lux Transfer¦Вопросы о трансферах и бронировании | Easy Lux Transfer
+Contact & Transfer Quotes | Easy Lux Transfer¦Контакты и расчёт стоимости | Easy Lux Transfer
+Privacy Policy | Easy Lux Transfer¦Политика конфиденциальности | Easy Lux Transfer
+Private transfers from Venice and Treviso, airport pick-ups and Water Taxi connections. Travel across Italy and Europe with Easy Lux Transfer.¦Индивидуальные трансферы из Венеции и Тревизо, встреча в аэропорту и водное такси. Поездки по Италии и Европе с Easy Lux Transfer.
+Explore Easy Lux Transfer services and indicative fares for airports, Water Taxi connections, hourly chauffeurs, Italy, Europe and cruise ports.¦Услуги и ориентировочные цены Easy Lux Transfer: аэропорты, водное такси, водитель по часам, Италия, Европа и круизные порты.
+Meet the founders of Easy Lux Transfer and discover their approach to private chauffeur travel, with professionalism, punctuality and personal care.¦Познакомьтесь с основателями Easy Lux Transfer и их подходом к поездкам с личным водителем: профессионализм, пунктуальность и забота.
+Find answers from Easy Lux Transfer about quotes, booking confirmation, deposits, airport pick-ups, luggage and Water Taxi connections in Venice.¦Ответы Easy Lux Transfer о стоимости, подтверждении бронирования, предоплате, встрече в аэропорту, багаже и водном такси в Венеции.
+Contact Easy Lux Transfer for a private journey from Venice or Treviso. Share your route and date for airport, Water Taxi or long-distance quotes.¦Свяжитесь с Easy Lux Transfer для поездки из Венеции или Тревизо. Укажите маршрут и дату для трансфера в аэропорт, водного такси или дальней поездки.
+Learn how Easy Lux Transfer handles contact details, journey requests and optional services, and how to manage your privacy and cookie preferences.¦Как Easy Lux Transfer обрабатывает контактные данные и заявки, использует дополнительные сервисы и позволяет управлять настройками конфиденциальности и cookie.
+Easy Lux Transfer — Home¦Easy Lux Transfer: Главная
+Skip to content¦Перейти к содержимому
+No. We’ll check availability and send you a quote. Your booking is confirmed after agreement of the details and receipt of the deposit.¦Нет. Мы проверим доступность и пришлём предложение. Бронирование подтверждается после согласования деталей и получения предоплаты.
+A deposit is required to confirm your booking. We’ll tell you the amount, how to pay it and when the balance is due before you confirm.¦Для подтверждения бронирования необходима предоплата. Мы сообщим сумму, способ оплаты и срок внесения остатка до подтверждения.
+Online booking is being configured. Please contact us directly for now.¦Онлайн-заявки пока настраиваются. Свяжитесь с нами напрямую.
+Security verification failed. Please try again or contact us directly.¦Проверка безопасности не пройдена. Попробуйте ещё раз или свяжитесь с нами напрямую.
+Security verification is unavailable. Please try again or contact us directly.¦Проверка безопасности временно недоступна. Попробуйте ещё раз или свяжитесь с нами напрямую.
+Security verification is already in progress. Please wait.¦Проверка безопасности уже выполняется. Подождите.
+Too many requests. Please wait a few minutes or contact us directly.¦Слишком много запросов. Подождите несколько минут или свяжитесь с нами напрямую.
+Please enter a message between 10 and 3000 characters.¦Введите сообщение длиной от 10 до 3000 символов.
+`.trim().split("\n").map(line => line.split("¦"))))
+// Security notice follows the submission-only verification implementation.
+Object.assign(russian, {
+  '6 October 2026': '6 октября 2026 г.',
+  'When you submit a form, Cloudflare Turnstile checks technical browser and connection information to protect against spam. It is loaded only for submission, not for advertising or address suggestions. Our request limiter temporarily stores hashed IP and email values with counters; active windows last up to one hour and expired counters are removed automatically. Hosting backups and provider records follow their own retention settings.': 'При отправке формы Cloudflare Turnstile проверяет технические данные браузера и соединения для защиты от спама. Проверка загружается только при отправке, а не для рекламы или подсказок адресов. Ограничитель запросов временно хранит хешированные значения IP и email со счётчиками; активные интервалы длятся до одного часа, а просроченные счётчики удаляются автоматически. Резервные копии хостинга и записи поставщиков услуг имеют собственные сроки хранения.',
+})
+
+// Analytics consent and the matching privacy notice.
+Object.assign(russian, {
+  "With your permission, Google Analytics helps us understand how visitors use this website. We do not use advertising trackers.": "С вашего разрешения Google Analytics помогает нам понимать, как посетители используют сайт. Мы не используем рекламные трекеры.",
+  "Essential storage remembers your choice for up to 180 days. It is always enabled. Optional services below are controlled separately.": "Необходимое хранилище запоминает ваш выбор на срок до 180 дней и всегда включено. Необязательными сервисами ниже можно управлять отдельно.",
+  "Google Analytics": "Google Analytics",
+  "Optional. Measures page visits and website usage using cookies. Google receives technical connection and device information. Disabled until you allow it.": "Необязательно. Измеряет посещения страниц и использование сайта с помощью cookie. Google получает технические данные соединения и устройства. Отключено до вашего разрешения.",
+  "Optional services are your choice": "Необязательные сервисы — ваш выбор",
+  "Google address suggestions and Google Analytics require your consent — Article 6(1)(a).": "Подсказки адресов Google и Google Analytics требуют вашего согласия: статья 6(1)(a).",
+  "Google Analytics, if you enable it:": "Google Analytics, если вы его включите:",
+  "website usage, cookie identifiers and technical connection and device information. See": "использование сайта, идентификаторы cookie и технические данные соединения и устройства. См.",
+  "Optional Google Analytics": "Необязательная аналитика Google Analytics",
+  "Google Analytics (G-M322BVXRJG) loads only after you allow analytics in our privacy preferences. It measures page visits and website usage using cookies such as _ga and _ga_M322BVXRJG, with an expiry of up to 180 days renewed during use. Google receives page information, cookie identifiers and technical connection and device data. Advertising storage, Google signals and advertising personalization are disabled. We do not send the contents of your enquiry forms to Analytics. Our page-view events exclude URL query parameters and fragments.": "Google Analytics (G-M322BVXRJG) загружается только после разрешения аналитики в настройках конфиденциальности. Сервис измеряет посещения страниц и использование сайта с помощью cookie, таких как _ga и _ga_M322BVXRJG, сроком до 180 дней с продлением при использовании. Google получает сведения о страницах, идентификаторы cookie и технические данные соединения и устройства. Хранение рекламных данных, Google signals и персонализация рекламы отключены. Мы не передаём содержимое форм заявок в Analytics. В событиях просмотра страниц исключаются параметры запроса и фрагменты URL.",
+  "You can refuse analytics without affecting the website or your booking. Change your choice at any time in Cookie settings. Withdrawing permission removes this website’s Analytics cookies and refreshes the page to stop the loaded service.": "Можно отказаться от аналитики без влияния на сайт или бронирование. Изменить выбор можно в любое время в настройках cookie. Отзыв разрешения удаляет cookie Analytics этого сайта и обновляет страницу, чтобы остановить загруженный сервис.",
+  "The website uses optional Google Analytics only with your permission and has no advertising pixels. Photographs and fonts are served locally. Hosting and security services can still process technical connection data. External social, WhatsApp and email services are opened when you choose their links and follow their own privacy practices.": "Сайт использует необязательную аналитику Google Analytics только с вашего разрешения и не содержит рекламных пикселей. Фотографии и шрифты размещены локально. Хостинг и службы безопасности могут обрабатывать технические данные соединения. Социальные сети, WhatsApp и почта открываются по вашему выбору и применяют собственные правила конфиденциальности.",
+  "to remember whether you allow address suggestions and Google Analytics, and when you made that choice. It is a preference record, not an advertising profile, and remains valid for 180 days. You can remove it using your browser settings. Essential preference storage does not require consent for optional tracking.": "для запоминания разрешения на подсказки адресов и Google Analytics, а также даты выбора. Это запись настроек, а не рекламный профиль; она действует 180 дней. Её можно удалить в настройках браузера. Необходимое хранение настроек не требует согласия на необязательное отслеживание.",
+  "Optional Google services": "Необязательные сервисы Google",
+  "Google address suggestions and Google Analytics require your consent — Article 6(1)(a). You can withdraw it in Cookie settings.": "Подсказки адресов Google и Google Analytics требуют вашего согласия: статья 6(1)(a). Его можно отозвать в настройках cookie."
+})

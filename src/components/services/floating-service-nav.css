@@ -4,7 +4,7 @@
   text-shadow: 0 1px 4px rgba(0,0,0,.9);
 }
 
-.fsn button {
+.fsn :is(button, a) {
   appearance: none;
   display: flex;
   align-items: center;
@@ -17,7 +17,7 @@
   text-shadow: inherit;
   cursor: pointer;
 }
-.fsn button:focus-visible { outline: 1px solid #c29a45; outline-offset: 4px; }
+.fsn :is(button, a):focus-visible { outline: 1px solid #c29a45; outline-offset: 4px; }
 
 .fsn-trigger {
   position: fixed;

@@ -9,5 +9,6 @@ export function typescriptModule(file, preview = true) {
     const dependency = new URL(`${specifier}.ts`, file)
     return `from ${JSON.stringify(typescriptModule(dependency, preview))}`
   })
+  js = js.replace(/import\((['"])(\.\.?\/[^'"]+)\1\)/g, (_match, _quote, specifier) => `import(${JSON.stringify(typescriptModule(new URL(`${specifier}.ts`, file), preview))})`)
   return `data:text/javascript;base64,${Buffer.from(js).toString('base64')}`
 }

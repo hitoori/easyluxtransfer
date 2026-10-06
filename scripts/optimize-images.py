@@ -37,14 +37,14 @@ for source in archive.rglob('*'):
   brand = 'brand' in rel.parts
   diagram = 'map' in source.stem
   image.thumbnail((192, 192) if brand else (1920, 1920), Image.Resampling.LANCZOS)
-  image.save(public / out, 'WEBP', quality=90 if diagram else 82, method=6, lossless=brand or (diagram and source.suffix.lower() == '.png'))
+  image.save(public / out, 'WEBP', quality=92 if diagram else 82, method=6, lossless=brand)
   variants = []
-  if not brand and not diagram:
+  if not brand:
    for width in (640, 960, 1280):
     if width >= image.width: continue
     small = image.resize((width, round(image.height * width / image.width)), Image.Resampling.LANCZOS)
     variant = out.with_name(f'{out.stem}-{width}w.webp')
-    small.save(public / variant, 'WEBP', quality=78, method=6)
+    small.save(public / variant, 'WEBP', quality=90 if diagram else 78, method=6)
     variants.append({'src': str(variant), 'width': width})
   variants.append({'src': str(out), 'width': image.width})
   manifest[str(rel)] = {'src': str(out), 'width': image.width, 'height': image.height, 'variants': variants}

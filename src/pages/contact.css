@@ -180,3 +180,61 @@
 .contact-page .ct-hero-content{grid-template-columns:minmax(0,1fr)}
 .contact-page .ct-hero h1{font-size:clamp(20px,5.5vw,56px);white-space:nowrap}
 @media(max-width:379px){.contact-page .ct-hero h1{font-size:18px}}
+
+/* Soften the shade near the top while keeping smaller-screen copy readable. */
+@media (max-width: 1279px) {
+  .contact-page .ct-hero::after {
+    -webkit-mask-image: linear-gradient(180deg, rgba(0,0,0,.72) 0%, #000 42%);
+    mask-image: linear-gradient(180deg, rgba(0,0,0,.72) 0%, #000 42%);
+  }
+}
+/* Brighten only the desktop photo; smaller screens retain the original shade. */
+@media (min-width: 1280px) {
+  .contact-page .ct-hero-image { filter: none; }
+  .contact-page .ct-hero::after {
+    background:
+      radial-gradient(ellipse 80% 85% at 32% 52%, rgba(5,7,8,.72) 0%, rgba(5,7,8,.6) 35%, rgba(5,7,8,.28) 58%, transparent 82%),
+      linear-gradient(0deg, var(--background), transparent 22%);
+    pointer-events: none;
+  }
+}
+
+/* Give the tablet form more room and keep each direct-contact number separate. */
+@media (min-width: 761px) and (max-width: 1279px) {
+  .contact-page .ct-concierge {
+    width: calc(100% - 48px);
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, .95fr);
+    gap: 28px;
+  }
+  .contact-page .ct-form-panel { padding: 28px 24px; }
+  .contact-page .ct-concierge h2 { font-size: 24px; }
+  .contact-page .ct-form-heading p { margin-top: 12px; line-height: 1.85; }
+  .contact-page form { margin-top: 30px; }
+  .contact-page .ct-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px 24px; }
+  .contact-page label { font-size: 14px; }
+  .contact-page .ct-fields :is(input, select) { height: 54px; padding: 14px; font-size: 15px; }
+  .contact-page .ct-message-field { margin-top: 26px; }
+  .contact-page .ct-message-field textarea { min-height: 164px; padding: 14px; font-size: 15px; }
+  .contact-page .ct-consent { margin-top: 24px; font-size: 13px; }
+  .contact-page .ct-submit { margin-top: 28px; gap: 20px; }
+  .contact-page .ct-channels .ct-channel { padding: 16px 14px; gap: 12px; }
+  .contact-page .ct-channel-links {
+    position: relative;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    padding-right: 22px;
+  }
+  .contact-page .ct-channels .ct-channel-number .ct-phone-divider { display: none; }
+  .contact-page .ct-channel-links > svg {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    margin: 0;
+    transform: translateY(-50%);
+  }
+  .contact-page .ct-channels strong { font-size: 15px; }
+  .contact-page .ct-channels small { margin-top: 6px; line-height: 1.7; }
+}
+
+.contact-page form :is(input, textarea)::placeholder { font-size: 13px; }

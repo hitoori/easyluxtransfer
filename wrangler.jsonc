@@ -4,9 +4,12 @@
   "main": "./worker/index.js",
   "compatibility_date": "2026-09-29",
   "vars": {
+    "TURNSTILE_HOSTNAMES": "easyluxtransfer.com,www.easyluxtransfer.com",
     "BOOKING_FROM_EMAIL": "Easy Lux <booking@mail.easyluxtransfer.com>",
     "BOOKING_TO_EMAIL": "easyluxtransfer@gmail.com"
   },
+  "durable_objects": { "bindings": [{ "name": "BOOKING_LIMITER", "class_name": "BookingRateLimiter" }] },
+  "migrations": [{ "tag": "booking-rate-limiter-v1", "new_sqlite_classes": ["BookingRateLimiter"] }],
   "assets": {
     "directory": "./dist/client",
     "binding": "ASSETS",

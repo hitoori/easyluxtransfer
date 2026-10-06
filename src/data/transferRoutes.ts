@@ -54,11 +54,11 @@ export const transferRoutes: TransferRoute[] = [
 ]
 
 const popularRouteIds = [
-  'venice-cortina',
-  'venice-lido-di-jesolo',
   'venice-ravenna-cruise-port',
-  'venice-trieste-cruise-port',
   'venice-fusina-cruise-terminal',
+  'venice-cortina',
+  'venice-trieste-cruise-port',
+  'venice-lido-di-jesolo',
   'venice-trento',
   'venice-cavallino-treporti',
   'venice-treviso',

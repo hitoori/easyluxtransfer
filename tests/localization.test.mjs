@@ -2,8 +2,18 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 import { typescriptModule } from './load-typescript.mjs'
 
-const { countLabel, t, message, withRenderLanguage, languageFromPath } = await import(typescriptModule(new URL('../src/i18n/translate.ts', import.meta.url)))
+const { countLabel, t, message, withRenderLanguage, languageFromPath, loadLanguage } = await import(typescriptModule(new URL('../src/i18n/translate.ts', import.meta.url)))
+await loadLanguage('ru')
 const { pagePath } = await import(typescriptModule(new URL('../src/types/navigation.ts', import.meta.url)))
+
+test('Analytics consent and policy copy is translated, including normalized whitespace', () => {
+  withRenderLanguage('ru', () => {
+    assert.match(t('Optional Google Analytics'), /Необязательная/)
+    assert.match(t('Essential storage remembers your choice for up to 180 days. It is always enabled. Optional services below are controlled separately.'), /180 дней/)
+    assert.match(t('Google address suggestions and Google Analytics require your consent — Article 6(1)(a). You can withdraw it in Cookie settings.'), /согласия/)
+    assert.match(t(' to remember whether you allow address suggestions and Google Analytics, and when you made that choice. It is a preference record, not an advertising profile, and remains valid for 180 days. You can remove it using your browser settings. Essential preference storage does not require consent for optional tracking.'), /^ для запоминания/)
+  })
+})
 
 test('language prefix selects Russian only for its own path segment', () => {
   for (const path of ['/ru', '/ru/', '/ru/services']) assert.equal(languageFromPath(path), 'ru')

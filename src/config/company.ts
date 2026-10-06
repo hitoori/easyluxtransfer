@@ -8,6 +8,8 @@ export const company = {
   email: 'easyluxtransfer@gmail.com',
   // Account URLs will be supplied by the owner.
   social: { facebook: '', instagram: '', tiktok: '' },
+  // Add the owner's approved booking-terms URL when the document is ready.
+  termsUrl: '',
   registeredOffice: 'Strada S. Bona Nuova 1 A, 31100 Treviso (TV), Italy',
   operationalBase: 'Venice, Veneto – Italy',
   serviceArea: 'Based in Venice and Treviso, travelling across Italy and Europe.',

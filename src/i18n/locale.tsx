@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, type ReactNode } from 'react'
 import { getLanguage, type Language } from './translate'
-export { countLabel, getLanguage, getLocale, languageFromPath, message, t, withRenderLanguage, type Language } from './translate'
+export { countLabel, getLanguage, getLocale, languageFromPath, loadLanguage, message, t, withRenderLanguage, type Language } from './translate'
 
 const LocaleContext = createContext({ language: 'en' as Language, syncLanguage: () => {} })
 export function LocaleProvider({ children, initialLanguage }: { children: ReactNode; initialLanguage?: Language }) {

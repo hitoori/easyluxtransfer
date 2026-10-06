@@ -11,7 +11,7 @@ export async function prepareImage(src: string, sizes?: string) {
 }
 
 /** Only animate visible carousels; stop for keyboard focus, reduced motion and hidden tabs. */
-export function useCarousel(count: number, delay: number, target: RefObject<HTMLElement | null>, prepare?: (index: number) => Promise<boolean>) {
+export function useCarousel(count: number, delay: number, target: RefObject<HTMLElement | null>, prepare?: (index: number) => Promise<boolean>, paused = false) {
   const [activeIndex, setActiveIndex] = useState(0)
   const [previousIndex, setPreviousIndex] = useState<number | null>(null)
   const [focused, setFocused] = useState(false)
@@ -54,10 +54,10 @@ export function useCarousel(count: number, delay: number, target: RefObject<HTML
   }, [target])
 
   useEffect(() => {
-    if (!canPlay || focused) return
+    if (!canPlay || focused || paused) return
     const timer = window.setTimeout(() => { void select((activeIndex + 1) % count) }, delay)
     return () => window.clearTimeout(timer)
-  }, [activeIndex, canPlay, focused, count, delay, select])
+  }, [activeIndex, canPlay, focused, paused, count, delay, select])
 
   useEffect(() => {
     if (previousIndex === null) return

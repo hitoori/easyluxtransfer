@@ -1,8 +1,8 @@
 import { message, t, useLocale } from '../i18n/locale'
 import OptimizedImage from '../components/OptimizedImage'
 import { prepareImage, useCarousel } from '../hooks/useCarousel'
-import { useRef, useState } from 'react'
-import type { Page } from '../types/navigation'
+import { useEffect, useRef, useState } from 'react'
+import type { Navigate } from '../components/PageLink'
 import BookingForm, { type BookingPrefill } from '../components/BookingForm'
 import HomeSections from '../components/home/HomeSections'
 import { publicAsset } from '../lib/publicAsset'
@@ -10,7 +10,7 @@ import './home-editorial.css'
 import './home-refinements.css'
 
 interface HomeProps {
-  navigate: (page: Page) => void
+  navigate: Navigate
 }
 
 const heroSlides = [
@@ -43,6 +43,14 @@ const heroSlides = [
 const prepareHero = (index: number) => prepareImage(heroSlides[index].url, '100vw')
 
 export default function Home({ navigate }: HomeProps) {
+  const [mobileHero, setMobileHero] = useState(false)
+  useEffect(() => {
+    const media = window.matchMedia('(max-width: 760px)')
+    const update = () => setMobileHero(media.matches)
+    update()
+    media.addEventListener('change', update)
+    return () => media.removeEventListener('change', update)
+  }, [])
   useLocale()
   const heroRef = useRef<HTMLElement>(null)
   const carousel = useCarousel(heroSlides.length, 8000, heroRef, prepareHero)
@@ -79,13 +87,16 @@ export default function Home({ navigate }: HomeProps) {
         <div className="h2-hero-shade" />
 
         <div className="h2-hero-copy">
-          <p className="h2-kicker">{t("PRIVATE CHAUFFEUR SERVICE · VENICE & TREVISO")}</p>
+          <p className="h2-kicker"><span className="home-desktop-copy">{t("PRIVATE CHAUFFEUR SERVICE · VENICE & TREVISO")}</span><span className="home-mobile-copy">{t('PRIVATE CHAUFFEUR SERVICE')}</span></p>
           <h1>
+            <span className="home-desktop-copy">
             {t("Private transfers from")}<br className="home-hero-mobile-break" />{' '}
             {t("Venice,")}<br className="home-hero-desktop-break" />{' '}
             <span>{t("across Italy")}<br className="home-hero-mobile-break" />{' '}{t("and Europe.")}</span>
+            </span>
+            <span className="home-mobile-copy">{t('Private transfers in')}<br />{t('Venice & Treviso.')}</span>
           </h1>
-          <p className="h2-lead">{t("Airport pick-ups, city transfers, a chauffeur by the hour and longer journeys.")}</p>
+          <p className="h2-lead"><span className="home-desktop-copy">{t("Airport pick-ups, city transfers, a chauffeur by the hour and longer journeys.")}</span><span className="home-mobile-copy">{t('Airport pick-ups, hourly chauffeurs and journeys across Italy & Europe.')}</span></p>
         </div>
 
         <div
@@ -93,7 +104,7 @@ export default function Home({ navigate }: HomeProps) {
           className="h2-booking-wrap"
         >
           <div className="mx-auto w-full">
-            <BookingForm prefill={routePrefill} />
+            <BookingForm prefill={routePrefill} mobileHero={mobileHero} />
           </div>
           <nav {...carousel.interactionProps} className="hero-photo-nav" aria-label={t("Hero photographs")}>
             <p className="hero-photo-caption" aria-live="polite" aria-atomic="true">

@@ -148,6 +148,64 @@
   .about-page .ab-final-layout .ab-photo-slot { aspect-ratio: 16 / 9; }
 }
 
+@media (min-width: 761px) and (max-width: 1279px) {
+  .about-page .ab-facts-grid {
+    grid-template-columns: .9fr 1.5fr 1fr .9fr;
+    padding-block: 22px;
+  }
+  .about-page .ab-facts-grid span {
+    min-height: 32px;
+    padding: 0 8px;
+    font-size: 11px;
+    letter-spacing: .08em;
+    white-space: nowrap;
+  }
+  .about-page .ab-facts-grid span:nth-child(n) { border-top: 0; }
+  .about-page .ab-facts-grid span:nth-child(n+2) { border-left: 1px solid rgba(194, 154, 69, .48); }
+  .about-page:lang(ru) .ab-facts-grid span { font-size: 10px; letter-spacing: .03em; }
+
+  .about-page .ab-story {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+    padding-block: 72px;
+  }
+  .about-page .ab-story .ab-section-copy { width: 100%; max-width: 860px; }
+  .about-page .ab-story .ab-eyebrow { margin-bottom: 18px; }
+  .about-page .ab-story h2 { font-size: clamp(44px, 5.4vw, 52px); line-height: 1.08; }
+  .about-page .ab-story .ab-section-copy > h2 + p { margin-top: 24px; }
+  .about-page .ab-story .ab-section-copy p { max-width: 72ch; font-size: 16px; line-height: 1.8; }
+  .about-page .ab-story .ab-photo-slot { aspect-ratio: 16 / 9; max-height: 520px; }
+
+  .about-page .ab-final-cta { padding-block: 64px; }
+  .about-page .ab-final-layout {
+    grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr);
+    grid-template-areas: "eyebrow photo" "title photo" "description photo" "actions actions";
+    gap: 20px 32px;
+    align-items: start;
+  }
+  .about-page .ab-final-layout .ab-section-copy { display: contents; }
+  .about-page .ab-final-layout .ab-eyebrow { grid-area: eyebrow; margin: 0; }
+  .about-page .ab-final-layout #ab-final-title { grid-area: title; }
+  .about-page .ab-final-layout .ab-section-copy > p:not(.ab-eyebrow) { grid-area: description; margin: 0; }
+  .about-page .ab-final-layout .ab-photo-slot {
+    grid-area: photo;
+    align-self: start;
+    aspect-ratio: 16 / 10;
+    max-height: 320px;
+    margin-top: 12px;
+  }
+  .about-page .ab-final-actions {
+    grid-area: actions;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 24px;
+    margin-top: 8px;
+  }
+  .about-page .ab-final-actions .ab-outline-button { width: auto; min-width: 235px; }
+  .about-page .ab-final-actions .ab-whatsapp-link { align-self: auto; white-space: nowrap; }
+}
+
 @media (max-width: 380px) {
   .about-page h1 { font-size: clamp(38px, 10.5vw, 42px); }
   .about-page .ab-standard-copy h3 { font-size: 24px; }

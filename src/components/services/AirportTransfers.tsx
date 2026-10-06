@@ -8,7 +8,7 @@ import { publicAsset } from '../../lib/publicAsset'
 
 const getJourneys = () => [
   {
-    label: 'From the airport', title: <>{t("Airport pick-ups at")}<br /><span className="ac-title-second-line">{t("Marco Polo and Treviso.")}</span></>,
+    label: 'From the airport', title: <>{t("Airport pick-ups at")}<br className="ac-default-title-break" />{' '}<span className="ac-title-second-line">{t("Marco Polo")}<br className="services-tablet-title-break" />{' '}{t("and Treviso.")}</span></>,
     description: 'We track your flight and adjust the pick-up time if needed. Your driver will meet you at the agreed point, help with your luggage and take you directly to your destination.',
     cta: 'REQUEST YOUR TRANSFER',
     features: ['Flight tracking', 'Meet & greet', 'Luggage assistance'],
@@ -24,7 +24,7 @@ const getJourneys = () => [
     imageAlt: 'Departures sign inside the airport terminal',
   },
   {
-    label: 'Address to address', title: 'Direct transfers between addresses.',
+    label: 'Address to address', title: <>{t("Direct transfers between")}<br className="services-tablet-title-break" />{' '}{t("addresses.")}</>,
     description: 'Travel between hotels, stations and other road-accessible addresses. We confirm the pick-up point and luggage space in advance.',
     cta: 'REQUEST YOUR TRANSFER',
     features: ['Private journey', 'Flexible pick-up', 'Space for luggage'],

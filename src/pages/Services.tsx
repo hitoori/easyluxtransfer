@@ -2,7 +2,7 @@ import { t, useLocale } from '../i18n/locale'
 import OptimizedImage from '../components/OptimizedImage'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useScrollReveal } from '../hooks/useScrollReveal'
-import type { Page } from '../types/navigation'
+import PageLink, { type Navigate } from '../components/PageLink'
 import { serviceOptions, type JourneyRequest, type JourneyService, type QuoteSelection } from '../components/services/serviceData'
 import { HourlySection, WaterTaxiSection, EuropeSection, MountainsSection, SeasideSection, CruiseSection } from '../components/services/SelectedServiceSections'
 import ProseccoHills from '../components/services/ProseccoHills'
@@ -31,11 +31,12 @@ import './services-water-taxi-reference.css'
 import { publicAsset } from '../lib/publicAsset'
 import './services-home-routes.css'
 import './services-masthead-refresh.css'
+import './services-tablet.css'
 import AirportTransfers from '../components/services/AirportTransfers'
 import PricingGuide from '../components/services/PricingGuide'
 import FloatingServiceNav from '../components/services/FloatingServiceNav'
 
-export default function Services({ navigate }: { navigate: (page: Page) => void }) {
+export default function Services({ navigate }: { navigate: Navigate }) {
   useLocale()
   const pageRef = useRef<HTMLDivElement>(null)
   useScrollReveal(pageRef, ':scope > section:not(.services-masthead)')
@@ -99,12 +100,8 @@ export default function Services({ navigate }: { navigate: (page: Page) => void 
   }, [closeMeetingPoint, meetingOpen])
 
   const scrollTo = (id: string) => {
-    const section = document.getElementById('service-' + id)
-    if (!section) return
     setActiveSection(id as JourneyService)
-    const compactHeaderHeight = window.matchMedia('(min-width: 1024px)').matches ? 76 : 72
-    const top = section.getBoundingClientRect().top + window.scrollY - compactHeaderHeight
-    window.scrollTo({ top, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' })
+    navigate('services', `service-${id}`)
   }
   const requestJourney = (request: JourneyRequest) => setSelection(previous => ({ ...request, revision: (previous?.revision ?? 0) + 1 }))
 
@@ -123,10 +120,9 @@ export default function Services({ navigate }: { navigate: (page: Page) => void 
       </div>
       <nav id="services-directory" className="services-masthead-nav services-top-navigation" aria-label={t("Choose a service")}>
         {serviceOptions.filter(([id]) => id !== 'custom').map(([id, label]) =>
-          <button key={id} type="button" aria-current={activeSection === id ? 'location' : undefined}
-            onClick={() => scrollTo(id)}>
+          <PageLink key={id} page="services" sectionId={`service-${id}`} navigate={navigate} aria-current={activeSection === id ? 'location' : undefined}>
             <span>{t(label)}</span>
-          </button>)}
+          </PageLink>)}
       </nav>
     </section>
     {showFloatingNav && <FloatingServiceNav activeSection={activeSection} onSelect={scrollTo} />}

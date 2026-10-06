@@ -12,15 +12,15 @@
 .services-new-page .services-masthead-actions { margin-top: 32px; gap: 16px 28px; }
 .services-new-page .services-masthead-actions button { font-size: 12px; min-height: 50px; }
 .services-new-page .services-masthead-nav { box-shadow: 0 8px 24px rgba(0, 0, 0, .12); }
-.services-new-page .services-masthead-nav button {
+.services-new-page .services-masthead-nav a {
   color: var(--svc-body);
   font-size: 12px;
   letter-spacing: .07em;
   transition: color 180ms ease, background-color 180ms ease;
 }
-.services-new-page .services-masthead-nav button:hover { background: var(--svc-surface); color: var(--svc-ivory); }
-.services-new-page .services-masthead-nav button[aria-current] { color: var(--svc-gold-bright); }
-.services-new-page .services-masthead-nav button:focus-visible { outline-offset: -5px; }
+.services-new-page .services-masthead-nav a:hover { background: var(--svc-surface); color: var(--svc-ivory); }
+.services-new-page .services-masthead-nav a[aria-current] { color: var(--svc-gold-bright); }
+.services-new-page .services-masthead-nav a:focus-visible { outline-offset: -5px; }
 
 /* Readable supporting information, with small type reserved for short labels. */
 .services-new-page :is(.sv-section, .airport-transfers) p.svc-eyebrow {
@@ -137,7 +137,7 @@
 @media (max-width: 820px) {
   .services-new-page { --svc-gutter: 24px; }
   .services-new-page .services-masthead-shell { padding-block: 130px 64px; }
-  .services-new-page .services-masthead-nav button { min-width: 144px; }
+  .services-new-page .services-masthead-nav a { min-width: 144px; }
   .services-new-page :is(.sv-europe, .sv-mountains, .sv-coast, .sv-cruise) .sv-table-wrap-compact .sv-route-table tbody :is(th, td) { height: auto; }
   .services-new-page .sv-route-footer { flex-wrap: wrap; }
 }
@@ -173,6 +173,6 @@
   .services-new-page .sv-form-actions .sv-button svg { width: 18px; flex-shrink: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .services-new-page :is(.services-masthead-nav button, .sv-route-disclosure-trigger),
+  .services-new-page :is(.services-masthead-nav a, .sv-route-disclosure-trigger),
   .services-new-page .sv-field :is(input, select, textarea) { transition: none; }
 }

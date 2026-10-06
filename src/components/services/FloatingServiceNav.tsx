@@ -2,6 +2,7 @@ import { message, t, useLocale } from '../../i18n/locale'
 import { useEffect, useRef, useState } from 'react'
 import type { JourneyService } from './serviceData'
 import './floating-service-nav.css'
+import PageLink from '../PageLink'
 
 const items = [
   ['airport', 'Airport & City'],
@@ -42,15 +43,15 @@ export default function FloatingServiceNav({ activeSection, onSelect }: {
     requestAnimationFrame(() => currentButton.current?.focus())
   }
   const links = () => items.map(([id, label]) =>
-    <button key={id} type="button" className="fsn-link"
+    <PageLink key={id} page="services" sectionId={`service-${id}`} navigate={() => choose(id)} className="fsn-link"
       aria-current={id === activeSection ? 'location' : undefined}
-      aria-label={message("Go to {0}", t(label))} onClick={() => choose(id)}>
+      aria-label={message("Go to {0}", t(label))}>
       <span className="fsn-stop" aria-hidden="true" />
       <span>{t(label)}</span>
-    </button>)
+    </PageLink>)
 
   return <>
-    <nav className={`fsn fsn-trigger${collapsed ? ' is-collapsed' : ''}${activeSection === 'cruise' ? ' is-cruise' : ''}`} aria-label={t("Services navigation")} hidden={open}>
+    <nav className={`fsn fsn-trigger${collapsed ? ' is-collapsed' : ''}`} aria-label={t("Services navigation")} hidden={open}>
       <button ref={currentButton} className="fsn-current" type="button" onClick={() => { setCollapsed(false); setOpen(true) }} aria-haspopup="dialog" aria-expanded={open} aria-controls="floating-services-dialog" aria-label={message("Open services navigation. Current section: {0}", t(items[activeIndex][1]))}>
           <span className="fsn-stop" aria-hidden="true" /><span className="fsn-current-name">{t(items[activeIndex][1])}</span><span className="fsn-arrow-desktop" aria-hidden="true">{"←"}</span><span className="fsn-arrow-phone" aria-hidden="true">{"↑"}</span>
       </button>

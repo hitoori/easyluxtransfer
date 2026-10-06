@@ -9,15 +9,18 @@ export interface BookingPayload {
   details: string
   consent: boolean
   website?: string
+  message?: string
 }
 
 export async function sendBooking(payload: BookingPayload, requestId: string): Promise<string> {
+  const { getBookingVerification } = await import('./bookingVerification')
+  const turnstileToken = await getBookingVerification()
   let response: Response
   try {
     response = await fetch('/api/booking', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ ...payload, requestId }),
+      body: JSON.stringify({ ...payload, requestId, turnstileToken }),
     })
   } catch {
     throw new Error('Connection failed. Please try again or contact us directly.')

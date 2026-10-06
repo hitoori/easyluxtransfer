@@ -14,12 +14,12 @@
 .services-masthead-secondary { padding: 12px 0; color: var(--text-primary); border: 0; background: transparent; }
 .services-masthead-secondary:hover { color: var(--gold-hover); }
 .services-masthead-nav { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); width: 100%; border-block: 1px solid var(--border); background: var(--background-secondary); }
-.services-masthead-nav button { position: relative; display: flex; align-items: center; justify-content: center; min-height: 64px; padding: 16px 12px; border: 0; border-inline-end: 2px solid transparent; color: var(--text-secondary); background: transparent; font: 500 12px/1.4 Manrope, sans-serif; letter-spacing: .09em; text-transform: uppercase; white-space: nowrap; transition: background-color .2s, color .2s; }
-.services-masthead-nav button + button::before { content: ''; position: absolute; left: -2px; top: calc(50% - 10px); height: 20px; border-left: 1px solid var(--border); }
-.services-masthead-nav button[aria-current] { color: var(--gold); border-inline-end-color: var(--gold); }
-.services-masthead-nav button[aria-current] + button::before { display: none; }
-.services-masthead-nav button:hover { background: var(--surface); }
-.services-new-page .services-masthead-nav button:focus-visible { outline-offset: -5px; }
+.services-masthead-nav a { position: relative; display: flex; align-items: center; justify-content: center; min-height: 64px; padding: 16px 12px; border: 0; border-inline-end: 2px solid transparent; color: var(--text-secondary); background: transparent; font: 500 12px/1.4 Manrope, sans-serif; letter-spacing: .09em; text-transform: uppercase; white-space: nowrap; transition: background-color .2s, color .2s; }
+.services-masthead-nav a + a::before { content: ''; position: absolute; left: -2px; top: calc(50% - 10px); height: 20px; border-left: 1px solid var(--border); }
+.services-masthead-nav a[aria-current] { color: var(--gold); border-inline-end-color: var(--gold); }
+.services-masthead-nav a[aria-current] + a::before { display: none; }
+.services-masthead-nav a:hover { background: var(--surface); }
+.services-new-page .services-masthead-nav a:focus-visible { outline-offset: -5px; }
 #italy-route-prices { scroll-margin-top: 100px; }
 @media (min-width: 1600px) {
   .services-masthead-copy { max-width: 720px; }
@@ -29,7 +29,7 @@
   .services-masthead-shell { width: calc(100% - 56px); padding-top: 140px; }
   .services-masthead-copy { max-width: 570px; }
   .services-masthead-nav { display: flex; overflow-x: auto; scrollbar-width: thin; scrollbar-color: var(--gold) var(--background-secondary); }
-  .services-masthead-nav button { flex: 1 0 150px; }
+  .services-masthead-nav a { flex: 1 0 150px; }
 }
 @media (max-width: 600px) {
   .services-masthead-shell { width: calc(100% - 40px); padding-top: 120px; padding-bottom: 40px; }
@@ -40,7 +40,7 @@
   .services-masthead-actions { gap: 8px 20px; margin-top: 24px; }
   .services-masthead-actions button { font-size: 11px; }
   .services-masthead-primary { padding-inline: 13px; }
-  .services-masthead-nav button { flex-basis: 150px; min-height: 60px; }
+  .services-masthead-nav a { flex-basis: 150px; min-height: 60px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .services-masthead button { transition: none; }

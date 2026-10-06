@@ -5,12 +5,13 @@ import {
   Boat,
 } from '@phosphor-icons/react'
 import { publicAsset } from '../lib/publicAsset'
+import PageLink, { type Navigate } from './PageLink'
 
 interface VeniceArrivalFeatureProps {
-  onPlanJourney: () => void
+  navigate: Navigate
 }
 
-export default function VeniceArrivalFeature({ onPlanJourney }: VeniceArrivalFeatureProps) {
+export default function VeniceArrivalFeature({ navigate }: VeniceArrivalFeatureProps) {
   useLocale()
   return (
     <section data-home-arrival className="water-route-section home-flow-section">
@@ -42,9 +43,9 @@ export default function VeniceArrivalFeature({ onPlanJourney }: VeniceArrivalFea
             </div>
           </div>
 
-          <button type="button" onClick={onPlanJourney} className="water-route-cta">
+          <PageLink page="services" sectionId="service-water-taxi" navigate={navigate} className="water-route-cta">
             {t("Plan your connection")}<ArrowRight size={17} aria-hidden="true" />
-          </button>
+          </PageLink>
         </div>
       </div>
       <div className="water-route-visual">

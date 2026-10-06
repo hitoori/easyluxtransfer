@@ -1894,7 +1894,7 @@
   .water-route-copy { width: 100%; }
   .water-route-boat { top: 12px; left: 12px; width: 24px; height: 24px; }
   .water-route-kicker { margin-bottom: 20px; font-size: 11px; letter-spacing: 0.14em; }
-  .water-route-copy h2 { font-size: clamp(22px, 7vw, 34px); line-height: 1.06; }
+  .water-route-copy h2 { font-size: clamp(32px, 7vw, 36px); line-height: 1.1; }
   .water-route-description { margin-top: 26px; font-size: 14px; line-height: 1.8; }
   .water-route-description p + p { margin-top: 18px; }
   .water-route-rates { grid-template-columns: minmax(0, .9fr) minmax(0, 1.3fr); margin-top: 24px; }
@@ -2362,6 +2362,19 @@
   margin-top: 3px;
   color: var(--text-muted);
 }
+.client-stories-read-more {
+  margin-top: 18px;
+  min-height: 44px;
+  padding: 8px 14px;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--gold);
+  font: 500 12px/1.5 var(--font-body);
+  cursor: pointer;
+}
+.client-stories-read-more:hover { border-color: var(--gold); }
+.client-stories-stage figcaption .client-stories-translation { font-size: 12px; }
 .client-stories-footer {
   display: flex;
   justify-content: center;

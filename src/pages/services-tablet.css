@@ -1,0 +1,187 @@
+.services-new-page .services-tablet-title-break { display: none; }
+
+@media (min-width: 761px) and (max-width: 1279px) {
+  .services-new-page.services-experience {
+    --services-tablet-heading-size: clamp(44px, 5.4vw, 52px);
+  }
+
+  .services-new-page.services-experience :is(#service-airport, #service-hourly, #service-water-taxi, #service-europe, #service-prosecco, #service-mountains, #service-coast, #service-cruise, #service-custom)
+    :is(#airport-transfers-title, #hourly-title, #water-title, #europe-title, #prosecco-title, #mountains-title, #coast-title, #cruise-title, #quote-intro-title),
+  .services-new-page.services-experience .services-pricing-guide #services-pricing-title {
+    font-size: var(--services-tablet-heading-size);
+    font-weight: 400;
+    line-height: 1.08;
+    letter-spacing: -.03em;
+    white-space: normal;
+  }
+
+  .services-new-page.services-experience .services-masthead #services-title {
+    font-size: clamp(52px, 6vw, 64px);
+    line-height: 1.05;
+  }
+
+  .services-new-page.services-experience :is(#service-airport, #service-europe, #service-prosecco, #service-mountains, #service-coast, #service-cruise)
+    :is(#airport-transfers-title, #europe-title, #prosecco-title, #mountains-title, #coast-title, #cruise-title) {
+    margin-bottom: 22px;
+  }
+
+  .services-new-page.services-experience #service-airport.airport-concierge .ac-copy h2.ac-airport-title,
+  .services-new-page.services-experience #service-airport.airport-concierge .ac-copy h2.ac-long-title,
+  .services-new-page.services-experience #service-europe #europe-title {
+    width: 100%;
+    max-width: none;
+    line-height: 1.08;
+    white-space: nowrap;
+  }
+
+  .services-new-page.services-experience .services-tablet-title-break { display: block; }
+  .services-new-page.services-experience #service-airport .ac-default-title-break { display: none; }
+
+  .services-new-page.services-experience #service-hourly .hourly-mockup-content {
+    grid-template-columns: minmax(0, .85fr) minmax(0, 1.35fr);
+    grid-template-areas: "description route" "cta route";
+    gap: 24px 32px;
+  }
+  .services-new-page.services-experience #service-hourly .hourly-mockup-description { grid-area: description; }
+  .services-new-page.services-experience #service-hourly .hourly-mockup-route-wrap { grid-area: route; min-width: 0; }
+  .services-new-page.services-experience #service-hourly .hourly-mockup-route { width: 100%; min-width: 0; }
+  .services-new-page.services-experience #service-hourly .hourly-mockup-cta {
+    grid-area: cta;
+    justify-self: start;
+    width: 100%;
+    max-width: 320px;
+    min-height: 56px;
+    padding-inline: 18px;
+    font-size: 11px;
+  }
+
+  .services-new-page.services-experience #service-water-taxi .wt-booking {
+    grid-template-columns: minmax(0, 1fr) max-content;
+    gap: 24px 28px;
+    align-items: center;
+    transform: none;
+  }
+  .services-new-page.services-experience #service-water-taxi .wt-access-notes {
+    display: grid;
+    grid-area: 1 / 1;
+    align-self: center;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+  }
+  .services-new-page.services-experience #service-water-taxi .wt-booking .wt-access-note {
+    max-width: none;
+    padding: 0;
+    border: 0;
+    font-size: 13px;
+    line-height: 1.65;
+    text-align: left;
+  }
+  .services-new-page.services-experience #service-water-taxi .wt-desktop-note-break { display: block; }
+  .services-new-page.services-experience #service-water-taxi .wt-price-block {
+    display: grid;
+    grid-area: 1 / 2;
+    grid-template-columns: max-content max-content;
+    align-items: start;
+    justify-self: end;
+    width: auto;
+    max-width: none;
+    gap: 24px;
+    margin: 0;
+    padding: 0;
+    transform: none;
+  }
+  .services-new-page.services-experience #service-water-taxi .wt-fare,
+  .services-new-page.services-experience #service-water-taxi .wt-fare + .wt-fare {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    grid-area: auto;
+    min-height: 0;
+    padding: 0;
+    border: 0;
+    text-align: left;
+  }
+  .services-new-page.services-experience #service-water-taxi .wt-fare + .wt-fare {
+    padding-left: 24px;
+    border-left: 1px solid rgba(200, 192, 181, .28);
+  }
+  .services-new-page.services-experience #service-water-taxi .wt-fare > span:first-child {
+    white-space: nowrap;
+    font-size: 11px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+  .services-new-page.services-experience #service-water-taxi .wt-price-block strong { font-size: clamp(28px, 3.5vw, 36px); white-space: nowrap; }
+  .services-new-page.services-experience #service-water-taxi .wt-fare:first-child strong { color: var(--svc-ivory); }
+  .services-new-page.services-experience #service-water-taxi .wt-estimated {
+    display: inline;
+    margin-left: 6px;
+    color: inherit;
+    font: 400 14px/1.3 var(--font-display);
+    letter-spacing: 0;
+  }
+  .services-new-page.services-experience #service-water-taxi .wt-cta {
+    grid-area: 2 / 1 / 3 / -1;
+    justify-self: stretch;
+    width: 100%;
+    max-width: none;
+  }
+  .services-new-page.services-experience #service-prosecco .ph-footer {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: "route route" "note cta";
+    gap: 18px 28px;
+    padding: 24px 32px;
+  }
+  .services-new-page.services-experience #service-prosecco .ph-route {
+    grid-area: route;
+    flex-wrap: nowrap;
+    gap: 12px;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  .services-new-page.services-experience #service-prosecco .ph-note {
+    grid-area: note;
+    max-width: none;
+    font-size: 13px;
+    line-height: 1.75;
+  }
+  .services-new-page.services-experience #service-prosecco .ph-cta { grid-area: cta; justify-self: end; }
+  .services-new-page.services-experience:lang(ru) #service-airport.airport-concierge .ac-copy h2.ac-airport-title,
+  .services-new-page.services-experience:lang(ru) #service-airport.airport-concierge .ac-copy h2.ac-long-title,
+  .services-new-page.services-experience:lang(ru) #service-airport .ac-title-second-line,
+  .services-new-page.services-experience:lang(ru) #service-europe #europe-title {
+    white-space: normal;
+  }
+}
+
+/* Wide tablets need full-width copy to keep the requested title lines legible. */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .services-new-page.services-experience #service-airport.airport-concierge .ac-stage,
+  .services-new-page.services-experience #service-airport.airport-concierge .ac-stage:not(:has(.ac-meeting button)) {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "tabs" "copy" "features" "visual" "booking";
+    gap: 24px;
+  }
+  .services-new-page.services-experience #service-airport.airport-concierge .ac-content { display: contents; }
+  .services-new-page.services-experience #service-airport.airport-concierge .ac-copy {
+    grid-area: copy;
+    width: 100%;
+    padding: 0;
+  }
+  .services-new-page.services-experience #service-airport.airport-concierge .ac-features { grid-area: features; margin: 0; }
+  .services-new-page.services-experience #service-airport.airport-concierge .ac-visual {
+    grid-area: visual;
+    width: 100%;
+    max-width: none;
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+  .services-new-page.services-experience #service-airport.airport-concierge .ac-image-frame { width: 100%; height: 100%; }
+  .services-new-page.services-experience #service-airport.airport-concierge .ac-booking { grid-area: booking; width: 100%; }
+
+  .services-new-page.services-experience #service-europe .et-intro { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  .services-new-page.services-experience #service-europe .et-copy { width: 100%; padding: 0; }
+  .services-new-page.services-experience #service-europe .et-photo { width: 100%; height: clamp(320px, 32vw, 410px); }
+}

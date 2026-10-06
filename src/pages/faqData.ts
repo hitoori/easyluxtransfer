@@ -1,8 +1,8 @@
 export const faqTopics = [
   { id: 'booking', title: 'Booking & Payment', questions: [
-    { id: 'book', q: 'Does sending a request book my transfer?', a: 'No. We’ll check availability and send you a quote. Your transfer is booked once you’ve agreed the details and we’ve confirmed it with you.' },
+    { id: 'book', q: 'Does sending a request book my transfer?', a: 'No. We’ll check availability and send you a quote. Your booking is confirmed after agreement of the details and receipt of the deposit.' },
     { id: 'price', q: 'Will I pay the price shown on the website?', a: 'The prices shown are indicative. We’ll confirm the fare for your route, vehicle and travel date before you book.' },
-    { id: 'payment', q: 'Do I need to pay a deposit?', a: 'If an advance payment is required, we’ll tell you the amount, how to pay it and when the balance is due before you confirm.' },
+    { id: 'payment', q: 'Do I need to pay a deposit?', a: 'A deposit is required to confirm your booking. We’ll tell you the amount, how to pay it and when the balance is due before you confirm.' },
     { id: 'modify', q: 'Can I change my pick-up time or destination after booking?', a: 'Tell us what needs to change as soon as you can. We’ll check availability and let you know if it affects the price.' },
     { id: 'cancel', q: 'What happens if I need to cancel?', a: 'Contact us as soon as your plans change. Any cancellation fee or refund depends on the terms agreed for your booking.' },
   ] },

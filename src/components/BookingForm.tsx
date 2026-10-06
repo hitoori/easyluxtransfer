@@ -1,3 +1,4 @@
+import { createPortal } from 'react-dom'
 import { pagePath } from '../types/navigation'
 import { countLabel, message, t, useLocale } from '../i18n/locale'
 import { lazy, Suspense, useEffect, useRef, useState, type ReactNode, type FormEvent } from 'react'
@@ -7,19 +8,25 @@ import { sendBooking } from '../lib/sendBooking'
 import type { CountryCode } from '../lib/phoneNumber'
 import { AirplaneTilt, Anchor, ArrowDown, ArrowLeft, ArrowRight, Baby, Bag, Boat, CarProfile, Check, CheckCircle, Clock, Compass, Cookie, Hourglass, MapPin, Minus, Plus, SuitcaseRolling, Trash, UsersThree, Wine, X } from '@phosphor-icons/react'
 import { bookingExtras, extraPriceLabel, type BookingService } from '../config/bookingExtras'
-import { blankLocation, bookingDetails, durations, estimatedEnd, journeyReview, localDateTime, newContact, newJourney, newPassengers, passengerReview, priceReview, readableDateTime, routeContext, selectedExtras, serviceNames, stepStopDuration, stopDurationMinutes, stopDurations, tripCategories, validateContact, validateInitial, validateJourney, validatePassengers, type AirportMode, type ContactDetails, type Errors, type JourneyDraft, type Location, type PassengerDetails, type ReviewEntry } from './bookingModel'
+import { blankLocation, durations, estimatedEnd, journeyReview, localDateTime, newContact, newJourney, newPassengers, passengerReview, priceReview, readableDateTime, routeContext, selectedExtras, serviceNames, stepStopDuration, stopDurationMinutes, stopDurations, tripCategories, validateContact, validateInitial, validateJourney, validatePassengers, type AirportMode, type ContactDetails, type Errors, type JourneyDraft, type Location, type PassengerDetails, type ReviewEntry } from './bookingModel'
 import './booking-request.css'
+import { serviceOptions, type JourneyService, type QuoteSelection } from './services/serviceData'
+import ServiceSelect from './services/ServiceSelect'
+import BookingSelect from './BookingSelect'
+import { bookingRequestPayload, serviceBookingSelection } from './services/bookingAdapter'
 
 const BookingPhoneInput = lazy(() => import('./BookingPhoneInput'))
 
 export interface BookingPrefill { requestId: number; pickup: string; destination: string; airportMode?: 'none' | AirportMode }
-interface BookingFormProps { prefill?: BookingPrefill | null }
+interface BookingFormProps { prefill?: BookingPrefill | null; variant?: 'home' | 'services'; quoteSelection?: QuoteSelection | null; mobileHero?: boolean }
 const tabs = [
-  { id: 'transfer' as const, label: serviceNames.transfer, icon: CarProfile, width: 'sm:w-[220px] lg:w-[250px]' },
-  { id: 'hourly' as const, label: serviceNames.hourly, icon: Clock, width: 'sm:w-[245px] lg:w-[275px]' },
-  { id: 'tours' as const, label: serviceNames.tours, icon: Compass, width: 'sm:w-[220px] lg:w-[250px]' },
+  { id: 'transfer' as const, label: serviceNames.transfer, mobileLabel: 'Transfer', icon: CarProfile, width: 'sm:w-[220px] lg:w-[250px]' },
+  { id: 'hourly' as const, label: serviceNames.hourly, mobileLabel: 'By the Hour', icon: Clock, width: 'sm:w-[245px] lg:w-[275px]' },
+  { id: 'tours' as const, label: serviceNames.tours, mobileLabel: 'Day Trips', icon: Compass, width: 'sm:w-[220px] lg:w-[250px]' },
 ]
 const stepNames = ['Your journey', 'Passengers & extras', 'Contact & review']
+const tripOptions = tripCategories.map(category => [category, category] as const)
+const durationOptions = durations.map(duration => [duration, duration] as const)
 const controlClass = 'w-full border-0 bg-transparent p-0 text-[14px] text-cream placeholder:text-[rgba(170,163,154,0.72)] focus:outline-none sm:text-[15px]'
 const extraIcons = { refreshments: Cookie, waiting: Hourglass }
 
@@ -49,7 +56,7 @@ function FieldShell({ children, icon, label, error }: FieldShellProps) {
         </span>
         {children}
         {error ? (
-          <span className="mt-1 block text-[10px] text-[var(--error)]" role="alert">
+          <span className="mt-1 block text-[12px] text-[var(--error)]" role="alert">
             {t(error)}
           </span>
         ) : null}
@@ -128,8 +135,10 @@ function focusError(scope: HTMLElement | null) {
   window.requestAnimationFrame(() => scope?.querySelector<HTMLElement>('[aria-invalid="true"]')?.focus())
 }
 
-export default function BookingForm({ prefill }: BookingFormProps) {
+export default function BookingForm({ prefill, variant = 'home', quoteSelection, mobileHero = false }: BookingFormProps) {
   useLocale()
+  const servicesVariant = variant === 'services'
+  const [quoteService, setQuoteService] = useState<JourneyService>('airport')
   const [activeTab, setActiveTab] = useState<BookingService>('transfer')
   const [drafts, setDrafts] = useState<Record<BookingService, JourneyDraft>>(() => ({ transfer: newJourney(), hourly: newJourney(), tours: newJourney() }))
   const [passengers, setPassengers] = useState<PassengerDetails>(newPassengers)
@@ -161,6 +170,7 @@ export default function BookingForm({ prefill }: BookingFormProps) {
   const context = routeContext(draft)
   const minDate = localDateTime()
   const requestCode = submitted[activeTab]
+  const quoteLabel = serviceOptions.find(([id]) => id === quoteService)?.[1] ?? 'Custom destination'
 
   useEffect(() => {
     if (!prefill) return
@@ -173,6 +183,34 @@ export default function BookingForm({ prefill }: BookingFormProps) {
     setDialogOpen(false)
     setEditingInitial(false)
   }, [prefill])
+
+  useEffect(() => {
+    if (!servicesVariant || !quoteSelection || sendingRef.current) return
+    const next = serviceBookingSelection(quoteSelection, drafts[activeTab])
+    openerRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null
+    setQuoteService(quoteSelection.service)
+    setActiveTab(next.mode)
+    setDrafts(current => ({ ...current, [next.mode]: next.journey }))
+    setSubmitted(current => ({ ...current, [next.mode]: undefined }))
+    setContact(current => ({ ...current, consent: false }))
+    delete requestIds.current[next.mode]
+    setInitialErrors({}); setJourneyErrors({}); setSendError(''); setShowAllDetails(false)
+    setStep(1)
+    setEditingInitial(Boolean(Object.keys(validateInitial(next.mode, next.journey)).length))
+    setDialogOpen(true)
+  }, [quoteSelection])
+
+  const selectQuoteService = (service: JourneyService) => {
+    if (sendingRef.current) return
+    const next = serviceBookingSelection({ service, pickup: draft.pickup.text, destination: draft.destination.text }, draft)
+    // An explicit airport connection remains optional until chosen or inferred.
+    setQuoteService(service)
+    setActiveTab(next.mode)
+    setDrafts(current => ({ ...current, [next.mode]: next.journey }))
+    setSubmitted(current => ({ ...current, [next.mode]: undefined }))
+    delete requestIds.current[next.mode]
+    setInitialErrors({}); setJourneyErrors({}); setSendError(''); setEditingInitial(false); setStep(1)
+  }
 
   useEffect(() => {
     const dialog = dialogRef.current
@@ -238,6 +276,7 @@ export default function BookingForm({ prefill }: BookingFormProps) {
     if (Object.keys(errors).length) { focusError(dockRef.current); return }
     openerRef.current = (event.nativeEvent as SubmitEvent).submitter as HTMLElement | null ?? document.activeElement as HTMLElement
     setStep(1)
+    if (servicesVariant) setEditingInitial(false)
     setDialogOpen(true)
   }
   const closeDialog = () => { if (!sendingRef.current) setDialogOpen(false) }
@@ -274,12 +313,7 @@ export default function BookingForm({ prefill }: BookingFormProps) {
     const errors = validateContact(contact)
     setContactErrors(errors)
     if (Object.keys(errors).length) { focusError(dialogRef.current); return }
-    const payload = {
-      kind: activeTab, source: 'home-booking' as const, service: serviceNames[activeTab],
-      name: contact.fullName.trim(), email: contact.email.trim(), phone: contact.phone.trim(),
-      preferredContact: contact.preferredContact, consent: contact.consent,
-      details: bookingDetails(activeTab, draft, passengers, contact),
-    }
+    const payload = bookingRequestPayload(activeTab, draft, passengers, contact, servicesVariant ? quoteLabel : undefined)
     const fingerprint = JSON.stringify(payload)
     if (requestIds.current[activeTab]?.fingerprint !== fingerprint) requestIds.current[activeTab] = { fingerprint, id: crypto.randomUUID() }
     sendingRef.current = true
@@ -293,7 +327,7 @@ export default function BookingForm({ prefill }: BookingFormProps) {
     } finally { sendingRef.current = false; setSending(false) }
   }
   const startNew = () => {
-    setDrafts(current => ({ ...current, [activeTab]: newJourney() }))
+    setDrafts(current => ({ ...current, [activeTab]: servicesVariant ? serviceBookingSelection({ service: quoteService }, newJourney()).journey : newJourney() }))
     setPassengers(newPassengers())
     setChildSeatCount('1')
     setShowAllDetails(false)
@@ -342,6 +376,7 @@ export default function BookingForm({ prefill }: BookingFormProps) {
     <select id={`booking-extra-${id}`} className="br-control" value={passengers.extras[id] || 1} onChange={event => updatePassengers('extras', { ...passengers.extras, [id]: Number(event.target.value) })}>{Array.from({ length: 12 }, (_, index) => <option key={index + 1} value={index + 1}>{t(index + 1)}</option>)}</select>
   </Field>
   const essentialReview: ReviewEntry[] = [
+    ...(servicesVariant ? [{ label: 'Service', value: quoteLabel }] : []),
     { label: activeTab === 'transfer' ? 'Route' : 'Pick-up', value: activeTab === 'transfer' ? `${draft.pickup.text} → ${draft.destination.text}` : draft.pickup.text },
     { label: activeTab === 'transfer' && context.airportMode === 'pickup' ? 'Flight arrival' : 'Date & time', value: readableDateTime(draft.dateTime) },
     { label: activeTab === 'transfer' ? 'Trip' : activeTab === 'hourly' ? 'Duration' : 'Destination', value: activeTab === 'transfer' ? draft.tripType === 'round-trip' ? 'Round trip' : 'One way' : activeTab === 'hourly' ? draft.duration : draft.exactDestination || draft.category },
@@ -354,42 +389,14 @@ export default function BookingForm({ prefill }: BookingFormProps) {
   ]
   const navigation = (back: 1 | 2 | null, label: string) => <div className="br-navigation">{back ? <button type="button" className="br-back" onClick={() => setStep(back)} disabled={sending}><ArrowLeft size={16} aria-hidden="true" />{t("Back")}</button> : <span />}<button type="submit" className="br-primary" disabled={sending}>{t(sending ? 'Sending…' : label)}<ArrowRight size={16} aria-hidden="true" /></button></div>
 
-  return <>
-    <div ref={dockRef} data-booking-dock className="w-full rounded-xl border border-[rgba(194,154,69,0.34)] bg-[rgba(21,25,27,0.94)] p-3 shadow-[0_24px_70px_rgba(0,0,0,0.55)] backdrop-blur-md sm:p-4 lg:min-h-[188px] lg:p-5">
-      <div className="booking-type-tabs flex overflow-x-auto border-b border-[rgba(116,111,105,0.46)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" role="tablist" aria-label={t("Booking type")}>
-        {tabs.map((tab, index) => { const TabIcon = tab.icon; const selected = activeTab === tab.id; return <button key={tab.id} type="button" role="tab" id={`booking-tab-${tab.id}`} tabIndex={selected ? 0 : -1} aria-selected={selected} aria-controls={`booking-panel-${tab.id}`} onClick={() => selectTab(tab.id)} onKeyDown={event => {
-          let next = index
-          if (event.key === 'ArrowRight') next = (index + 1) % tabs.length
-          else if (event.key === 'ArrowLeft') next = (index + tabs.length - 1) % tabs.length
-          else if (event.key === 'Home') next = 0
-          else if (event.key === 'End') next = tabs.length - 1
-          else return
-          event.preventDefault(); selectTab(tabs[next].id); document.getElementById(`booking-tab-${tabs[next].id}`)?.focus()
-        }} className={`relative flex min-w-[138px] shrink-0 items-center justify-center gap-2 px-3 pb-2.5 pt-0.5 text-[12px] font-medium transition-colors sm:min-w-0 sm:flex-none sm:gap-2.5 sm:px-4 sm:pb-3 sm:text-[14px] lg:justify-start lg:px-5 lg:text-[15px] ${tab.width} ${selected ? 'text-gold-light' : 'text-[rgba(200,192,181,0.72)] hover:text-cream'}`}>
-          <TabIcon size={20} weight="light" aria-hidden="true" /><span className="whitespace-nowrap">{t(tab.label)}</span><span className={`absolute inset-x-3 bottom-0 h-px origin-left bg-gold transition-transform duration-300 lg:inset-x-5 ${selected ? 'scale-x-100' : 'scale-x-0'}`} aria-hidden="true" />{tab.id !== 'tours' && <span className="absolute right-0 top-0.5 h-6 w-px bg-[rgba(116,111,105,0.46)]" aria-hidden="true" />}
-        </button> })}
-      </div>
-      <div id={`booking-panel-${activeTab}`} role="tabpanel" aria-labelledby={`booking-tab-${activeTab}`} className="pt-3 lg:pt-4">
-        <form onSubmit={openRequest} noValidate><div className="grid grid-cols-1 gap-2 md:grid-cols-2 sm:gap-2.5 lg:grid-cols-[1.1fr_1.1fr_1fr_150px] lg:gap-3">
-          <FieldShell label={t("Pick-up")} icon={<MapPin size={23} weight="light" aria-hidden="true" />} error={initialErrors.pickup}><PlaceInput value={draft.pickup.text} onChange={value => updateLocation('pickup', value)} onMetadataChange={meta => updateLocation('pickup', undefined, meta)} placeholder={t("City, airport, address, hotel...")} className={controlClass} label={t("Pick-up")} invalid={Boolean(initialErrors.pickup)} /></FieldShell>
-          <FieldShell label={t(activeTab === 'transfer' ? 'Destination' : activeTab === 'hourly' ? 'Duration' : 'Trip destination')} icon={activeTab === 'hourly' ? <Clock size={23} weight="light" aria-hidden="true" /> : activeTab === 'tours' ? <Compass size={23} weight="light" aria-hidden="true" /> : <MapPin size={23} weight="light" aria-hidden="true" />} error={initialErrors.destination || initialErrors.duration || initialErrors.category}>
-            {activeTab === 'transfer' ? <PlaceInput value={draft.destination.text} onChange={value => updateLocation('destination', value)} onMetadataChange={meta => updateLocation('destination', undefined, meta)} placeholder={t("City, airport, address, hotel...")} className={controlClass} label={t("Destination")} invalid={Boolean(initialErrors.destination)} /> : <select value={activeTab === 'hourly' ? draft.duration : draft.category} onChange={event => updateJourney(activeTab === 'hourly' ? 'duration' : 'category', event.target.value)} className={controlClass} aria-label={t(activeTab === 'hourly' ? 'Duration' : 'Trip destination')} aria-invalid={Boolean(initialErrors.duration || initialErrors.category)}>{(activeTab === 'hourly' ? durations : tripCategories).map(option => <option value={option} key={option}>{t(option)}</option>)}</select>}
-          </FieldShell>
-          <div className="min-w-0"><BookingDateTime dock id="booking-dock-date-time" label={t("Date & Time")} min={minDate} value={draft.dateTime} invalid={Boolean(initialErrors.dateTime)} describedBy={initialErrors.dateTime ? 'booking-dock-date-error' : undefined} onChange={value => updateJourney('dateTime', value)} />{initialErrors.dateTime && <p id="booking-dock-date-error" className="mt-1 text-[10px] text-[var(--error)]" role="alert">{t(initialErrors.dateTime)}</p>}</div>
-          <button type="submit" disabled={sending} className="flex min-h-[52px] items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-gold px-4 text-[13px] font-semibold tracking-[0.02em] text-[var(--background)] shadow-[0_12px_34px_rgba(194,154,69,0.14)] transition-colors hover:bg-gold-light focus-visible:outline-gold-light sm:min-h-[62px] lg:min-h-[72px]">{t("Continue")}<ArrowRight size={18} weight="bold" aria-hidden="true" /></button>
-          {activeTab === 'tours' && draft.category === 'Other destination' && <div className="md:col-span-2 lg:col-span-4"><FieldShell label={t("Other destination")} icon={<MapPin size={23} aria-hidden="true" />} error={initialErrors.exactDestination}><input value={draft.exactDestination} maxLength={500} onChange={event => updateJourney('exactDestination', event.target.value)} className={controlClass} placeholder={t("Where would you like to go?")} aria-label={t("Other destination")} aria-invalid={Boolean(initialErrors.exactDestination)} /></FieldShell></div>}
-        </div></form>
-      </div>
-    </div>
-
-    <dialog ref={dialogRef} aria-labelledby="transfer-dialog-title" onCancel={event => { event.preventDefault(); closeDialog() }} onClose={() => setDialogOpen(false)} onClick={event => {
+  const bookingDialog = <dialog ref={dialogRef} aria-labelledby="transfer-dialog-title" onCancel={event => { event.preventDefault(); closeDialog() }} onClose={() => setDialogOpen(false)} onClick={event => {
       const dialog = dialogRef.current
       if (!dialog || event.target !== dialog || event.detail === 0) return
       const bounds = dialog.getBoundingClientRect()
       if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) closeDialog()
     }} className="booking-dialog booking-request m-auto max-h-[92svh] w-[calc(100%-24px)] max-w-[820px] overflow-hidden rounded-xl border border-[rgba(111,88,48,0.72)] bg-[rgba(16,17,18,0.98)] p-0 text-cream shadow-[0_32px_100px_rgba(0,0,0,0.72)] backdrop-blur-xl">
       <div className="flex max-h-[92svh] flex-col">
-        <header className="shrink-0 border-b border-[rgba(116,111,105,0.28)] px-5 py-4 sm:px-7 sm:py-5"><div className="flex items-start justify-between gap-5"><div><p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-gold">{t(serviceNames[activeTab])}</p><h2 ref={headingRef} tabIndex={-1} id="transfer-dialog-title" className="mt-1 font-display text-[28px] font-medium leading-tight text-cream sm:text-[32px]">{t(requestCode ? 'Your request has been sent.' : stepNames[step - 1])}</h2></div><button type="button" disabled={sending} onClick={closeDialog} aria-label={t("Close booking form")} className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-[rgba(116,111,105,0.42)] text-[rgba(236,230,219,0.7)] transition-colors hover:border-gold hover:text-gold-light"><X size={18} aria-hidden="true" /></button></div>
+        <header className="shrink-0 border-b border-[rgba(116,111,105,0.28)] px-5 py-4 sm:px-7 sm:py-5"><div className="flex items-start justify-between gap-5"><div><p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-gold">{t(servicesVariant ? quoteLabel : serviceNames[activeTab])}</p><h2 ref={headingRef} tabIndex={-1} id="transfer-dialog-title" className="mt-1 font-display text-[28px] font-medium leading-tight text-cream sm:text-[32px]">{t(requestCode ? 'Your request has been sent.' : stepNames[step - 1])}</h2></div><button type="button" disabled={sending} onClick={closeDialog} aria-label={t("Close booking form")} className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-[rgba(116,111,105,0.42)] text-[rgba(236,230,219,0.7)] transition-colors hover:border-gold hover:text-gold-light"><X size={18} aria-hidden="true" /></button></div>
           {!requestCode && <ol className="br-progress" aria-label={t("Booking progress")}>{stepNames.map((name, index) => <li key={name} aria-current={step === index + 1 ? 'step' : undefined} data-complete={step > index + 1}><span>{step > index + 1 ? <Check size={11} aria-hidden="true" /> : index + 1}</span>{t(name)}</li>)}</ol>}
         </header>
         <div ref={dialogScrollRef} className="min-h-0 overflow-y-auto px-5 py-5 sm:px-7 sm:py-6">
@@ -402,8 +409,8 @@ export default function BookingForm({ prefill }: BookingFormProps) {
             {editingInitial && <div id="booking-initial-editor" className="br-grid br-initial-editor">
               {locationField('pickup', 'Pick-up')}
               {t(activeTab === 'transfer' && locationField('destination', 'Destination'))}
-              {activeTab === 'hourly' && <Field id={fieldId('duration')} label={t("Duration")} error={errors.duration}><select {...inputProps('duration')} className="br-control" value={draft.duration} onChange={event => updateJourney('duration', event.target.value)}>{t(durations.map(duration => <option value={duration} key={duration}>{t(duration)}</option>))}</select></Field>}
-              {activeTab === 'tours' && <><Field id={fieldId('category')} label={t("Trip category")} error={errors.category}><select {...inputProps('category')} className="br-control" value={draft.category} onChange={event => updateJourney('category', event.target.value)}>{t(tripCategories.map(category => <option value={category} key={category}>{t(category)}</option>))}</select></Field>{t(textField('exactDestination', 'Exact destination or places to visit'))}</>}
+              {activeTab === 'hourly' && <Field id={fieldId('duration')} label={t("Duration")} error={errors.duration}><BookingSelect id={fieldId('duration')} label="Duration" showLabel={false} invalid={Boolean(errors.duration)} describedBy={errors.duration ? `${fieldId('duration')}-error` : undefined} className="br-control" value={draft.duration} onChange={value => updateJourney('duration', value)} options={durationOptions} /></Field>}
+              {activeTab === 'tours' && <><Field id={fieldId('category')} label={t("Trip category")} error={errors.category}><BookingSelect id={fieldId('category')} label="Trip category" showLabel={false} invalid={Boolean(errors.category)} describedBy={errors.category ? `${fieldId('category')}-error` : undefined} className="br-control" value={draft.category} onChange={value => updateJourney('category', value)} options={tripOptions} /></Field>{t(textField('exactDestination', 'Exact destination or places to visit'))}</>}
               {activeTab === 'transfer' ? dateField('dateTime', context.airportMode === 'pickup' ? 'Flight arrival date & time' : 'Pick-up date & time', context.airportMode === 'pickup' ? 'Use your flight arrival time; we arrange pick-up around it.' : undefined) : <>
                 <Field id={fieldId('dateTime')} label={t("Date")} error={errors.dateTime}><BookingDateTime id={fieldId('dateTime')} kind="date" label={t("Date")} min={minDate.slice(0, 10)} invalid={Boolean(errors.dateTime)} describedBy={errors.dateTime ? `${fieldId('dateTime')}-error` : undefined} value={draft.dateTime.slice(0, 10)} onChange={value => updateJourney('dateTime', value ? `${value}T${draft.dateTime.slice(11) || '09:00'}` : '')} /></Field>
                 <Field id={fieldId('startTime')} label={t("Start time")}><BookingDateTime id={fieldId('startTime')} kind="time" label={t("Start time")} min={draft.dateTime.slice(0, 10) === minDate.slice(0, 10) ? minDate.slice(11, 16) : undefined} invalid={Boolean(errors.dateTime)} value={draft.dateTime.slice(11)} onChange={value => updateJourney('dateTime', value ? `${draft.dateTime.slice(0, 10) || minDate.slice(0, 10)}T${value}` : '')} /></Field>
@@ -550,15 +557,50 @@ export default function BookingForm({ prefill }: BookingFormProps) {
               <section className="br-all-details">
                 <button type="button" className="br-details-toggle" aria-expanded={showAllDetails} aria-controls="booking-full-review" onClick={() => setShowAllDetails(current => !current)}><span>{t(showAllDetails ? 'Hide details' : 'Show all details')}</span><ArrowDown size={13} aria-hidden="true" /></button>
                 <div id="booking-full-review" hidden={!showAllDetails}>
-                <div className="br-review-layout"><ReviewGroup title={t("Your journey")} entries={journeyReview(activeTab, draft)} onEdit={() => { setEditingInitial(true); setStep(1) }} /><div><ReviewGroup title={t("Passengers & luggage")} entries={passengerReview(passengers)} onEdit={() => setStep(2)} /><ReviewGroup title={t("Price & selected extras")} entries={priceReview(activeTab, draft, passengers)} onEdit={() => setStep(2)} /></div></div>
+                <div className="br-review-layout"><ReviewGroup title={t("Your journey")} entries={journeyReview(activeTab, draft, servicesVariant ? quoteLabel : undefined)} onEdit={() => { setEditingInitial(true); setStep(1) }} /><div><ReviewGroup title={t("Passengers & luggage")} entries={passengerReview(passengers)} onEdit={() => setStep(2)} /><ReviewGroup title={t("Price & selected extras")} entries={priceReview(activeTab, draft, passengers)} onEdit={() => setStep(2)} /></div></div>
                 </div>
               </section>
             </div>
-            {navigation(2, 'Send booking request')}
+            {navigation(2, servicesVariant ? 'Send your request' : 'Send booking request')}
             {sendError && <p className="br-error" role="alert">{t(sendError)} {t(" Your details have been kept; you can retry.")}</p>}
           </form>}
         </div>
       </div>
     </dialog>
+
+  const initialDateField = <div className="min-w-0 services-booking-date">{servicesVariant && <label className="services-booking-label" htmlFor="booking-dock-date-time">{t('Date & Time')}</label>}<BookingDateTime dock={!servicesVariant} id="booking-dock-date-time" label={t("Date & Time")} min={minDate} value={draft.dateTime} invalid={Boolean(initialErrors.dateTime)} describedBy={initialErrors.dateTime ? 'booking-dock-date-error' : undefined} onChange={value => updateJourney('dateTime', value)} />{initialErrors.dateTime && <p id="booking-dock-date-error" className="mt-1 text-[12px] text-[var(--error)]" role="alert">{t(initialErrors.dateTime)}</p>}</div>
+  const continueButton = <button type="submit" disabled={sending} className="flex min-h-[52px] items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-gold px-4 text-[13px] font-semibold tracking-[0.02em] text-[var(--background)] shadow-[0_12px_34px_rgba(194,154,69,0.14)] transition-colors hover:bg-gold-light focus-visible:outline-gold-light sm:min-h-[62px] lg:min-h-[72px]">{t("Continue")}<ArrowRight size={18} weight="bold" aria-hidden="true" /></button>
+
+  return <>
+    <div ref={dockRef} data-booking-dock className={`${servicesVariant ? 'services-booking-dock ' : ''}w-full rounded-xl border border-[rgba(194,154,69,0.34)] bg-[rgba(21,25,27,0.94)] p-3 shadow-[0_24px_70px_rgba(0,0,0,0.55)] backdrop-blur-md sm:p-4 lg:min-h-[188px] lg:p-5`}>
+      {!servicesVariant && <div className="booking-type-tabs flex overflow-x-auto border-b border-[rgba(116,111,105,0.46)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" role="tablist" aria-label={t("Booking type")}>
+        {tabs.map((tab, index) => { const TabIcon = tab.icon; const selected = activeTab === tab.id; return <button key={tab.id} type="button" role="tab" id={`booking-tab-${tab.id}`} tabIndex={selected ? 0 : -1} aria-selected={selected} aria-controls={`booking-panel-${tab.id}`} onClick={() => selectTab(tab.id)} onKeyDown={event => {
+          let next = index
+          if (event.key === 'ArrowRight') next = (index + 1) % tabs.length
+          else if (event.key === 'ArrowLeft') next = (index + tabs.length - 1) % tabs.length
+          else if (event.key === 'Home') next = 0
+          else if (event.key === 'End') next = tabs.length - 1
+          else return
+          event.preventDefault(); selectTab(tabs[next].id); document.getElementById(`booking-tab-${tabs[next].id}`)?.focus()
+        }} className={`relative flex min-w-[138px] shrink-0 items-center justify-center gap-2 px-3 pb-2.5 pt-0.5 text-[12px] font-medium transition-colors sm:min-w-0 sm:flex-none sm:gap-2.5 sm:px-4 sm:pb-3 sm:text-[14px] lg:justify-start lg:px-5 lg:text-[15px] ${tab.width} ${selected ? 'text-gold-light' : 'text-[rgba(200,192,181,0.72)] hover:text-cream'}`}>
+          <TabIcon size={20} weight="light" aria-hidden="true" /><span className="whitespace-nowrap"><span className="home-desktop-copy">{t(tab.label)}</span><span className="home-mobile-copy">{t(tab.mobileLabel)}</span></span><span className={`absolute inset-x-3 bottom-0 h-px origin-left bg-gold transition-transform duration-300 lg:inset-x-5 ${selected ? 'scale-x-100' : 'scale-x-0'}`} aria-hidden="true" />{tab.id !== 'tours' && <span className="absolute right-0 top-0.5 h-6 w-px bg-[rgba(116,111,105,0.46)]" aria-hidden="true" />}
+        </button> })}
+      </div>}
+      <div id={`booking-panel-${activeTab}`} role={servicesVariant ? undefined : 'tabpanel'} aria-labelledby={servicesVariant ? undefined : `booking-tab-${activeTab}`} className={servicesVariant ? 'services-booking-panel' : 'pt-3 lg:pt-4'}>
+        <form onSubmit={openRequest} noValidate><div className={servicesVariant ? 'services-booking-fields' : 'grid grid-cols-1 gap-2 md:grid-cols-2 sm:gap-2.5 lg:grid-cols-[1.1fr_1.1fr_1fr_150px] lg:gap-3'}>
+          {servicesVariant && <ServiceSelect value={quoteService} onChange={selectQuoteService} />}
+          {servicesVariant && initialDateField}
+          <FieldShell label={t("Pick-up")} icon={<MapPin size={23} weight="light" aria-hidden="true" />} error={initialErrors.pickup}><PlaceInput value={draft.pickup.text} onChange={value => updateLocation('pickup', value)} onMetadataChange={meta => updateLocation('pickup', undefined, meta)} placeholder={t(mobileHero ? 'City, airport or address' : 'City, airport, address, hotel...')} className={controlClass} label={t("Pick-up")} invalid={Boolean(initialErrors.pickup)} /></FieldShell>
+          <FieldShell label={t(activeTab === 'transfer' ? 'Destination' : activeTab === 'hourly' ? 'Duration' : 'Trip destination')} icon={activeTab === 'hourly' ? <Clock size={23} weight="light" aria-hidden="true" /> : activeTab === 'tours' ? <Compass size={23} weight="light" aria-hidden="true" /> : <MapPin size={23} weight="light" aria-hidden="true" />} error={initialErrors.destination || initialErrors.duration || initialErrors.category}>
+            {activeTab === 'transfer' ? <PlaceInput value={draft.destination.text} onChange={value => updateLocation('destination', value)} onMetadataChange={meta => updateLocation('destination', undefined, meta)} placeholder={t(mobileHero ? 'City, airport or address' : 'City, airport, address, hotel...')} className={controlClass} label={t("Destination")} invalid={Boolean(initialErrors.destination)} /> : <BookingSelect label={activeTab === 'hourly' ? 'Duration' : 'Trip destination'} showLabel={false} inline value={activeTab === 'hourly' ? draft.duration : draft.category} onChange={value => updateJourney(activeTab === 'hourly' ? 'duration' : 'category', value)} options={activeTab === 'hourly' ? durationOptions : tripOptions} invalid={Boolean(initialErrors.duration || initialErrors.category)} />}
+          </FieldShell>
+          {!servicesVariant && initialDateField}
+          {servicesVariant ? <div className="services-booking-action">{continueButton}<p className="sv-quote-next">{t('Next: journey details, passengers and extras.')}</p></div> : continueButton}
+          {activeTab === 'tours' && draft.category === 'Other destination' && <div className="md:col-span-2 lg:col-span-4"><FieldShell label={t("Other destination")} icon={<MapPin size={23} aria-hidden="true" />} error={initialErrors.exactDestination}><input value={draft.exactDestination} maxLength={500} onChange={event => updateJourney('exactDestination', event.target.value)} className={controlClass} placeholder={t("Where would you like to go?")} aria-label={t("Other destination")} aria-invalid={Boolean(initialErrors.exactDestination)} /></FieldShell></div>}
+        </div></form>
+      </div>
+    </div>
+
+    {servicesVariant ? (typeof document !== 'undefined' ? createPortal(bookingDialog, document.body) : null) : bookingDialog}
   </>
 }

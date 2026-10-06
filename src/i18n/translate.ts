@@ -1,6 +1,12 @@
-import { russian } from './ru'
-
 export type Language = 'en' | 'ru'
+let russian: Record<string, string> = {}
+let russianPromise: Promise<void> | undefined
+// English visits do not download the Russian dictionary. Load before rendering RU.
+export function loadLanguage(language: Language): Promise<void> {
+  if (language !== 'ru') return Promise.resolve()
+  if (!russianPromise) russianPromise = import('./ru').then(module => { russian = module.russian }).catch(error => { russianPromise = undefined; throw error })
+  return russianPromise
+}
 let renderLanguage: Language | undefined
 export const languageFromPath = (path: string): Language => /^\/ru(?:\/|$)/.test(path) ? 'ru' : 'en'
 export const getLanguage = (): Language => renderLanguage ?? (typeof window === 'undefined' ? 'en' : languageFromPath(window.location.pathname))

@@ -25,6 +25,8 @@
 .faq-page .fq-button-secondary{background:transparent;color:var(--text-primary);border-color:var(--border-gold)}
 .faq-page .fq-button-secondary:hover{background:var(--surface)}
 .faq-page .fq-results{min-width:0;padding-top:0}
+@media(min-width:761px) and (max-width:1279px){.faq-page .fq-results{margin-top:-12px}}
+@media(min-width:761px) and (max-width:800px){.faq-page .fq-results{margin-top:-10px}}
 .faq-page .fq-results-toolbar{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-bottom:14px}
 .faq-page .fq-results-title{display:flex;align-items:center;gap:22px;min-width:0}
 .faq-page .fq-results-title h2{font-size:34px;line-height:1.25;white-space:nowrap}
@@ -65,3 +67,30 @@
 @media(max-width:700px){.faq-page{padding-bottom:56px}.faq-page .fq-shell{width:calc(100% - 48px)}.faq-page .fq-hero-content{display:block;padding-block:120px 32px;min-height:0}.faq-page h1{font-size:42px}.faq-page .fq-hero-photo{object-position:65% center}.faq-page .fq-directory{display:block;padding-block:40px 56px}.faq-page .fq-sidebar{position:static}.faq-page .fq-topic-buttons{display:flex;overflow-x:auto;gap:10px;margin-top:15px;padding:3px 3px 10px;scrollbar-width:thin}.faq-page .fq-topic-buttons button{display:flex;width:auto;flex-shrink:0;gap:9px;padding:13px 14px;border:1px solid var(--border)}.faq-page .fq-topic-buttons small{display:none}.faq-page .fq-results{margin-top:28px;padding-top:0}.faq-page .fq-results-toolbar{gap:14px;margin-bottom:24px}.faq-page .fq-search{width:auto;min-width:0;flex:1}.faq-page .fq-search input{font-size:16px}.faq-page .fq-results-heading h2{font-size:30px}.faq-page .fq-question h3 button{font-size:20px;padding:20px 18px;gap:15px}.faq-page .fq-answer p{padding:0 18px 24px;font-size:14px}.faq-page .fq-help{min-height:430px;align-items:flex-end}.faq-page .fq-help::after{background:linear-gradient(0deg,rgba(13,14,15,.96) 0%,rgba(13,14,15,.8) 56%,rgba(13,14,15,.3) 100%)}.faq-page .fq-help>img{object-position:center}.faq-page .fq-help-copy{width:100%;margin:0;padding:38px 24px}.faq-page .fq-actions{flex-wrap:nowrap;gap:10px}.faq-page .fq-actions .fq-button{flex:1 1 0;min-width:0;gap:8px;padding-inline:10px;font-size:12px;white-space:nowrap}.faq-page .fq-help h2{font-size:31px}}
 @media(max-width:1020px){.faq-page .fq-results-toolbar{align-items:stretch;flex-direction:column}.faq-page .fq-search{width:100%}.faq-page .fq-results-title h2{white-space:normal}}
 @media(max-width:800px){.faq-page .fq-results-title h2{font-size:30px}}
+
+/* Shared centered help section across phone, tablet and desktop. */
+.faq-page { padding-bottom: 0; }
+.faq-page .fq-help { width: 100%; margin-inline: 0; align-items: center; }
+.faq-page .fq-help > img { filter: none; }
+.faq-page .fq-help::after {
+  display: block;
+  background: radial-gradient(ellipse 58% 75% at 50% 50%, rgba(5,7,8,.82) 0%, rgba(5,7,8,.6) 40%, transparent 85%);
+  pointer-events: none;
+}
+.faq-page .fq-help-copy { width: min(100%, 760px); margin-inline: auto; padding: clamp(40px, 6vw, 64px) 24px; text-align: center; }
+.faq-page .fq-help-copy::before { display: none; }
+.faq-page .fq-help h2 { font-size: clamp(32px, 4.8vw, 44px); line-height: 1.12; }
+.faq-page .fq-help-copy > p:not(.fq-eyebrow) { max-width: 580px; margin-inline: auto; }
+.faq-page .fq-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; width: 100%; max-width: 440px; margin-inline: auto; }
+.faq-page .fq-actions .fq-button { width: 100%; min-width: 0; min-height: 52px; padding: 12px; gap: 10px; font-size: 13px; white-space: nowrap; }
+.faq-page .fq-actions .fq-button svg { flex-shrink: 0; }
+@media (max-width: 760px) {
+  .faq-page .fq-help::after {
+    background: linear-gradient(180deg, rgba(5,7,8,0) 0%, rgba(5,7,8,.25) 18%, rgba(5,7,8,.65) 40%, rgba(5,7,8,.72) 62%, rgba(5,7,8,.42) 84%, rgba(5,7,8,.15) 100%);
+  }
+}
+@media (max-width: 540px) {
+  .faq-page .fq-actions { gap: 10px; }
+  .faq-page .fq-actions .fq-button { padding-inline: 6px; gap: 5px; font-size: 12px; white-space: normal; }
+  .faq-page .fq-actions .fq-button svg { width: 16px; height: 16px; }
+}

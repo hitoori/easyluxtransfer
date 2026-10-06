@@ -1,6 +1,6 @@
-import { t, useLocale } from './i18n/locale'
+import { getLanguage, loadLanguage, t, useLocale } from './i18n/locale'
 import PageBoundary from './components/PageBoundary'
-import { lazy, Suspense, useEffect, useLayoutEffect, useRef, useState, useTransition, type ReactNode } from 'react'
+import { lazy, Suspense, useEffect, useLayoutEffect, useState, useTransition, type ReactNode } from 'react'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import Home from './pages/Home'
@@ -8,6 +8,8 @@ import NotFound from './pages/NotFound'
 import { pagePath, type Page } from './types/navigation'
 import { updateNotFoundMetadata, updatePageMetadata } from './config/pageMetadata'
 import { pageLoaders } from './config/pageLoaders'
+import { useCookieConsent } from './components/CookieConsent'
+import { trackAnalyticsPage } from './lib/analytics'
 
 const Services = lazy(pageLoaders.services)
 const About = lazy(pageLoaders.about)
@@ -31,26 +33,60 @@ const scrollToPage = (sectionId?: string, behavior: ScrollBehavior = 'instant') 
   window.scrollTo({ top, behavior })
 }
 
+const sectionFromLocation = () => {
+  try { return decodeURIComponent(window.location.hash.slice(1)) } catch { return '' }
+}
+
+type ScrollTarget = { sectionId: string; behavior: ScrollBehavior } | null
+
+// Inside Suspense so the section exists before scrolling, including on a direct URL visit.
+function ScrollAfterCommit({ target }: { target: ScrollTarget }) {
+  useLayoutEffect(() => {
+    if (!target) return
+    scrollToPage(target.sectionId, target.behavior)
+    if (!target.sectionId || target.behavior !== 'instant') return
+
+    // Font loading can change the height of sections above a newly opened deep link.
+    let cancelled = false
+    let frame = 0
+    const cancel = () => { cancelled = true; window.cancelAnimationFrame(frame) }
+    window.addEventListener('wheel', cancel, { passive: true, once: true })
+    window.addEventListener('touchstart', cancel, { passive: true, once: true })
+    window.addEventListener('keydown', cancel, { once: true })
+    document.fonts.ready.then(() => {
+      if (!cancelled) frame = window.requestAnimationFrame(() => {
+        if (!cancelled) scrollToPage(target.sectionId, 'instant')
+      })
+    })
+    return () => {
+      cancel()
+      window.removeEventListener('wheel', cancel)
+      window.removeEventListener('touchstart', cancel)
+      window.removeEventListener('keydown', cancel)
+    }
+  }, [target])
+  return null
+}
+
 export default function App({ initialPage, prerenderedContent }: { initialPage?: Page | 'not-found'; prerenderedContent?: ReactNode } = {}) {
   const { language, syncLanguage } = useLocale()
+  const { analytics } = useCookieConsent()
   const [currentPage, setCurrentPage] = useState<Page | 'not-found'>(initialPage ?? getPageFromLocation)
   const [isPending, startTransition] = useTransition()
-  const scrollAfterNavigation = useRef<string | null>(null)
-
-  // Scroll only after the destination commits, while the outgoing page stays in place.
-  useLayoutEffect(() => {
-    if (scrollAfterNavigation.current === null) return
-    const sectionId = scrollAfterNavigation.current
-    scrollAfterNavigation.current = null
-    scrollToPage(sectionId)
-  }, [currentPage])
+  const [scrollTarget, setScrollTarget] = useState<ScrollTarget>(() => typeof window !== 'undefined' && window.location.hash
+    ? { sectionId: sectionFromLocation(), behavior: 'instant' } : null)
 
   useEffect(() => { currentPage === 'not-found' ? updateNotFoundMetadata() : updatePageMetadata(currentPage) }, [currentPage, language])
+  // Record committed pages after their localized title changes, not in-progress navigation.
+  useEffect(() => { if (analytics && !isPending) trackAnalyticsPage() }, [analytics, currentPage, language, isPending])
   useEffect(() => {
-    const syncPageFromLocation = () => {
+    const syncPageFromLocation = async () => {
+      try { await loadLanguage(getLanguage()) } catch { window.location.reload(); return }
       syncLanguage()
-      scrollAfterNavigation.current = ''
-      startTransition(() => setCurrentPage(getPageFromLocation()))
+      startTransition(() => {
+        setCurrentPage(getPageFromLocation())
+        setScrollTarget({ sectionId: sectionFromLocation(), behavior: 'instant' })
+      })
     }
     window.addEventListener('hashchange', syncPageFromLocation)
     window.addEventListener('popstate', syncPageFromLocation)
@@ -63,15 +99,15 @@ export default function App({ initialPage, prerenderedContent }: { initialPage?:
   }, [startTransition])
 
   const navigate = (page: Page, sectionId?: string) => {
-    if (page !== getPageFromLocation()) {
-      window.history.pushState({ page }, '', pagePath(page))
+    const url = `${pagePath(page)}${sectionId ? `#${encodeURIComponent(sectionId)}` : ''}`
+    if (url !== `${window.location.pathname}${window.location.hash}`) {
+      window.history.pushState({ page }, '', url)
     }
-    if (page === currentPage && !isPending) {
-      scrollToPage(sectionId, sectionId || window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth')
-      return
-    }
-    scrollAfterNavigation.current = sectionId ?? ''
-    startTransition(() => setCurrentPage(page))
+    const behavior = page === currentPage && !window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'smooth' : 'instant'
+    startTransition(() => {
+      setScrollTarget({ sectionId: sectionId ?? '', behavior })
+      setCurrentPage(page)
+    })
   }
 
   const renderPage = () => {
@@ -88,13 +124,15 @@ export default function App({ initialPage, prerenderedContent }: { initialPage?:
   }
 
   return <div className="min-h-screen bg-[var(--background)] text-cream">
+    <a className="skip-to-content" href="#main-content">{t('Skip to content')}</a>
     <Header currentPage={currentPage === 'not-found' ? undefined : currentPage} navigate={navigate} />
-    <main aria-busy={isPending} inert={isPending}>
+    <main id="main-content" tabIndex={-1} aria-busy={isPending} inert={isPending}>
       <Suspense fallback={<div className="page-loading-preview">
         <span className="sr-only" role="status">{t("Loading page")}</span>
         <div className="page-loading-shapes" aria-hidden="true"><span /><span /><div /><span /></div>
       </div>}>
         <PageBoundary key={currentPage}><div className="page-enter" key={currentPage}>{renderPage()}</div></PageBoundary>
+        <ScrollAfterCommit target={scrollTarget} />
       </Suspense>
     </main>
     <div className={`page-transition-veil${isPending ? ' is-pending' : ''}`} aria-hidden="true" />

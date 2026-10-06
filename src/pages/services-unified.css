@@ -183,7 +183,7 @@
   background: rgba(21, 25, 27, .97);
 }
 
-.services-new-page .services-masthead-nav button {
+.services-new-page .services-masthead-nav a {
   min-height: 64px;
   padding-inline: 18px;
   border-inline-end-width: 1px;
@@ -192,12 +192,12 @@
   letter-spacing: .13em;
 }
 
-.services-new-page .services-masthead-nav button + button::before {
+.services-new-page .services-masthead-nav a + a::before {
   height: 18px;
   border-color: rgba(200, 192, 181, .15);
 }
 
-.services-new-page .services-masthead-nav button[aria-current] {
+.services-new-page .services-masthead-nav a[aria-current] {
   color: var(--svc-gold);
   background: rgba(194, 154, 69, .035);
 }
@@ -1207,7 +1207,7 @@
   .services-new-page .services-masthead-shell { padding: 142px 0 62px; }
   .services-new-page .services-masthead-copy { max-width: 570px; }
   .services-new-page .services-masthead-nav { display: flex; overflow-x: auto; scrollbar-width: thin; scrollbar-color: var(--svc-gold-deep) var(--svc-bg-soft); }
-  .services-new-page .services-masthead-nav button { flex: 0 0 155px; }
+  .services-new-page .services-masthead-nav a { flex: 0 0 155px; }
 
   .services-new-page .airport-content,
   .services-new-page .sv-water.sv-section,
@@ -3560,13 +3560,13 @@
   box-shadow: 0 14px 26px rgba(0, 0, 0, .2);
 }
 
-.services-new-page .services-masthead-nav button {
+.services-new-page .services-masthead-nav a {
   overflow: hidden;
   border-inline-end-color: transparent;
   background: transparent;
 }
 
-.services-new-page .services-masthead-nav button::after {
+.services-new-page .services-masthead-nav a::after {
   position: absolute;
   right: 18px;
   bottom: 0;
@@ -3579,18 +3579,18 @@
   transition: opacity .22s ease, transform .22s ease;
 }
 
-.services-new-page .services-masthead-nav button[aria-current] {
+.services-new-page .services-masthead-nav a[aria-current] {
   border-inline-end-color: transparent;
   background: transparent;
   color: var(--svc-gold);
 }
 
-.services-new-page .services-masthead-nav button[aria-current]::after {
+.services-new-page .services-masthead-nav a[aria-current]::after {
   opacity: 1;
   transform: scaleX(1);
 }
 
-.services-new-page .services-masthead-nav button[aria-current] + button::before {
+.services-new-page .services-masthead-nav a[aria-current] + a::before {
   display: block;
 }
 
@@ -3642,7 +3642,7 @@
     display: none;
   }
 
-  .services-new-page .services-masthead-nav button {
+  .services-new-page .services-masthead-nav a {
     min-width: 136px;
     min-height: 58px;
     flex-basis: auto;
@@ -3650,7 +3650,7 @@
     scroll-snap-align: center;
   }
 
-  .services-new-page .services-masthead-nav button::after {
+  .services-new-page .services-masthead-nav a::after {
     right: 16px;
     left: 16px;
   }
@@ -3775,7 +3775,7 @@
     font-size: 36px;
   }
 
-  .services-new-page .services-masthead-nav button {
+  .services-new-page .services-masthead-nav a {
     min-width: 126px;
     padding-inline: 14px;
   }

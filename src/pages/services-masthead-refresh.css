@@ -98,7 +98,7 @@
   scrollbar-color: var(--svc-gold-deep) transparent;
 }
 
-.services-new-page.services-experience .services-masthead-nav button {
+.services-new-page.services-experience .services-masthead-nav a {
   flex: 1 0 auto;
   min-width: 0;
   min-height: 62px;
@@ -111,14 +111,14 @@
   white-space: nowrap;
 }
 
-.services-new-page.services-experience .services-masthead-nav button + button::before { display: none; }
+.services-new-page.services-experience .services-masthead-nav a + a::before { display: none; }
 
-.services-new-page.services-experience .services-masthead-nav button[aria-current] {
+.services-new-page.services-experience .services-masthead-nav a[aria-current] {
   color: var(--svc-gold-bright);
   background: transparent;
 }
 
-.services-new-page.services-experience .services-masthead-nav button[aria-current]::after {
+.services-new-page.services-experience .services-masthead-nav a[aria-current]::after {
   content: '';
   position: absolute;
   right: 18px;
@@ -165,7 +165,7 @@
   .services-new-page.services-experience .services-masthead-copy { width: min(100%, 660px); }
   .services-new-page.services-experience .services-masthead h1 { font-size: clamp(42px, 7vw, 58px); }
   .services-new-page.services-experience .services-masthead-nav { scroll-margin-top: 72px; }
-  .services-new-page.services-experience .services-masthead-nav button { flex: 0 0 auto; min-width: max-content; padding-inline: 22px; }
+  .services-new-page.services-experience .services-masthead-nav a { flex: 0 0 auto; min-width: max-content; padding-inline: 22px; }
 }
 
 @media (max-width: 600px) {
@@ -199,7 +199,7 @@
   .services-new-page.services-experience .services-masthead-description { max-width: 34ch; font-size: 15px; line-height: 1.65; }
   .services-new-page.services-experience .services-masthead-actions { width: 100%; align-items: center; margin-top: 30px; }
   .services-new-page.services-experience .services-masthead-actions button { width: min(100%, 310px); }
-  .services-new-page.services-experience .services-masthead-nav button { min-height: 58px; padding-inline: 18px; }
+  .services-new-page.services-experience .services-masthead-nav a { min-height: 58px; padding-inline: 18px; }
 }
 
 /* Cruise Port Transfers: route overview and responsive route cards. */
@@ -302,7 +302,7 @@
   border-top-color: rgba(236, 230, 219, .16);
 }
 
-.services-new-page.services-experience .services-masthead-nav button {
+.services-new-page.services-experience .services-masthead-nav a {
   min-width: 0;
   padding-inline: 8px;
 }
@@ -326,7 +326,7 @@
     overflow: visible;
   }
 
-  .services-new-page.services-experience .services-masthead-nav button {
+  .services-new-page.services-experience .services-masthead-nav a {
     min-height: 52px;
   }
 }
@@ -390,7 +390,7 @@
     display: none;
   }
 
-  .services-new-page.services-experience .services-masthead-nav button {
+  .services-new-page.services-experience .services-masthead-nav a {
     flex: 0 0 auto;
     min-width: max-content;
     min-height: 58px;
@@ -578,10 +578,6 @@
     align-self: stretch;
     width: 100%;
   }
-}
-
-@media (min-width: 601px) {
-  .services-new-page.services-experience .fsn-trigger.is-cruise .fsn-current-name { display: none; }
 }
 
 /* Services quick answers, matched to the page's dark and gold palette. */
@@ -992,4 +988,9 @@
   .services-new-page.services-experience #service-cruise .ct-terminal-break {
     display: block;
   }
+}
+
+/* Native section links also land below the fixed header before hydration. */
+.services-new-page.services-experience :is(#service-airport, #service-hourly, #service-water-taxi, #service-europe, #service-prosecco, #service-mountains, #service-coast, #service-cruise) {
+  scroll-margin-top: 148px;
 }

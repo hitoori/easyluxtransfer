@@ -228,6 +228,450 @@
       }
     ]
   },
+  "images/services/hourly/several-stops-chauffeur-panorama.jpg": {
+    "src": "images/services/hourly/several-stops-chauffeur-panorama.webp",
+    "width": 1920,
+    "height": 616,
+    "variants": [
+      {
+        "src": "images/services/hourly/several-stops-chauffeur-panorama-640w.webp",
+        "width": 640
+      },
+      {
+        "src": "images/services/hourly/several-stops-chauffeur-panorama-960w.webp",
+        "width": 960
+      },
+      {
+        "src": "images/services/hourly/several-stops-chauffeur-panorama-1280w.webp",
+        "width": 1280
+      },
+      {
+        "src": "images/services/hourly/several-stops-chauffeur-panorama.webp",
+        "width": 1920
+      }
+    ]
+  },
+  "images/services/water-taxi/venice-lagoon-water-taxi.jpg": {
+    "src": "images/services/water-taxi/venice-lagoon-water-taxi.webp",
+    "width": 1920,
+    "height": 1440,
+    "variants": [
+      {
+        "src": "images/services/water-taxi/venice-lagoon-water-taxi-640w.webp",
+        "width": 640
+      },
+      {
+        "src": "images/services/water-taxi/venice-lagoon-water-taxi-960w.webp",
+        "width": 960
+      },
+      {
+        "src": "images/services/water-taxi/venice-lagoon-water-taxi-1280w.webp",
+        "width": 1280
+      },
+      {
+        "src": "images/services/water-taxi/venice-lagoon-water-taxi.webp",
+        "width": 1920
+      }
+    ]
+  },
+  "images/services/water-taxi/arriving-mobile-map-v2.jpg": {
+    "src": "images/services/water-taxi/venice-water-taxi-arrival-route-mobile.webp",
+    "width": 1339,
+    "height": 1175,
+    "variants": [
+      {
+        "src": "images/services/water-taxi/venice-water-taxi-arrival-route-mobile-640w.webp",
+        "width": 640
+      },
+      {
+        "src": "images/services/water-taxi/venice-water-taxi-arrival-route-mobile-960w.webp",
+        "width": 960
+      },
+      {
+        "src": "images/services/water-taxi/venice-water-taxi-arrival-route-mobile-1280w.webp",
+        "width": 1280
+      },
+      {
+        "src": "images/services/water-taxi/venice-water-taxi-arrival-route-mobile.webp",
+        "width": 1339
+      }
+    ]
+  },
+  "images/services/water-taxi/leaving-mobile-map-v2.jpg": {
+    "src": "images/services/water-taxi/venice-water-taxi-departure-route-mobile.webp",
+    "width": 1338,
+    "height": 1175,
+    "variants": [
+      {
+        "src": "images/services/water-taxi/venice-water-taxi-departure-route-mobile-640w.webp",
+        "width": 640
+      },
+      {
+        "src": "images/services/water-taxi/venice-water-taxi-departure-route-mobile-960w.webp",
+        "width": 960
+      },
+      {
+        "src": "images/services/water-taxi/venice-water-taxi-departure-route-mobile-1280w.webp",
+        "width": 1280
+      },
+      {
+        "src": "images/services/water-taxi/venice-water-taxi-departure-route-mobile.webp",
+        "width": 1338
+      }
+    ]
+  },
+  "images/services/water-taxi/arriving-wide-map.png": {
+    "src": "images/services/water-taxi/venice-water-taxi-arrival-route.webp",
+    "width": 1920,
+    "height": 768,
+    "variants": [
+      {
+        "src": "images/services/water-taxi/venice-water-taxi-arrival-route-640w.webp",
+        "width": 640
+      },
+      {
+        "src": "images/services/water-taxi/venice-water-taxi-arrival-route-960w.webp",
+        "width": 960
+      },
+      {
+        "src": "images/services/water-taxi/venice-water-taxi-arrival-route-1280w.webp",
+        "width": 1280
+      },
+      {
+        "src": "images/services/water-taxi/venice-water-taxi-arrival-route.webp",
+        "width": 1920
+      }
+    ]
+  },
+  "images/services/water-taxi/venice-water-taxi-arrival-route-mobile-ru.png": {
+    "src": "images/services/water-taxi/venice-water-taxi-arrival-route-mobile-ru.webp",
+    "width": 1338,
+    "height": 1175,
+    "variants": [
+      {
+        "src": "images/services/water-taxi/venice-water-taxi-arrival-route-mobile-ru-640w.webp",
+        "width": 640
+      },
+      {
+        "src": "images/services/water-taxi/venice-water-taxi-arrival-route-mobile-ru-960w.webp",
+        "width": 960
+      },
+      {
+        "src": "images/services/water-taxi/venice-water-taxi-arrival-route-mobile-ru-1280w.webp",
+        "width": 1280
+      },
+      {
+        "src": "images/services/water-taxi/venice-water-taxi-arrival-route-mobile-ru.webp",
+        "width": 1338
+      }
+    ]
+  },
+  "images/services/water-taxi/venice-water-taxi-departure-route-mobile-ru.png": {
+    "src": "images/services/water-taxi/venice-water-taxi-departure-route-mobile-ru.webp",
+    "width": 1338,
+    "height": 1176,
+    "variants": [
+      {
+        "src": "images/services/water-taxi/venice-water-taxi-departure-route-mobile-ru-640w.webp",
+        "width": 640
+      },
+      {
+        "src": "images/services/water-taxi/venice-water-taxi-departure-route-mobile-ru-960w.webp",
+        "width": 960
+      },
+      {
+        "src": "images/services/water-taxi/venice-water-taxi-departure-route-mobile-ru-1280w.webp",
+        "width": 1280
+      },
+      {
+        "src": "images/services/water-taxi/venice-water-taxi-departure-route-mobile-ru.webp",
+        "width": 1338
+      }
+    ]
+  },
+  "images/services/water-taxi/leaving-wide-map.png": {
+    "src": "images/services/water-taxi/venice-water-taxi-departure-route.webp",
+    "width": 1920,
+    "height": 768,
+    "variants": [
+      {
+        "src": "images/services/water-taxi/venice-water-taxi-departure-route-640w.webp",
+        "width": 640
+      },
+      {
+        "src": "images/services/water-taxi/venice-water-taxi-departure-route-960w.webp",
+        "width": 960
+      },
+      {
+        "src": "images/services/water-taxi/venice-water-taxi-departure-route-1280w.webp",
+        "width": 1280
+      },
+      {
+        "src": "images/services/water-taxi/venice-water-taxi-departure-route.webp",
+        "width": 1920
+      }
+    ]
+  },
+  "images/services/water-taxi/venice-water-taxi-departure-route-ru.png": {
+    "src": "images/services/water-taxi/venice-water-taxi-departure-route-ru.webp",
+    "width": 1920,
+    "height": 768,
+    "variants": [
+      {
+        "src": "images/services/water-taxi/venice-water-taxi-departure-route-ru-640w.webp",
+        "width": 640
+      },
+      {
+        "src": "images/services/water-taxi/venice-water-taxi-departure-route-ru-960w.webp",
+        "width": 960
+      },
+      {
+        "src": "images/services/water-taxi/venice-water-taxi-departure-route-ru-1280w.webp",
+        "width": 1280
+      },
+      {
+        "src": "images/services/water-taxi/venice-water-taxi-departure-route-ru.webp",
+        "width": 1920
+      }
+    ]
+  },
+  "images/services/water-taxi/venice-water-taxi-arrival-route-ru.png": {
+    "src": "images/services/water-taxi/venice-water-taxi-arrival-route-ru.webp",
+    "width": 1920,
+    "height": 768,
+    "variants": [
+      {
+        "src": "images/services/water-taxi/venice-water-taxi-arrival-route-ru-640w.webp",
+        "width": 640
+      },
+      {
+        "src": "images/services/water-taxi/venice-water-taxi-arrival-route-ru-960w.webp",
+        "width": 960
+      },
+      {
+        "src": "images/services/water-taxi/venice-water-taxi-arrival-route-ru-1280w.webp",
+        "width": 1280
+      },
+      {
+        "src": "images/services/water-taxi/venice-water-taxi-arrival-route-ru.webp",
+        "width": 1920
+      }
+    ]
+  },
+  "images/services/cruise/cruise-port-transfer-ship.jpg": {
+    "src": "images/services/cruise/cruise-port-transfer-ship.webp",
+    "width": 1920,
+    "height": 1280,
+    "variants": [
+      {
+        "src": "images/services/cruise/cruise-port-transfer-ship-640w.webp",
+        "width": 640
+      },
+      {
+        "src": "images/services/cruise/cruise-port-transfer-ship-960w.webp",
+        "width": 960
+      },
+      {
+        "src": "images/services/cruise/cruise-port-transfer-ship-1280w.webp",
+        "width": 1280
+      },
+      {
+        "src": "images/services/cruise/cruise-port-transfer-ship.webp",
+        "width": 1920
+      }
+    ]
+  },
+  "images/services/cruise/private-cruise-transfer.jpg": {
+    "src": "images/services/cruise/private-cruise-transfer.webp",
+    "width": 1448,
+    "height": 1086,
+    "variants": [
+      {
+        "src": "images/services/cruise/private-cruise-transfer-640w.webp",
+        "width": 640
+      },
+      {
+        "src": "images/services/cruise/private-cruise-transfer-960w.webp",
+        "width": 960
+      },
+      {
+        "src": "images/services/cruise/private-cruise-transfer-1280w.webp",
+        "width": 1280
+      },
+      {
+        "src": "images/services/cruise/private-cruise-transfer.webp",
+        "width": 1448
+      }
+    ]
+  },
+  "images/services/europe/italy-europe-chauffeur.jpg": {
+    "src": "images/services/europe/italy-europe-chauffeur.webp",
+    "width": 1536,
+    "height": 1024,
+    "variants": [
+      {
+        "src": "images/services/europe/italy-europe-chauffeur-640w.webp",
+        "width": 640
+      },
+      {
+        "src": "images/services/europe/italy-europe-chauffeur-960w.webp",
+        "width": 960
+      },
+      {
+        "src": "images/services/europe/italy-europe-chauffeur-1280w.webp",
+        "width": 1280
+      },
+      {
+        "src": "images/services/europe/italy-europe-chauffeur.webp",
+        "width": 1536
+      }
+    ]
+  },
+  "images/services/europe/italy-europe-route-map.png": {
+    "src": "images/services/europe/italy-europe-route-map.webp",
+    "width": 1536,
+    "height": 1024,
+    "variants": [
+      {
+        "src": "images/services/europe/italy-europe-route-map-640w.webp",
+        "width": 640
+      },
+      {
+        "src": "images/services/europe/italy-europe-route-map-960w.webp",
+        "width": 960
+      },
+      {
+        "src": "images/services/europe/italy-europe-route-map-1280w.webp",
+        "width": 1280
+      },
+      {
+        "src": "images/services/europe/italy-europe-route-map.webp",
+        "width": 1536
+      }
+    ]
+  },
+  "images/services/seaside/adriatic-coast.jpg": {
+    "src": "images/services/seaside/adriatic-coast.webp",
+    "width": 1800,
+    "height": 1354,
+    "variants": [
+      {
+        "src": "images/services/seaside/adriatic-coast-640w.webp",
+        "width": 640
+      },
+      {
+        "src": "images/services/seaside/adriatic-coast-960w.webp",
+        "width": 960
+      },
+      {
+        "src": "images/services/seaside/adriatic-coast-1280w.webp",
+        "width": 1280
+      },
+      {
+        "src": "images/services/seaside/adriatic-coast.webp",
+        "width": 1800
+      }
+    ]
+  },
+  "images/services/airport/venice-airport-change.jpeg": {
+    "src": "images/services/airport/airport-terminal-sign.webp",
+    "width": 900,
+    "height": 1600,
+    "variants": [
+      {
+        "src": "images/services/airport/airport-terminal-sign-640w.webp",
+        "width": 640
+      },
+      {
+        "src": "images/services/airport/airport-terminal-sign.webp",
+        "width": 900
+      }
+    ]
+  },
+  "images/services/airport/venice-airport-arrivals.jpeg": {
+    "src": "images/services/airport/venice-airport-arrivals.webp",
+    "width": 900,
+    "height": 1600,
+    "variants": [
+      {
+        "src": "images/services/airport/venice-airport-arrivals-640w.webp",
+        "width": 640
+      },
+      {
+        "src": "images/services/airport/venice-airport-arrivals.webp",
+        "width": 900
+      }
+    ]
+  },
+  "images/services/airport/journeys/to-the-airport.jpg": {
+    "src": "images/services/airport/journeys/airport-departures-sign.webp",
+    "width": 1536,
+    "height": 1024,
+    "variants": [
+      {
+        "src": "images/services/airport/journeys/airport-departures-sign-640w.webp",
+        "width": 640
+      },
+      {
+        "src": "images/services/airport/journeys/airport-departures-sign-960w.webp",
+        "width": 960
+      },
+      {
+        "src": "images/services/airport/journeys/airport-departures-sign-1280w.webp",
+        "width": 1280
+      },
+      {
+        "src": "images/services/airport/journeys/airport-departures-sign.webp",
+        "width": 1536
+      }
+    ]
+  },
+  "images/services/airport/journeys/from-the-airport.jpg": {
+    "src": "images/services/airport/journeys/airport-arrivals-sign.webp",
+    "width": 1536,
+    "height": 1024,
+    "variants": [
+      {
+        "src": "images/services/airport/journeys/airport-arrivals-sign-640w.webp",
+        "width": 640
+      },
+      {
+        "src": "images/services/airport/journeys/airport-arrivals-sign-960w.webp",
+        "width": 960
+      },
+      {
+        "src": "images/services/airport/journeys/airport-arrivals-sign-1280w.webp",
+        "width": 1280
+      },
+      {
+        "src": "images/services/airport/journeys/airport-arrivals-sign.webp",
+        "width": 1536
+      }
+    ]
+  },
+  "images/services/airport/journeys/address-to-address.jpg": {
+    "src": "images/services/airport/journeys/chauffeur-loading-luggage.webp",
+    "width": 1448,
+    "height": 1086,
+    "variants": [
+      {
+        "src": "images/services/airport/journeys/chauffeur-loading-luggage-640w.webp",
+        "width": 640
+      },
+      {
+        "src": "images/services/airport/journeys/chauffeur-loading-luggage-960w.webp",
+        "width": 960
+      },
+      {
+        "src": "images/services/airport/journeys/chauffeur-loading-luggage-1280w.webp",
+        "width": 1280
+      },
+      {
+        "src": "images/services/airport/journeys/chauffeur-loading-luggage.webp",
+        "width": 1448
+      }
+    ]
+  },
   "images/home/private-journeys/adriatic-coast-beach-aerial.jpg": {
     "src": "images/home/private-journeys/adriatic-coast-beach-aerial.webp",
     "width": 1920,
@@ -325,6 +769,18 @@
     "width": 1659,
     "height": 948,
     "variants": [
+      {
+        "src": "images/home/water-taxi/route-map-640w.webp",
+        "width": 640
+      },
+      {
+        "src": "images/home/water-taxi/route-map-960w.webp",
+        "width": 960
+      },
+      {
+        "src": "images/home/water-taxi/route-map-1280w.webp",
+        "width": 1280
+      },
       {
         "src": "images/home/water-taxi/route-map.webp",
         "width": 1659
@@ -569,298 +1025,6 @@
       {
         "src": "images/home/hero/venice-canal-boats.webp",
         "width": 1920
-      }
-    ]
-  },
-  "images/services/hourly/several-stops-chauffeur-panorama.jpg": {
-    "src": "images/services/hourly/several-stops-chauffeur-panorama.webp",
-    "width": 1920,
-    "height": 616,
-    "variants": [
-      {
-        "src": "images/services/hourly/several-stops-chauffeur-panorama-640w.webp",
-        "width": 640
-      },
-      {
-        "src": "images/services/hourly/several-stops-chauffeur-panorama-960w.webp",
-        "width": 960
-      },
-      {
-        "src": "images/services/hourly/several-stops-chauffeur-panorama-1280w.webp",
-        "width": 1280
-      },
-      {
-        "src": "images/services/hourly/several-stops-chauffeur-panorama.webp",
-        "width": 1920
-      }
-    ]
-  },
-  "images/services/water-taxi/venice-lagoon-water-taxi.jpg": {
-    "src": "images/services/water-taxi/venice-lagoon-water-taxi.webp",
-    "width": 1920,
-    "height": 1440,
-    "variants": [
-      {
-        "src": "images/services/water-taxi/venice-lagoon-water-taxi-640w.webp",
-        "width": 640
-      },
-      {
-        "src": "images/services/water-taxi/venice-lagoon-water-taxi-960w.webp",
-        "width": 960
-      },
-      {
-        "src": "images/services/water-taxi/venice-lagoon-water-taxi-1280w.webp",
-        "width": 1280
-      },
-      {
-        "src": "images/services/water-taxi/venice-lagoon-water-taxi.webp",
-        "width": 1920
-      }
-    ]
-  },
-  "images/services/water-taxi/arriving-mobile-map-v2.jpg": {
-    "src": "images/services/water-taxi/venice-water-taxi-arrival-route-mobile.webp",
-    "width": 1339,
-    "height": 1175,
-    "variants": [
-      {
-        "src": "images/services/water-taxi/venice-water-taxi-arrival-route-mobile.webp",
-        "width": 1339
-      }
-    ]
-  },
-  "images/services/water-taxi/leaving-mobile-map-v2.jpg": {
-    "src": "images/services/water-taxi/venice-water-taxi-departure-route-mobile.webp",
-    "width": 1338,
-    "height": 1175,
-    "variants": [
-      {
-        "src": "images/services/water-taxi/venice-water-taxi-departure-route-mobile.webp",
-        "width": 1338
-      }
-    ]
-  },
-  "images/services/water-taxi/arriving-wide-map.png": {
-    "src": "images/services/water-taxi/venice-water-taxi-arrival-route.webp",
-    "width": 1920,
-    "height": 768,
-    "variants": [
-      {
-        "src": "images/services/water-taxi/venice-water-taxi-arrival-route.webp",
-        "width": 1920
-      }
-    ]
-  },
-  "images/services/water-taxi/leaving-wide-map.png": {
-    "src": "images/services/water-taxi/venice-water-taxi-departure-route.webp",
-    "width": 1920,
-    "height": 768,
-    "variants": [
-      {
-        "src": "images/services/water-taxi/venice-water-taxi-departure-route.webp",
-        "width": 1920
-      }
-    ]
-  },
-  "images/services/cruise/cruise-port-transfer-ship.jpg": {
-    "src": "images/services/cruise/cruise-port-transfer-ship.webp",
-    "width": 1920,
-    "height": 1280,
-    "variants": [
-      {
-        "src": "images/services/cruise/cruise-port-transfer-ship-640w.webp",
-        "width": 640
-      },
-      {
-        "src": "images/services/cruise/cruise-port-transfer-ship-960w.webp",
-        "width": 960
-      },
-      {
-        "src": "images/services/cruise/cruise-port-transfer-ship-1280w.webp",
-        "width": 1280
-      },
-      {
-        "src": "images/services/cruise/cruise-port-transfer-ship.webp",
-        "width": 1920
-      }
-    ]
-  },
-  "images/services/cruise/private-cruise-transfer.jpg": {
-    "src": "images/services/cruise/private-cruise-transfer.webp",
-    "width": 1448,
-    "height": 1086,
-    "variants": [
-      {
-        "src": "images/services/cruise/private-cruise-transfer-640w.webp",
-        "width": 640
-      },
-      {
-        "src": "images/services/cruise/private-cruise-transfer-960w.webp",
-        "width": 960
-      },
-      {
-        "src": "images/services/cruise/private-cruise-transfer-1280w.webp",
-        "width": 1280
-      },
-      {
-        "src": "images/services/cruise/private-cruise-transfer.webp",
-        "width": 1448
-      }
-    ]
-  },
-  "images/services/europe/italy-europe-chauffeur.jpg": {
-    "src": "images/services/europe/italy-europe-chauffeur.webp",
-    "width": 1536,
-    "height": 1024,
-    "variants": [
-      {
-        "src": "images/services/europe/italy-europe-chauffeur-640w.webp",
-        "width": 640
-      },
-      {
-        "src": "images/services/europe/italy-europe-chauffeur-960w.webp",
-        "width": 960
-      },
-      {
-        "src": "images/services/europe/italy-europe-chauffeur-1280w.webp",
-        "width": 1280
-      },
-      {
-        "src": "images/services/europe/italy-europe-chauffeur.webp",
-        "width": 1536
-      }
-    ]
-  },
-  "images/services/europe/italy-europe-route-map.png": {
-    "src": "images/services/europe/italy-europe-route-map.webp",
-    "width": 1536,
-    "height": 1024,
-    "variants": [
-      {
-        "src": "images/services/europe/italy-europe-route-map.webp",
-        "width": 1536
-      }
-    ]
-  },
-  "images/services/seaside/adriatic-coast.jpg": {
-    "src": "images/services/seaside/adriatic-coast.webp",
-    "width": 1800,
-    "height": 1354,
-    "variants": [
-      {
-        "src": "images/services/seaside/adriatic-coast-640w.webp",
-        "width": 640
-      },
-      {
-        "src": "images/services/seaside/adriatic-coast-960w.webp",
-        "width": 960
-      },
-      {
-        "src": "images/services/seaside/adriatic-coast-1280w.webp",
-        "width": 1280
-      },
-      {
-        "src": "images/services/seaside/adriatic-coast.webp",
-        "width": 1800
-      }
-    ]
-  },
-  "images/services/airport/venice-airport-change.jpeg": {
-    "src": "images/services/airport/airport-terminal-sign.webp",
-    "width": 900,
-    "height": 1600,
-    "variants": [
-      {
-        "src": "images/services/airport/airport-terminal-sign-640w.webp",
-        "width": 640
-      },
-      {
-        "src": "images/services/airport/airport-terminal-sign.webp",
-        "width": 900
-      }
-    ]
-  },
-  "images/services/airport/venice-airport-arrivals.jpeg": {
-    "src": "images/services/airport/venice-airport-arrivals.webp",
-    "width": 900,
-    "height": 1600,
-    "variants": [
-      {
-        "src": "images/services/airport/venice-airport-arrivals-640w.webp",
-        "width": 640
-      },
-      {
-        "src": "images/services/airport/venice-airport-arrivals.webp",
-        "width": 900
-      }
-    ]
-  },
-  "images/services/airport/journeys/to-the-airport.jpg": {
-    "src": "images/services/airport/journeys/airport-departures-sign.webp",
-    "width": 1536,
-    "height": 1024,
-    "variants": [
-      {
-        "src": "images/services/airport/journeys/airport-departures-sign-640w.webp",
-        "width": 640
-      },
-      {
-        "src": "images/services/airport/journeys/airport-departures-sign-960w.webp",
-        "width": 960
-      },
-      {
-        "src": "images/services/airport/journeys/airport-departures-sign-1280w.webp",
-        "width": 1280
-      },
-      {
-        "src": "images/services/airport/journeys/airport-departures-sign.webp",
-        "width": 1536
-      }
-    ]
-  },
-  "images/services/airport/journeys/from-the-airport.jpg": {
-    "src": "images/services/airport/journeys/airport-arrivals-sign.webp",
-    "width": 1536,
-    "height": 1024,
-    "variants": [
-      {
-        "src": "images/services/airport/journeys/airport-arrivals-sign-640w.webp",
-        "width": 640
-      },
-      {
-        "src": "images/services/airport/journeys/airport-arrivals-sign-960w.webp",
-        "width": 960
-      },
-      {
-        "src": "images/services/airport/journeys/airport-arrivals-sign-1280w.webp",
-        "width": 1280
-      },
-      {
-        "src": "images/services/airport/journeys/airport-arrivals-sign.webp",
-        "width": 1536
-      }
-    ]
-  },
-  "images/services/airport/journeys/address-to-address.jpg": {
-    "src": "images/services/airport/journeys/chauffeur-loading-luggage.webp",
-    "width": 1448,
-    "height": 1086,
-    "variants": [
-      {
-        "src": "images/services/airport/journeys/chauffeur-loading-luggage-640w.webp",
-        "width": 640
-      },
-      {
-        "src": "images/services/airport/journeys/chauffeur-loading-luggage-960w.webp",
-        "width": 960
-      },
-      {
-        "src": "images/services/airport/journeys/chauffeur-loading-luggage-1280w.webp",
-        "width": 1280
-      },
-      {
-        "src": "images/services/airport/journeys/chauffeur-loading-luggage.webp",
-        "width": 1448
       }
     ]
   }

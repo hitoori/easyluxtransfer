@@ -1,0 +1,22 @@
+# Static assets only; API responses set their own headers in the Worker.
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
+  Strict-Transport-Security: max-age=31536000
+  Content-Security-Policy: base-uri 'self'; object-src 'none'; frame-ancestors 'none'
+  Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' __INLINE_SCRIPT_HASHES__ https://challenges.cloudflare.com https://maps.googleapis.com https://maps.gstatic.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://*.google-analytics.com https://www.googletagmanager.com https://maps.googleapis.com https://maps.gstatic.com https://*.googleapis.com https://*.gstatic.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://*.google-analytics.com https://www.googletagmanager.com https://challenges.cloudflare.com https://maps.googleapis.com https://maps.gstatic.com https://*.googleapis.com https://*.gstatic.com; frame-src https://challenges.cloudflare.com; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'
+
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/images/*
+  Cache-Control: public, max-age=86400
+
+/fonts/*
+  Cache-Control: public, max-age=604800
+
+# Preview hosts must not compete with the canonical production domain.
+https://:preview.workers.dev/*
+  X-Robots-Tag: noindex, nofollow

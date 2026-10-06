@@ -6,7 +6,7 @@ import { italyRoutes, priceLabel } from './serviceData'
 import { ServiceTabs, type RequestJourney } from './ServiceRoutes'
 import './water-taxi-map.css'
 import './europe-transfer.css'
-import { publicAsset } from '../../lib/publicAsset'
+import { imageAttributes, publicAsset } from '../../lib/publicAsset'
 
 const crossBorderRoutes = [
   { id: 'italy-austria', from: 'Italy', to: 'Austria', pickup: 'Italy', destination: 'Austria', sedan: 850, van: 980, minibus: 1700 },
@@ -113,8 +113,8 @@ export function WaterTaxiSection({ onRequest }: { onRequest: RequestJourney }) {
           <div className="wt-hero-maps">
             {waterTaxiJourneys.map((item, index) => <div key={item.route} className={`wt-map-frame wt-map-layer${direction === index ? ' is-active' : ''}`} role="tabpanel" id={`water-panel-${index}`} aria-labelledby={`water-tab-${index}`} aria-hidden={direction !== index} inert={direction !== index} tabIndex={direction === index ? 0 : -1}>
               <picture>
-                <source media="(max-width: 1023px)" srcSet={item.mobileImage} />
-                <OptimizedImage src={item.image} alt={t(item.alt)} width={1983} height={793} loading="eager" decoding="async" />
+                <source media="(max-width: 1023px)" srcSet={imageAttributes(item.mobileImage).srcSet ?? item.mobileImage} sizes="(max-width: 767px) calc(100vw - 48px), 620px" />
+                <OptimizedImage src={item.image} alt={t(item.alt)} sizes="(max-width: 1023px) 620px, (max-width: 1536px) 90vw, 1340px" loading="eager" decoding="async" />
               </picture>
             </div>)}
           </div>
@@ -192,7 +192,7 @@ export function EuropeSection({ onRequest, fareRequest = 0 }: { onRequest: Reque
       <div className="et-photo"><OptimizedImage src={publicAsset('images/services/europe/italy-europe-chauffeur.jpg')} alt={t("Chauffeur welcoming a passenger into a private vehicle")} loading="lazy" /></div>
       <div className="et-copy">
         <p className="et-eyebrow">{t("PRIVATE JOURNEYS · ITALY & EUROPE")}</p>
-        <h2 id="europe-title">{t("Private transfers across Italy and into Europe.")}</h2>
+        <h2 id="europe-title">{t("Private transfers across Italy")}<br className="services-tablet-title-break" />{' '}{t("and into Europe.")}</h2>
         <p className="et-description">{t("Travel from Venice or Treviso to another city in Italy or across the border.")}</p>
         <p className="et-countries">{t("ITALY ")}<i className="et-country-separator" aria-hidden="true">{"·"}</i> {t(" AUSTRIA ")}<i className="et-country-separator" aria-hidden="true">{"·"}</i> {t(" SLOVENIA ")}<i className="et-country-separator" aria-hidden="true">{"·"}</i> {t(" CROATIA ")}<i className="et-country-separator" aria-hidden="true">{"·"}</i> {t(" FRANCE")}</p>
         <div className="et-line" aria-hidden="true" />

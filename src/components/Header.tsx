@@ -84,11 +84,11 @@ export default function Header({ currentPage, navigate }: HeaderProps) {
           href={pagePath('home')}
           onClick={event => followPageLink(event, 'home')}
           className="group flex h-full shrink-0 items-center text-left"
-          aria-label={t("Easy Lux — Home")}
+          aria-label={t("Easy Lux Transfer — Home")}
         >
           <OptimizedImage
             src={logoImage}
-            alt={t("Easy Lux")}
+            alt="Easy Lux Transfer"
             loading="eager" sizes="72px"
             className={`translate-y-0.5 object-contain drop-shadow-[0_3px_8px_rgba(0,0,0,0.72)] transition-[width,height,transform] duration-500 group-hover:scale-[1.03] ${
               headerElevated
@@ -165,7 +165,6 @@ export default function Header({ currentPage, navigate }: HeaderProps) {
         }`}
       >
         <nav className="flex flex-col gap-3 border-t border-[rgba(194,154,69,0.1)] bg-[var(--background-secondary)] px-6 py-6">
-          <LanguageSwitcher page={currentPage ?? 'home'} onChange={() => setMenuOpen(false)} />
           {navigationItems.map((link) => (
             <a
               key={link.page}
@@ -183,10 +182,13 @@ export default function Header({ currentPage, navigate }: HeaderProps) {
               {t(link.label)}
             </a>
           ))}
+          <div className="pt-2">
+            <LanguageSwitcher page={currentPage ?? 'home'} onChange={() => setMenuOpen(false)} />
+          </div>
           <a
             href={pagePath('contact')}
             onClick={event => followPageLink(event, 'contact')}
-            className="mt-5 border border-gold py-5 text-[16px] font-medium tracking-[0.02em] text-gold transition-all duration-300 hover:bg-gold hover:text-[var(--background)]"
+            className="mt-3 flex min-h-[56px] w-full items-center justify-center rounded-sm border border-gold px-6 py-4 text-center text-[16px] font-medium leading-relaxed tracking-[0.02em] text-gold transition-all duration-300 hover:bg-gold hover:text-[var(--background)]"
           >
             {t(currentPage === 'home' || currentPage === 'services' ? 'Request a Quote' : 'Book Your Ride')}
           </a>

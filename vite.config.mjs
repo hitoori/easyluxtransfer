@@ -4,6 +4,7 @@ import tailwindcss from "@tailwindcss/vite";
 import { handleBookingRequest } from "./worker/index.js";
 import { readFileSync } from "node:fs";
 import path from "node:path";
+import { readLimitedBody, RequestTooLarge } from "./worker/request-body.js";
 
 function bookingApi(localEnv) {
   const workerEnv = {
@@ -18,13 +19,19 @@ function bookingApi(localEnv) {
   };
   const attach = (server) => {
     server.middlewares.use('/api/booking', async (req, res) => {
-      const chunks = [];
-      for await (const chunk of req) chunks.push(chunk);
+      let body;
+      try { body = await readLimitedBody(req); }
+      catch (error) {
+        res.once('finish', () => req.destroy());
+        res.writeHead(error instanceof RequestTooLarge ? 413 : 400, { 'content-type': 'application/json', 'cache-control': 'no-store' });
+        res.end(JSON.stringify({ error: error instanceof RequestTooLarge ? 'Request too large.' : 'Invalid request.' }));
+        return;
+      }
       const url = `http://${req.headers.host || 'localhost'}/api/booking`;
       const request = new Request(url, {
         method: req.method,
-        headers: req.headers,
-        body: ['GET', 'HEAD'].includes(req.method) ? undefined : Buffer.concat(chunks),
+        headers: { ...req.headers, 'cf-connecting-ip': req.socket.remoteAddress || 'unknown' },
+        body: ['GET', 'HEAD'].includes(req.method) ? undefined : body,
       });
       const response = await handleBookingRequest(request, workerEnv);
       res.writeHead(response.status, Object.fromEntries(response.headers));

@@ -1,11 +1,13 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import { handleBookingRequest } from '../worker/index.js'
+import { testBookingEnv, verifiedFetch } from './booking-security-fixtures.mjs'
 
 const payload = {
   kind: 'transfer', source: 'home-booking', name: 'Test Client', email: 'client@example.com', phone: '+39 123456789',
   details: 'Pick-up: Venice\nDestination: Milan', consent: true,
   requestId: '124fe6c0-2f57-4faf-b4c6-72c431e63f25',
+  turnstileToken: 'fake-verification-token',
 }
 const request = (body = payload) => new Request('https://easylux.example/api/booking', {
   method: 'POST', headers: { 'content-type': 'application/json', origin: 'https://easylux.example' },
@@ -30,15 +32,12 @@ test('WhatsApp contact preference requires a real international number', async (
 test('booking endpoint sends company and customer emails with one idempotency key', async () => {
   const originalFetch = globalThis.fetch
   let sent
-  globalThis.fetch = async (_url, options) => {
+  globalThis.fetch = verifiedFetch(async (_url, options) => {
     sent = options
     return new Response(JSON.stringify({ data: [{ id: '1' }, { id: '2' }] }), { status: 200 })
-  }
+  })
   try {
-    const response = await handleBookingRequest(request(), {
-      RESEND_API_KEY: 'test-key', BOOKING_FROM_EMAIL: 'Easy Lux <booking@example.com>',
-      BOOKING_TO_EMAIL: 'office@example.com',
-    })
+    const response = await handleBookingRequest(request(), testBookingEnv())
     assert.equal(response.status, 200)
     assert.equal((await response.json()).requestCode, 'ELX-124FE6C0')
     assert.equal(sent.headers['Idempotency-Key'], `booking/${payload.requestId}`)
@@ -57,15 +56,16 @@ test('every public form sends its full details to the business and an acknowledg
     ['home-quote', 'custom'], ['services-quote', 'custom'], ['contact', 'custom'],
   ]
   let messages
-  globalThis.fetch = async (url, options) => {
+  globalThis.fetch = verifiedFetch(async (url, options) => {
     assert.equal(url, 'https://api.resend.com/emails/batch')
     messages = JSON.parse(options.body)
     return new Response(JSON.stringify({ data: [{ id: '1' }, { id: '2' }] }), { status: 200 })
-  }
+  })
   try {
     for (const [source, kind] of forms) {
       const details = `Form: ${source}\nJourney: ${kind}\nAdditional request: child seat`
-      const response = await handleBookingRequest(request({ ...payload, source, kind, details }), {
+      const response = await handleBookingRequest(request({ ...payload, source, kind, details, ...(source === 'contact' ? { message: 'Additional request: child seat' } : {}) }), {
+        ...testBookingEnv(),
         RESEND_API_KEY: 'test-key',
         BOOKING_FROM_EMAIL: 'Easy Lux <booking@mail.easyluxtransfer.com>',
         BOOKING_TO_EMAIL: 'easyluxtransfer@gmail.com',

@@ -10,6 +10,7 @@ import { company } from '../config/company'
 import { sendBooking } from '../lib/sendBooking'
 import './contact.css'
 import { publicAsset } from '../lib/publicAsset'
+import PageLink from '../components/PageLink'
 
 const services = serviceOptions.map(([, label]) => label)
 const popularServices = [
@@ -23,7 +24,7 @@ const popularServices = [
 ]
 const quickAnswers = [
   ['Can I request a destination that isn’t listed?', 'Yes. Choose “Custom destination” in the form and tell us your route. We’ll check if we can arrange it.'],
-  ['Does sending an enquiry book my transfer?', 'No. We’ll check availability and send you a quote. Your booking is confirmed after you accept the details and we confirm it with you.'],
+  ['Does sending an enquiry book my transfer?', 'No. We’ll check availability and send you a quote. Your booking is confirmed after agreement of the details and receipt of the deposit.'],
   ['Can I request stops or a return transfer?', 'Yes. Tell us about any stops or a return journey, including the dates and approximate times. We’ll include them in your quote.'],
 ]
 
@@ -47,15 +48,16 @@ export default function Contact({ navigate }: { navigate: (page: Page, sectionId
   const [sendStatus, setSendStatus] = useState('')
   const [requestCode, setRequestCode] = useState('')
   const [openAnswer, setOpenAnswer] = useState<number | null>(null)
-  const viewService = (id: string) => {
-    navigate('services', `service-${id}`)
-  }
+  const submission = useRef<{ fingerprint: string; id: string } | null>(null)
   const submitContact = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     if (sending) return
     setSending(true); setSendStatus('')
     try {
-      const code = await sendBooking({ kind: 'custom', source: 'contact', service: service || 'General enquiry', name, email, phone, details: `Service: ${service || 'General enquiry'}\nMessage: ${message}`, consent }, crypto.randomUUID())
+      const payload = { kind: 'custom' as const, source: 'contact' as const, service: service || 'General enquiry', name: name.trim(), email: email.trim(), phone: phone.trim(), message: message.trim(), details: `Service: ${service || 'General enquiry'}\nMessage: ${message.trim()}`, consent }
+      const fingerprint = JSON.stringify(payload)
+      if (submission.current?.fingerprint !== fingerprint) submission.current = { fingerprint, id: crypto.randomUUID() }
+      const code = await sendBooking(payload, submission.current.id)
       setRequestCode(code)
       setSendStatus(`Your enquiry has been sent. Reference ${code}. A confirmation has been emailed to ${email}.`)
     } catch (error) { setSendStatus(error instanceof Error ? error.message : 'The request could not be sent. Please try again.') }
@@ -93,12 +95,12 @@ export default function Contact({ navigate }: { navigate: (page: Page, sectionId
 
           <form onSubmit={submitContact} onChange={() => { if (sendStatus && !requestCode) setSendStatus('') }}>
             <div className="ct-fields">
-              <label htmlFor="ct-name">{t("Full name")}<input id="ct-name" name="name" autoComplete="name" value={name} onChange={event => setName(event.target.value)} placeholder={t("Your name")} required />
+              <label htmlFor="ct-name">{t("Full name")}<input id="ct-name" name="name" minLength={2} maxLength={120} autoComplete="name" value={name} onChange={event => setName(event.target.value)} placeholder={t("Your name")} required />
               </label>
-              <label htmlFor="ct-email">{t("Email address")}<input id="ct-email" name="email" type="email" autoComplete="email" value={email} onChange={event => setEmail(event.target.value)} placeholder={t("you@example.com")} required />
+              <label htmlFor="ct-email">{t("Email address")}<input id="ct-email" name="email" maxLength={160} type="email" autoComplete="email" value={email} onChange={event => setEmail(event.target.value)} placeholder={t("you@example.com")} required />
               </label>
               <label htmlFor="ct-phone">{t("Phone ")}<span>{t("(optional)")}</span>
-                <input id="ct-phone" name="phone" type="tel" autoComplete="tel" value={phone} onChange={event => setPhone(event.target.value)} placeholder={t("Include country code")} />
+                <input id="ct-phone" name="phone" maxLength={80} type="tel" autoComplete="tel" value={phone} onChange={event => setPhone(event.target.value)} placeholder={t("Include country code")} />
               </label>
               <label htmlFor="ct-service">{t("Service ")}<span>{t("(optional)")}</span>
                 <select id="ct-service" name="service" value={service} onChange={event => setService(event.target.value)}>
@@ -108,7 +110,7 @@ export default function Contact({ navigate }: { navigate: (page: Page, sectionId
               </label>
             </div>
 
-            <label className="ct-message-field" htmlFor="ct-message">{t("Journey details or question")}<textarea id="ct-message" name="message" rows={4} value={message} onChange={event => setMessage(event.target.value)} placeholder={t("Pick-up, destination, date and time, passengers, luggage and any special requests…")} required />
+            <label className="ct-message-field" htmlFor="ct-message">{t("Journey details or question")}<textarea id="ct-message" name="message" minLength={10} maxLength={3000} rows={4} value={message} onChange={event => setMessage(event.target.value)} placeholder={t("Pick-up, destination, date and time, passengers, luggage and any special requests…")} required />
             </label>
 
             <label className="ct-consent"><input type="checkbox" checked={consent} onChange={event => setConsent(event.target.checked)} required /> <span>{t("I agree to be contacted about this enquiry. ")}<a href={pagePath('cookies')} target="_blank" rel="noopener noreferrer" className="text-gold underline underline-offset-4">{t("Privacy Policy")}</a>{"."}</span></label>
@@ -142,7 +144,7 @@ export default function Contact({ navigate }: { navigate: (page: Page, sectionId
             <div><span><MapPin size={17} weight="light" aria-hidden="true" />{t("Our operational base")}</span>
               <h3>{t("Venice, Italy")}</h3>
               <p>{t(company.serviceArea)}</p>
-              <a href="#services" className="ct-inline-link" onClick={event => { event.preventDefault(); viewService('europe') }}>{t("View service area ")}<ArrowRight size={17} aria-hidden="true" /></a>
+              <PageLink page="services" sectionId="service-europe" navigate={navigate} className="ct-inline-link">{t("View service area ")}<ArrowRight size={17} aria-hidden="true" /></PageLink>
             </div>
           </div>
         </aside>
@@ -178,11 +180,11 @@ export default function Contact({ navigate }: { navigate: (page: Page, sectionId
 
       <nav className="ct-services ct-shell" aria-labelledby="ct-services-title">
         <div className="ct-services-heading"><div><p className="ct-info-label">{t("Ways to travel")}</p><h2 id="ct-services-title">{t("Explore our services")}</h2></div></div>
-        <div className="ct-services-marquee"><div className="ct-services-track">{[0, 1].map(copy => <div className="ct-services-set" key={copy} aria-hidden={copy === 1 || undefined}>{popularServices.map(({ label, id, Icon }) => <a key={`${copy}-${label}`} href="#services" tabIndex={copy === 1 ? -1 : undefined} onClick={event => { event.preventDefault(); viewService(id) }}><span className="ct-service-icon"><Icon size={20} aria-hidden="true" /></span><strong>{t(label)}</strong><ArrowRight size={16} aria-hidden="true" /></a>)}</div>)}</div></div>
+        <div className="ct-services-marquee"><div className="ct-services-track">{[0, 1].map(copy => <div className="ct-services-set" key={copy} aria-hidden={copy === 1 || undefined}>{popularServices.map(({ label, id, Icon }) => <PageLink key={`${copy}-${label}`} page="services" sectionId={`service-${id}`} navigate={navigate} tabIndex={copy === 1 ? -1 : undefined}><span className="ct-service-icon"><Icon size={20} aria-hidden="true" /></span><strong>{t(label)}</strong><ArrowRight size={16} aria-hidden="true" /></PageLink>)}</div>)}</div></div>
       </nav>
 
       <section className="ct-faq ct-shell" aria-labelledby="ct-faq-title">
-        <div className="ct-faq-heading"><div><p className="ct-kicker">{t("Useful to know")}</p><h2 id="ct-faq-title">{t("Quick answers")}</h2></div><a href="#faq" className="ct-inline-link" onClick={event => { event.preventDefault(); navigate('faq') }}>{t("Explore all FAQs ")}<ArrowRight size={17} aria-hidden="true" /></a></div>
+        <div className="ct-faq-heading"><div><p className="ct-kicker">{t("Useful to know")}</p><h2 id="ct-faq-title">{t("Quick answers")}</h2></div><PageLink page="faq" navigate={navigate} className="ct-inline-link">{t("Explore all FAQs ")}<ArrowRight size={17} aria-hidden="true" /></PageLink></div>
         {quickAnswers.map(([question, answer], index) => <article key={question} className="ct-answer"><h3><button id={`ct-question-${index}`} aria-expanded={openAnswer === index} aria-controls={`ct-answer-${index}`} onClick={() => setOpenAnswer(openAnswer === index ? null : index)}>{t(question)}<Plus size={18} aria-hidden="true" /></button></h3><div id={`ct-answer-${index}`} role="region" aria-labelledby={`ct-question-${index}`} className={`ct-answer-body${openAnswer === index ? ' is-open' : ''}`} aria-hidden={openAnswer !== index}><div><p>{t(answer)}</p></div></div></article>)}
       </section>
     </div>

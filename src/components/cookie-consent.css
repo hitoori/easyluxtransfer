@@ -9,7 +9,7 @@
 .cookie-actions button { min-height: 46px; padding: 11px 20px; border: 1px solid var(--border-gold); color: var(--gold-hover); background: transparent; font: inherit; cursor: pointer; transition: background-color 180ms ease,border-color 180ms ease; }
 .cookie-actions button:hover { background: var(--surface-hover); border-color: var(--gold); }
 .cookie-actions .cookie-settings-link { flex-basis: 100%; border: 0; padding: 0; min-height: 34px; color: var(--text-secondary); text-align: center; text-decoration: underline; text-underline-offset: 4px; }
-.cookie-dialog { width: 580px; max-width: calc(100vw - 32px); max-height: calc(100dvh - 32px); padding: 36px; border-radius: 2px; overflow-y: auto; }
+.cookie-dialog { width: 580px; max-width: calc(100vw - 32px); max-height: calc(100dvh - 32px); margin: auto; padding: 36px; border-radius: 2px; overflow-y: auto; }
 .cookie-dialog::backdrop { background: #000b; }
 .cookie-dialog p { margin-block: 14px; }
 .cookie-dialog > a { display: inline-block; margin-top: 20px; }
