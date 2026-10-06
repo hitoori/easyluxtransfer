@@ -50,8 +50,9 @@ export default function PlaceInput({ value, onChange, className, placeholder, la
   const requestId = useRef(0)
   const selectedValue = useRef('')
   const selectionId = useRef(0)
+  const blurTimer = useRef<number | undefined>(undefined)
 
-  useEffect(() => () => { selectionId.current++ }, [])
+  useEffect(() => () => { selectionId.current++; window.clearTimeout(blurTimer.current) }, [])
 
   useLayoutEffect(() => {
     const list = popup.current
@@ -69,9 +70,12 @@ export default function PlaceInput({ value, onChange, className, placeholder, la
       const width = Math.min(Math.max(bounds.width, 300), 420, viewportWidth - 24)
       const below = Math.max(0, viewportBottom - bounds.bottom - 20)
       const above = Math.max(0, bounds.top - viewportTop - 20)
-      const belowPreferred = below >= Math.min(list.scrollHeight, 340) || below >= above
+      const options = list.querySelector<HTMLElement>('.place-suggestion-options')
+      const attribution = list.querySelector<HTMLElement>('.place-google-attribution')
+      const contentHeight = (options?.scrollHeight ?? list.scrollHeight) + (attribution?.offsetHeight ?? 0)
+      const belowPreferred = below >= Math.min(contentHeight, 340) || below >= above
       const maxHeight = Math.min(340, belowPreferred ? below : above)
-      const height = Math.min(list.scrollHeight, maxHeight)
+      const height = Math.min(contentHeight, maxHeight)
       const left = Math.max(viewportLeft + 12, Math.min(bounds.left, viewportLeft + viewportWidth - width - 12))
       const top = belowPreferred ? bounds.bottom + 8 : bounds.top - height - 8
       setPosition(previous => previous.left === left && previous.top === top && previous.width === width && previous.maxHeight === maxHeight ? previous : { left, top, width, maxHeight })
@@ -122,6 +126,8 @@ export default function PlaceInput({ value, onChange, className, placeholder, la
         const result = await AutocompleteSuggestion.fetchAutocompleteSuggestions({
           input: value,
           language,
+          region: 'it',
+          locationBias: { center: { lat: 45.4408, lng: 12.3155 }, radius: 50000 },
           sessionToken: session.current,
         })
         if (id === requestId.current) { setAvailable(true); setSuggestions(result.suggestions.flatMap(item => item.placePrediction ? [item.placePrediction] : [])) }
@@ -164,8 +170,8 @@ export default function PlaceInput({ value, onChange, className, placeholder, la
       id={inputId}
       value={value}
       onChange={event => { selectionId.current++; selectedValue.current = ''; onMetadataChange?.(null); onChange(event.target.value); setOpen(true); setActive(-1) }}
-      onFocus={() => setOpen(true)}
-      onBlur={() => { if (input.current) input.current.scrollLeft = 0; window.setTimeout(() => setOpen(false), 150) }}
+      onFocus={() => { window.clearTimeout(blurTimer.current); setOpen(true) }}
+      onBlur={() => { if (input.current) input.current.scrollLeft = 0; window.clearTimeout(blurTimer.current); blurTimer.current = window.setTimeout(() => setOpen(false), 150) }}
       onKeyDown={event => {
         if (event.key === 'Escape') { setOpen(false); setActive(-1) }
         if (event.key === 'ArrowDown' && suggestions.length) { event.preventDefault(); setActive((active + 1) % suggestions.length) }
@@ -185,9 +191,10 @@ export default function PlaceInput({ value, onChange, className, placeholder, la
       aria-autocomplete={mapsAllowed && available ? 'list' : 'none'}
       role="combobox"
     />
+    {mapsAllowed && mapsKey && !available && <span className="place-input-unavailable" role="status">{t('Google suggestions are temporarily unavailable. You can still enter the address manually.')}</span>}
     {visible && <span ref={popup} id={listId} popover="manual" role="listbox" aria-label={message('{0} suggestions', t(label))} className="place-suggestions" style={position}>
-      {suggestions.map((item, index) => <button key={item.placeId} id={`${listId}-${index}`} type="button" role="option" tabIndex={-1} aria-selected={index === active} onPointerDown={event => event.preventDefault()} onClick={() => void choose(item)}>{item.text.toString()}</button>)}
-      <span className="flex justify-end border-t border-white/10 bg-white px-3 py-1.5"><OptimizedImage src={`${import.meta.env.BASE_URL}images/powered_by_google_on_white.png`} alt={t("Powered by Google")} width={59} height={18} className="h-[18px] w-auto" /></span>
+      <span className="place-suggestion-options">{suggestions.map((item, index) => <button key={item.placeId} id={`${listId}-${index}`} type="button" role="option" tabIndex={-1} aria-selected={index === active} onPointerDown={event => event.preventDefault()} onClick={() => void choose(item)}>{item.text.toString()}</button>)}</span>
+      <span className="place-google-attribution"><OptimizedImage src={`${import.meta.env.BASE_URL}images/powered_by_google_on_white.png`} alt={t("Powered by Google")} width={59} height={18} className="h-[18px] w-auto" /></span>
     </span>}
   </span>
 }

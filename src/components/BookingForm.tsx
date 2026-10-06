@@ -3,6 +3,7 @@ import { pagePath } from '../types/navigation'
 import { countLabel, message, t, useLocale } from '../i18n/locale'
 import { lazy, Suspense, useEffect, useRef, useState, type ReactNode, type FormEvent } from 'react'
 import PlaceInput, { type PlaceMetadata } from './PlaceInput'
+import AddressSuggestionsConsent from './AddressSuggestionsConsent'
 import BookingDateTime from './BookingDateTime'
 import { sendBooking } from '../lib/sendBooking'
 import type { CountryCode } from '../lib/phoneNumber'
@@ -406,6 +407,7 @@ export default function BookingForm({ prefill, variant = 'home', quoteSelection,
               setEditingInitial(current => !current)
               if (!editingInitial) window.requestAnimationFrame(() => document.getElementById(fieldId('pickup'))?.focus())
             }}>{t(editingInitial ? 'Done' : 'Edit')}</button></section>
+            {editingInitial && <AddressSuggestionsConsent />}
             {editingInitial && <div id="booking-initial-editor" className="br-grid br-initial-editor">
               {locationField('pickup', 'Pick-up')}
               {t(activeTab === 'transfer' && locationField('destination', 'Destination'))}
@@ -598,6 +600,7 @@ export default function BookingForm({ prefill, variant = 'home', quoteSelection,
           {servicesVariant ? <div className="services-booking-action">{continueButton}<p className="sv-quote-next">{t('Next: journey details, passengers and extras.')}</p></div> : continueButton}
           {activeTab === 'tours' && draft.category === 'Other destination' && <div className="md:col-span-2 lg:col-span-4"><FieldShell label={t("Other destination")} icon={<MapPin size={23} aria-hidden="true" />} error={initialErrors.exactDestination}><input value={draft.exactDestination} maxLength={500} onChange={event => updateJourney('exactDestination', event.target.value)} className={controlClass} placeholder={t("Where would you like to go?")} aria-label={t("Other destination")} aria-invalid={Boolean(initialErrors.exactDestination)} /></FieldShell></div>}
         </div></form>
+        <AddressSuggestionsConsent />
       </div>
     </div>
 

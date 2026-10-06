@@ -1,12 +1,13 @@
 .place-input { min-width: 0; text-overflow: ellipsis; }
 .place-suggestions {
+  display: flex;
+  flex-direction: column;
   position: fixed;
   inset: auto;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: hidden;
   overscroll-behavior: contain;
   scrollbar-width: thin;
   border: 1px solid var(--border-gold);
@@ -16,6 +17,8 @@
   box-shadow: 0 18px 42px rgba(0,0,0,.65);
   font-family: var(--font-body);
 }
+.place-suggestion-options { display: block; min-height: 0; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }
+.place-google-attribution { display: flex; flex-shrink: 0; justify-content: flex-end; padding: 6px 12px; border-top: 1px solid rgba(255,255,255,.1); background: white; }
 .place-suggestions [role='option'] {
   display: block;
   width: 100%;
@@ -32,3 +35,36 @@
   cursor: pointer;
 }
 .place-suggestions [role='option']:is(:hover, [aria-selected='true']) { background: var(--surface-hover); }
+
+.address-suggestions-consent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 24px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+.address-suggestions-consent p {
+  margin: 0;
+  max-width: 760px;
+  color: var(--text-secondary);
+  font: 400 12px/1.6 var(--font-body);
+}
+.address-suggestions-consent p span { display: inline; }
+.address-suggestions-consent button {
+  flex-shrink: 0;
+  min-height: 40px;
+  padding: 6px 0;
+  border: 0;
+  background: transparent;
+  color: var(--gold-light);
+  font: 500 13px/1.5 var(--font-body);
+  text-align: left;
+  cursor: pointer;
+}
+.address-suggestions-consent button:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+.place-input-unavailable { display: block; margin-top: 6px; color: var(--text-secondary); font: 400 12px/1.5 var(--font-body); }
+@media (max-width: 760px) {
+  .address-suggestions-consent { align-items: flex-start; flex-direction: column; gap: 4px; }
+}

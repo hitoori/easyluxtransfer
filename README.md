@@ -115,6 +115,8 @@ Home photographs and client stories advance every eight seconds with no visible 
 
 Google Places suggestions and Google Analytics (`G-M322BVXRJG`) have independent, optional privacy preferences. Neither service loads before its own permission; rejecting Maps preserves manual entry. Accept all allows both, Essential only rejects both. Consent lasts 180 days. Maps-only choices from version 1 are preserved but never grant Analytics consent; the banner asks for a new choice. Withdrawing a loaded service refreshes the page and clears first-party `_ga` cookies. The combined Privacy Policy is at `/cookies`, in English and Russian.
 
+Home and Services booking starters explain when address suggestions are disabled and offer an explicit enable action without granting Analytics consent or clearing the typed address. Rapidly returning to an address input after Cookie settings must cancel its previous blur-dismiss timer. Suggestions are biased toward Venice but international destinations remain available. Google attribution stays visible below the independently scrolling choices; provider failures retain manual entry and show an inline status.
+
 ### Google Analytics release settings
 
 The async Google tag loads once, after Analytics consent, with Basic Consent Mode: Analytics storage is granted only after opt-in and all advertising consent types stay denied. Page views are sent after React commits the localized page title, including back/forward navigation and language changes. Query strings and fragments are excluded; enquiry contents are never added as Analytics event parameters. Google signals and advertising personalization are disabled. The cookie expiry is 180 days, renewed during use.
