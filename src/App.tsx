@@ -16,7 +16,8 @@ const About = lazy(pageLoaders.about)
 const FAQ = lazy(pageLoaders.faq)
 const Contact = lazy(pageLoaders.contact)
 const Cookies = lazy(pageLoaders.cookies)
-const pageIds = new Set<Page>(['home', 'services', 'about', 'faq', 'contact', 'cookies'])
+const Terms = lazy(pageLoaders.terms)
+const pageIds = new Set<Page>(['home', 'services', 'about', 'faq', 'contact', 'cookies', 'terms'])
 
 const getPageFromLocation = (): Page | 'not-found' => {
   if (typeof window === 'undefined') return 'home'
@@ -119,6 +120,7 @@ export default function App({ initialPage, prerenderedContent }: { initialPage?:
       case 'faq': return <FAQ navigate={navigate} />
       case 'contact': return <Contact navigate={navigate} />
       case 'cookies': return <Cookies />
+      case 'terms': return <Terms />
       default: return <Home navigate={navigate} />
     }
   }

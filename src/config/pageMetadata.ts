@@ -11,6 +11,7 @@ export const pageMetadata: Record<Page, { title: string; description: string; im
   faq: { title: 'Transfer Booking FAQ | Easy Lux Transfer', description: 'Find answers from Easy Lux Transfer about quotes, booking confirmation, deposits, airport pick-ups, luggage and Water Taxi connections in Venice.', image: 'images/home/vehicle/black-private-van-venice.png', imageAlt: 'Black private transfer van in Venice' },
   contact: { title: 'Contact & Transfer Quotes | Easy Lux Transfer', description: 'Contact Easy Lux Transfer for a private journey from Venice or Treviso. Share your route and date for airport, Water Taxi or long-distance quotes.', image: 'images/home/hero/venice-grand-canal.jpg', imageAlt: 'Venice Grand Canal and waterfront architecture' },
   cookies: { title: 'Privacy Policy | Easy Lux Transfer', description: 'Learn how Easy Lux Transfer handles contact details, journey requests and optional services, and how to manage your privacy and cookie preferences.', image: 'images/home/hero/venice-canal-boats.jpg', imageAlt: 'Venice Grand Canal' },
+  terms: { title: 'Booking Terms & Conditions | Easy Lux Transfer', description: 'Read Easy Lux Transfer booking terms: deposit, payment to the driver after your journey, changes and the 24-hour cancellation and refund policy.', image: 'images/home/hero/venice-canal-boats.jpg', imageAlt: 'Venice Grand Canal' },
 }
 
 export function metadataTags(page: Page) {

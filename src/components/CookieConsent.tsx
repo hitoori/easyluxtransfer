@@ -9,6 +9,21 @@ export const addressSuggestionsConfigured = Boolean(import.meta.env.VITE_GOOGLE_
 const ConsentContext = createContext({ maps: false, analytics: false, chosen: false, openSettings: () => {}, save: (_maps: boolean, _analytics = false) => {} })
 export const useCookieConsent = () => useContext(ConsentContext)
 
+function CookieIcon() {
+  return <svg className="cookie-symbol" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M28 17A12 12 0 1 1 15 4a7 7 0 0 0 7 8 5 5 0 0 0 6 5Z" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" /><circle cx="11" cy="13" r="1.5" fill="currentColor" /><circle cx="10" cy="21" r="1.5" fill="currentColor" /><circle cx="18" cy="22" r="1.5" fill="currentColor" /><circle cx="18" cy="15" r="1.5" fill="currentColor" /></svg>
+}
+
+const notice = addressSuggestionsConfigured
+  ? 'We use essential technologies to remember your privacy choices and protect forms. With your permission, Google Analytics measures website use and Google Places suggests addresses. Choose Accept all, Reject non-essential or Manage preferences.'
+  : 'We use essential technologies to remember your privacy choices and protect forms. With your permission, Google Analytics measures website use. Choose Accept all, Reject non-essential or Manage preferences.'
+
+function ConsentCategory({ id, title, description, checked, onChange }: { id: string; title: string; description: string; checked: boolean; onChange?: (checked: boolean) => void }) {
+  return <div className="cookie-category">
+    <details><summary id={`${id}-label`}><strong>{t(title)}</strong>{!onChange && <span className="cookie-always">{t("Always active")}</span>}</summary><p>{t(description)}</p></details>
+    <label className="cookie-category-toggle"><input type="checkbox" role="switch" checked={checked} disabled={!onChange} aria-labelledby={`${id}-label`} onChange={event => onChange?.(event.target.checked)} /></label>
+  </div>
+}
+
 function readConsent(): StoredConsent | null {
   try { return readStoredConsent(localStorage) } catch { return null }
 }
@@ -61,23 +76,31 @@ export function CookieConsentProvider({ children }: { children: ReactNode }) {
   return <ConsentContext.Provider value={{ maps, analytics, chosen, openSettings, save }}>
     {children}
     {ready && !chosen && <aside className="cookie-banner" aria-labelledby="cookie-banner-title">
-      <div className="cookie-banner-copy"><span className="cookie-eyebrow">{t("Easy Lux · Your privacy")}</span><h2 id="cookie-banner-title">{t("Cookies & privacy")}</h2><p>{t("We use essential browser storage to remember your privacy preferences. ")}{t(addressSuggestionsConfigured ? 'With your permission, Google can also suggest addresses for your journey. ' : '')}{t("With your permission, Google Analytics helps us understand how visitors use this website. We do not use advertising trackers. ")}<a href={pagePath('cookies')}>{t("Privacy Policy")}</a>{"."}</p></div>
+      <CookieIcon />
+      <div className="cookie-banner-copy"><h2 id="cookie-banner-title">{t("We use cookies")}</h2><p>{t(notice)} {t("For details, see our ")}<a href={pagePath('cookies')}>{t("Privacy Policy")}</a>{"."}</p></div>
       <div className="cookie-actions">
-        <button type="button" onClick={() => save(false)}>{t("Essential only")}</button>
-        <button type="button" onClick={() => save(true, true)}>{t("Accept all")}</button>
         <button type="button" className="cookie-settings-link" onClick={openSettings}>{t("Manage preferences")}</button>
+        <button type="button" onClick={() => save(false)}>{t("Reject non-essential")}</button>
+        <button type="button" className="cookie-accept" onClick={() => save(true, true)}>{t("Accept all")}</button>
       </div>
+      <button type="button" className="cookie-close" aria-label={t("Reject non-essential and close")} onClick={() => save(false)}>{"×"}</button>
     </aside>}
     <dialog ref={dialogRef} className="cookie-dialog" aria-labelledby="cookie-dialog-title" onCancel={() => setSettings(false)} onClose={() => setSettings(false)}>
       <button type="button" className="cookie-close" aria-label={t("Close privacy preferences")} onClick={() => setSettings(false)}>{"×"}</button>
-      <span className="cookie-eyebrow">{t("Easy Lux · Your privacy")}</span>
-      <h2 id="cookie-dialog-title">{t("Privacy preferences")}</h2>
-      <p>{t("Essential storage remembers your choice for up to 180 days. It is always enabled. Optional services below are controlled separately.")}</p>
-      {addressSuggestionsConfigured && <label className="cookie-option"><input type="checkbox" checked={draftMaps} onChange={event => setDraftMaps(event.target.checked)} /><span><strong>{t("Google address suggestions")}</strong><small>{t("Optional. When used, your typed address and connection data are sent to Google. You can enter an address manually with this disabled.")}</small></span></label>}
-      <label className="cookie-option"><input type="checkbox" checked={draftAnalytics} onChange={event => setDraftAnalytics(event.target.checked)} /><span><strong>{t("Google Analytics")}</strong><small>{t("Optional. Measures page visits and website usage using cookies. Google receives technical connection and device information. Disabled until you allow it.")}</small></span></label>
-      <p className="cookie-detail">{t("Disabling a Google service that has already loaded refreshes the page to stop it. Any unsent form entries will be cleared.")}</p>
-      <div className="cookie-actions"><button type="button" onClick={() => save(false)}>{t("Essential only")}</button><button type="button" onClick={() => save(draftMaps, draftAnalytics)}>{t("Save preferences")}</button></div>
-      <a href={pagePath('cookies')}>{t("Privacy Policy")}</a>
+      <div className="cookie-dialog-copy">
+        <CookieIcon />
+        <h2 id="cookie-dialog-title">{t("Cookie preferences")}</h2>
+        <p>{t("Choose which optional services Easy Lux Transfer may use. Each choice is independent. You can still request a journey if you reject them.")}</p>
+        <p>{t("Your choice is remembered for 180 days. We do not use advertising trackers.")}</p>
+        <a href={pagePath('cookies')}>{t("Privacy Policy")}</a>
+      </div>
+      <div className="cookie-dialog-options">
+        <ConsentCategory id="cookie-necessary" title="Necessary storage & security" description="Remembers your privacy choice and protects forms against spam using Cloudflare Turnstile when you submit. These services do not measure visits or personalise advertising." checked />
+        <ConsentCategory id="cookie-analytics" title="Analytics cookies" description="Optional. Google Analytics measures page visits and website use. Google receives cookie identifiers, page, device and connection information. Your enquiry details are not sent to Analytics." checked={draftAnalytics} onChange={setDraftAnalytics} />
+        {addressSuggestionsConfigured && <ConsentCategory id="cookie-maps" title="Google address suggestions" description="Optional. Google Places receives your typed address searches and connection information. Without this service, you can enter addresses manually and still request a journey." checked={draftMaps} onChange={setDraftMaps} />}
+        <p className="cookie-detail">{t("Disabling a Google service that has already loaded refreshes the page to stop it. Any unsent form entries will be cleared.")}</p>
+        <div className="cookie-actions"><button type="button" onClick={() => save(false)}>{t("Reject non-essential")}</button><button type="button" onClick={() => save(draftMaps, draftAnalytics)}>{t("Save preferences")}</button><button type="button" className="cookie-accept" onClick={() => save(true, true)}>{t("Accept all")}</button></div>
+      </div>
     </dialog>
   </ConsentContext.Provider>
 }

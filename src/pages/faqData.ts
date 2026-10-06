@@ -2,9 +2,9 @@ export const faqTopics = [
   { id: 'booking', title: 'Booking & Payment', questions: [
     { id: 'book', q: 'Does sending a request book my transfer?', a: 'No. We’ll check availability and send you a quote. Your booking is confirmed after agreement of the details and receipt of the deposit.' },
     { id: 'price', q: 'Will I pay the price shown on the website?', a: 'The prices shown are indicative. We’ll confirm the fare for your route, vehicle and travel date before you book.' },
-    { id: 'payment', q: 'Do I need to pay a deposit?', a: 'A deposit is required to confirm your booking. We’ll tell you the amount, how to pay it and when the balance is due before you confirm.' },
-    { id: 'modify', q: 'Can I change my pick-up time or destination after booking?', a: 'Tell us what needs to change as soon as you can. We’ll check availability and let you know if it affects the price.' },
-    { id: 'cancel', q: 'What happens if I need to cancel?', a: 'Contact us as soon as your plans change. Any cancellation fee or refund depends on the terms agreed for your booking.' },
+    { id: 'payment', q: 'Do I need to pay a deposit?', a: 'A deposit is required to confirm your booking. We’ll agree its amount and payment method with you. It is deducted from the final fare; the remaining balance is paid to the driver after your journey.' },
+    { id: 'modify', q: 'Can I change my pick-up time or destination after booking?', a: 'Contact us as soon as your plans change. We’ll check availability and any price difference. A change takes effect only after our team confirms it.' },
+    { id: 'cancel', q: 'What happens if I need to cancel?', a: 'Contact us by email or WhatsApp as soon as your plans change. Cancel at least 24 hours before the agreed pick-up time for a full refund of your deposit. For a customer cancellation less than 24 hours before pick-up, the deposit is retained for the reserved vehicle and driver time, subject to your statutory rights. See our Booking Terms & Conditions for details.' },
   ] },
   { id: 'journey', title: 'Pick-up & Journey', questions: [
     { id: 'port', q: 'Can you pick us up from a hotel, train station or cruise terminal?', a: 'Yes. Send us the address or station name. For a cruise pick-up, include your ship, terminal and disembarkation time so we can agree on a meeting point.' },

@@ -1,0 +1,11 @@
+.booking-terms-page .privacy-heading h1 { max-width: 1000px; text-wrap: balance; }
+/* Match the app's deep-link offset so the selected chapter reaches the reading line. */
+.booking-terms-page .privacy-chapter { scroll-margin-top: 148px; }
+.booking-terms-page .terms-cancellation-rules > div { padding: 18px 22px; border-left: 2px solid var(--gold); background: var(--surface); }
+.booking-terms-page .terms-cancellation-rules dt { margin-bottom: 8px; font-size: 17px; }
+.booking-terms-page .terms-contact-links { display: grid; gap: 12px; margin-block: 20px; }
+.booking-terms-page .terms-contact-links > div { display: flex; flex-wrap: wrap; gap: 8px 20px; }
+@media (max-width: 700px) {
+  .booking-terms-page .privacy-heading h1 { font-size: clamp(34px, 8.5vw, 48px); }
+  .booking-terms-page .terms-cancellation-rules > div { padding: 16px; }
+}

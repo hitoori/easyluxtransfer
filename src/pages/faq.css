@@ -49,6 +49,8 @@
 .faq-page .fq-question.is-open .fq-answer{grid-template-rows:1fr;visibility:visible}
 .faq-page .fq-answer>div{overflow:hidden}
 .faq-page .fq-answer p{max-width:750px;padding:0 24px 26px;font-size:15px;line-height:1.85}
+.faq-page .fq-answer a { color: var(--gold); text-decoration: underline; text-underline-offset: 4px; }
+.faq-page .fq-answer a:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
 .faq-page .fq-results-content{animation:fq-enter 220ms ease}
 .faq-page .fq-empty{padding-block:30px}
 .faq-page .fq-empty h3{font-size:26px;margin-bottom:14px}

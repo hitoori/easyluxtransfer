@@ -6,6 +6,7 @@ export const pageLoaders = {
   faq: () => import('../pages/FAQ'),
   contact: () => import('../pages/Contact'),
   cookies: () => import('../pages/Cookies'),
+  terms: () => import('../pages/Terms'),
 }
 export function preloadPage(page: Page) {
   if (page === 'home') return

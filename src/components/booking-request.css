@@ -159,6 +159,8 @@
 .booking-request .br-back { padding-inline: 0; background: transparent; color: var(--text-secondary); }
 .booking-request .br-back:hover { color: var(--text-primary); }
 .booking-request .br-consent a { color: var(--gold); text-decoration: underline; text-underline-offset: 3px; }
+.booking-request .br-terms a { color: var(--gold); text-decoration: underline; text-underline-offset: 3px; }
+.booking-request .br-terms a:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
 .booking-request .br-consent { display: flex; align-items: flex-start; gap: 10px; margin-top: 14px; padding: 12px 14px; border: 0; border-radius: 0; background: transparent; color: var(--text-secondary); font-size: 12px; font-weight: 400; line-height: 1.6; cursor: pointer; }
 .booking-request .br-consent > input { flex: 0 0 16px; margin: 2px 0 0; }
 .booking-request .br-consent > span { min-width: 0; overflow-wrap: anywhere; }

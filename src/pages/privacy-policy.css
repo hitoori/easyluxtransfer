@@ -2,7 +2,7 @@
 .privacy-page, .privacy-page * { font-style: normal; }
 .privacy-page a { color: var(--gold); text-decoration: underline; text-decoration-color: var(--border-gold); text-underline-offset: 4px; overflow-wrap: anywhere; }
 .privacy-page a:hover { color: var(--gold-hover); text-decoration-color: var(--gold-hover); }
-.privacy-page :is(a, button):focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+.privacy-page :is(a, button, summary):focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
 .privacy-heading { padding-bottom: 38px; border-bottom: 1px solid var(--border); }
 .privacy-eyebrow { color: var(--gold); font-size: 11px; font-weight: 500; line-height: 1.5; letter-spacing: .18em; }
 .privacy-heading h1 { margin: 18px 0 22px; color: var(--text-primary); font: 400 clamp(42px, 5vw, 68px)/1.08 var(--font-display); letter-spacing: -.035em; }
@@ -43,6 +43,18 @@
 .privacy-purpose-list > div + div { margin-top: 22px; }
 .privacy-purpose-list dt { margin-bottom: 6px; }
 .privacy-purpose-list dd { margin: 0; }
+.privacy-storage-list { margin: 20px 0 28px; }
+.privacy-storage-list > div { padding: 18px 0; border-bottom: 1px solid var(--border); }
+.privacy-storage-list dt { margin-bottom: 8px; overflow-wrap: anywhere; }
+.privacy-storage-list dd { margin: 0; font-size: 14px; line-height: 1.8; }
+.privacy-cookie-details { border-block: 1px solid var(--border); }
+.privacy-cookie-details + .privacy-cookie-details { border-top: 0; }
+.privacy-cookie-details summary { position: relative; padding: 18px 32px 18px 0; color: var(--text-primary); font-weight: 500; cursor: pointer; list-style: none; }
+.privacy-cookie-details summary::-webkit-details-marker { display: none; }
+.privacy-cookie-details summary::after { content: '+'; position: absolute; right: 5px; top: 18px; color: var(--gold); font-size: 19px; line-height: 1.45; }
+.privacy-cookie-details[open] summary::after { content: '−'; }
+.privacy-cookie-details > p:last-child { margin-bottom: 22px; }
+.privacy-cookie-details .privacy-storage-list { margin-bottom: 18px; }
 .privacy-page code { color: var(--text-primary); font-size: 13px; overflow-wrap: anywhere; }
 .privacy-cookie-action { margin: 22px 0; }
 .privacy-cookie-action button { min-height: 44px; padding: 11px 22px; border: 1px solid var(--border-gold); background: transparent; color: var(--gold); font: 500 13px/1.5 var(--font-body); cursor: pointer; transition: color .18s, border-color .18s; }

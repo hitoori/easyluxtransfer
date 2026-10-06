@@ -7,6 +7,7 @@ import About from './pages/About'
 import FAQ from './pages/FAQ'
 import Contact from './pages/Contact'
 import Cookies from './pages/Cookies'
+import Terms from './pages/Terms'
 import NotFound from './pages/NotFound'
 import { alternateLinks, metadataTags, pageMetadata, siteOrigin } from './config/pageMetadata'
 import { loadLanguage, LocaleProvider, t, withRenderLanguage, type Language } from './i18n/locale'
@@ -14,7 +15,7 @@ import { pagePath, type Page } from './types/navigation'
 
 export const pages = Object.keys(pageMetadata) as Page[]
 const noop = () => {}
-const components = { home: Home, services: Services, about: About, faq: FAQ, contact: Contact, cookies: Cookies }
+const components = { home: Home, services: Services, about: About, faq: FAQ, contact: Contact, cookies: Cookies, terms: Terms }
 const escape = (value: string) => value.replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]!)
 export async function renderPage(page: Page | 'not-found', language: Language = 'en') {
   await loadLanguage(language)

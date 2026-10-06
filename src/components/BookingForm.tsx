@@ -555,6 +555,7 @@ export default function BookingForm({ prefill, variant = 'home', quoteSelection,
               <section className="br-essential-review"><ReviewGroup title={t("Request summary")} entries={essentialReview} onEdit={() => { setEditingInitial(true); setStep(1) }} />
                 <button type="button" className="br-text-button" onClick={() => setStep(2)}>{t("Edit passengers & extras")}</button>
                 <p className="br-hint">{t("We’ll confirm availability and the final quote. Booking is confirmed after agreement and receipt of the deposit.")}</p>
+                <p className="br-hint br-terms">{t("The balance is paid to the driver after your journey. ")}<a href={pagePath('terms')} target="_blank" rel="noopener noreferrer">{t("Booking Terms & Conditions")}</a></p>
               </section>
               <section className="br-all-details">
                 <button type="button" className="br-details-toggle" aria-expanded={showAllDetails} aria-controls="booking-full-review" onClick={() => setShowAllDetails(current => !current)}><span>{t(showAllDetails ? 'Hide details' : 'Show all details')}</span><ArrowDown size={13} aria-hidden="true" /></button>

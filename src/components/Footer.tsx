@@ -72,7 +72,7 @@ export default function Footer({ navigate }: { navigate: Navigate }) {
         <p>{"© "}<span suppressHydrationWarning>{t(new Date().getFullYear())}</span> {t(" Easy Lux Transfer. All rights reserved.")}</p>
         <div className="home-footer-legal" aria-label={t("Legal and privacy information")}>
           <a href={pagePath('cookies')} onClick={event => followPageLink(event, 'cookies')}>{t("Privacy Policy")}</a>
-          {company.termsUrl && <a href={company.termsUrl}>{t("Terms")}</a>}
+          <a href={pagePath('terms')} onClick={event => followPageLink(event, 'terms')}>{t("Booking Terms")}</a>
           <CookieSettingsButton />
         </div>
       </div>
