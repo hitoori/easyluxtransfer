@@ -8,13 +8,31 @@
     "BOOKING_FROM_EMAIL": "Easy Lux <booking@mail.easyluxtransfer.com>",
     "BOOKING_TO_EMAIL": "easyluxtransfer@gmail.com"
   },
-  "durable_objects": { "bindings": [{ "name": "BOOKING_LIMITER", "class_name": "BookingRateLimiter" }] },
-  "migrations": [{ "tag": "booking-rate-limiter-v1", "new_sqlite_classes": ["BookingRateLimiter"] }],
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "BOOKING_LIMITER",
+        "class_name": "BookingRateLimiter"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "booking-rate-limiter-v1",
+      "new_sqlite_classes": [
+        "BookingRateLimiter"
+      ]
+    }
+  ],
   "assets": {
     "directory": "./dist/client",
     "binding": "ASSETS",
     "not_found_handling": "404-page",
     "html_handling": "drop-trailing-slash",
-    "run_worker_first": ["/api/*"]
-  }
+    "run_worker_first": [
+      "/api/*"
+    ]
+  },
+  "workers_dev": false,
+  "preview_urls": false
 }

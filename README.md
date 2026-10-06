@@ -127,3 +127,5 @@ Form-data handling and the complete company privacy/booking terms remain a separ
 Production release preparation (2026-10-06): the real managed Turnstile widget “Easy Lux Transfer booking” is configured for `easyluxtransfer.com` and `www.easyluxtransfer.com`. Its private key is installed only in the Worker secret and ignored local environment. The versioned public key makes GitHub-triggered builds reproducible without relying on a missing build variable. Existing Resend settings remain unchanged. Public release is explicitly authorized by the owner; do not send real test emails.
 
 GA4 stream `G-M322BVXRJG` preparation (2026-10-06): disabled “Page changes based on browser history events” and automatic Form interactions in the existing Easy Lux Website stream. The app handles committed-page measurement; keep those two automatic options off. Normal Analytics requires visitor consent.
+
+Production preview URLs are explicitly disabled (`workers_dev: false`, `preview_urls: false`) to keep the Worker available only through its existing production custom domain. The report-only CSP allows the existing Cloudflare Web Analytics beacon added by the hosting platform.
