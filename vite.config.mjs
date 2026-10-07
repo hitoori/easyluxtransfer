@@ -48,7 +48,7 @@ function pagePreview() {
     configurePreviewServer(server) {
       server.middlewares.use((req, res, next) => {
         const pathname = new URL(req.url || '/', 'http://localhost').pathname;
-        if (!/^\/(?:ru(?:\/(?:services|about|faq|contact|cookies))?|services|about|faq|contact|cookies)\/?$/.test(pathname)) return next();
+        if (!/^\/(?:ru(?:\/(?:services|about|faq|contact|cookies|terms))?|services|about|faq|contact|cookies|terms)\/?$/.test(pathname)) return next();
         try {
           const html = readFileSync(path.resolve('dist/client', pathname.replace(/^\/|\/$/g, ''), 'index.html'));
           res.setHeader('content-type', 'text/html; charset=utf-8');

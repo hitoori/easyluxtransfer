@@ -14,6 +14,17 @@ import { loadLanguage, LocaleProvider, t, withRenderLanguage, type Language } fr
 import { pagePath, type Page } from './types/navigation'
 
 export const pages = Object.keys(pageMetadata) as Page[]
+// Use the same routes and language paths as the rendered pages so releases
+// cannot leave a new page out of the sitemap.
+export function renderSitemap() {
+  const entries = (['en', 'ru'] as const).flatMap(language => pages.map(page => {
+    const alternates = (['en', 'ru', 'x-default'] as const).map(alternate =>
+      `    <xhtml:link rel="alternate" hreflang="${alternate}" href="${siteOrigin}${pagePath(page, alternate === 'x-default' ? 'en' : alternate)}" />`
+    ).join('\n')
+    return `  <url>\n    <loc>${siteOrigin}${pagePath(page, language)}</loc>\n${alternates}\n  </url>`
+  }))
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${entries.join('\n')}\n</urlset>\n`
+}
 const noop = () => {}
 const components = { home: Home, services: Services, about: About, faq: FAQ, contact: Contact, cookies: Cookies, terms: Terms }
 const escape = (value: string) => value.replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]!)

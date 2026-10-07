@@ -45,6 +45,8 @@ export default function BookingDateTime({ id, value, min = '', label, kind = 'da
   const minimumTime = kind === 'time' ? min : min.slice(11, 16)
   const candidate = kind === 'time' ? time : `${dateString(day)}${kind === 'datetime' ? `T${time}` : ''}`
   const tooEarly = Boolean(min && candidate < min)
+  // The closed popup must render identically at build time and hydration time.
+  // prepare() sets the current minimum before the visitor opens it.
 
   const close = () => {
     if (popup.current?.matches(':popover-open')) popup.current.hidePopover()
@@ -101,8 +103,8 @@ export default function BookingDateTime({ id, value, min = '', label, kind = 'da
         <label>{t("Hour")}<select aria-label={t("Hour")} value={time.slice(0, 2)} onChange={event => setTime(`${event.target.value}:${time.slice(3, 5)}`)}>{Array.from({ length: 24 }, (_, hour) => <option key={hour} value={pad(hour)}>{pad(hour)}</option>)}</select></label>
         <label>{t("Minute")}<select aria-label={t("Minute")} value={time.slice(3, 5)} onChange={event => setTime(`${time.slice(0, 2)}:${event.target.value}`)}>{Array.from({ length: 60 }, (_, minute) => <option key={minute} value={pad(minute)}>{pad(minute)}</option>)}</select></label>
       </div>}
-      {tooEarly && <p className="booking-date-error" role="status">{t("Choose ")}{t(kind === 'time' ? 'a later time' : 'a date and time after the minimum')}{"."}</p>}
-      <div className="booking-date-actions"><button type="button" onClick={() => { onChange(''); close() }}>{t("Clear")}</button><button type="button" disabled={tooEarly} onClick={() => { onChange(candidate); close() }}>{t(kind === 'time' ? 'Use time' : kind === 'date' ? 'Use date' : 'Use date & time')}</button></div>
+      {open && tooEarly && <p className="booking-date-error" role="status">{t("Choose ")}{t(kind === 'time' ? 'a later time' : 'a date and time after the minimum')}{"."}</p>}
+      <div className="booking-date-actions"><button type="button" onClick={() => { onChange(''); close() }}>{t("Clear")}</button><button type="button" disabled={open && tooEarly} onClick={() => { onChange(candidate); close() }}>{t(kind === 'time' ? 'Use time' : kind === 'date' ? 'Use date' : 'Use date & time')}</button></div>
     </div>
   </>
 }

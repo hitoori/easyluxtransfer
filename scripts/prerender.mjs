@@ -5,7 +5,7 @@ import { createHash } from 'node:crypto'
 
 const server = await createServer({ server: { middlewareMode: true }, appType: 'custom' })
 try {
-  const { pages, renderPage } = await server.ssrLoadModule('/src/prerender.tsx')
+  const { pages, renderPage, renderSitemap } = await server.ssrLoadModule('/src/prerender.tsx')
   const manifest = JSON.parse(await readFile('dist/client/.vite/manifest.json', 'utf8'))
   const base = process.env.GITHUB_ACTIONS === 'true' ? '/Easylux/' : '/'
   // Normalize an already rendered Home file too, so the script is repeatable.
@@ -31,5 +31,6 @@ try {
   }
   const headers = await readFile('public/_headers', 'utf8')
   await writeFile('dist/client/_headers', headers.replace('__INLINE_SCRIPT_HASHES__', [...inlineHashes].join(' ')))
+  await writeFile('dist/client/sitemap.xml', renderSitemap())
   console.log(`Prerendered ${pages.length * 2} pages in English and Russian with canonical URLs and language alternates.`)
 } finally { await server.close() }
