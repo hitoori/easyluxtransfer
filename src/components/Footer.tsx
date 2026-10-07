@@ -41,11 +41,11 @@ export default function Footer({ navigate }: { navigate: Navigate }) {
       <div className="home-footer-main">
         <div className="home-footer-brand">
           <a href={pagePath('home')} className="home-footer-logo" onClick={event => followPageLink(event, 'home')} aria-label={t("Easy Lux Transfer — Home")}>
-            <OptimizedImage src={publicAsset('images/brand/easy-lux-logo-wordmark.png')} alt="Easy Lux Transfer" width={80} height={88} loading="lazy" />
+            <OptimizedImage src={publicAsset('images/brand/easy-lux-site-logo-refined.png')} alt="Easy Lux Transfer" width={80} height={88} loading="lazy" style={{ transform: 'scale(1.42) translate(-1px, -1px)' }} />
             <span className="home-footer-tagline">{t("Your driver")}<br />{t("Around Italy")}</span>
           </a>
           <h2>{t("Private Chauffeur")}</h2>
-          <p>{t("Private transfers from Venice across Italy and Europe.")}<br />{t("Airport pick-ups, hourly chauffeurs and journeys on request.")}</p>
+          <p>{t("Private airport and door-to-door transfers in Venice and Treviso, Water Taxi connections and a driver by the hour.")}<br />{t("We’ll also take you to the mountains, the coast and cruise ports across Italy and Europe.")}</p>
           {socialChannels.some(channel => channel.href) && <div className="home-footer-social" aria-label={t("Easy Lux social media")}>
             {socialChannels.filter(channel => channel.href).map(({ label, href, Icon }) => <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={`${label} · Easy Lux Transfer`}><Icon size={21} weight="regular" aria-hidden="true" /></a>)}
           </div>}

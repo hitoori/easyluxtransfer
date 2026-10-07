@@ -7,7 +7,7 @@ import { pagePath, type Page } from '../types/navigation'
 import { publicAsset } from '../lib/publicAsset'
 import LanguageSwitcher from './LanguageSwitcher'
 
-const logoImage = publicAsset('images/brand/easy-lux-logo-wordmark.png')
+const logoImage = publicAsset('images/brand/easy-lux-site-logo-refined.png')
 
 interface HeaderProps {
   currentPage: Page | undefined
@@ -90,6 +90,7 @@ export default function Header({ currentPage, navigate }: HeaderProps) {
             src={logoImage}
             alt="Easy Lux Transfer"
             loading="eager" sizes="72px"
+            style={{ transform: 'scale(1.42) translate(-1px, -1px)' }}
             className={`translate-y-0.5 object-contain drop-shadow-[0_3px_8px_rgba(0,0,0,0.72)] transition-[width,height,transform] duration-500 group-hover:scale-[1.03] ${
               headerElevated
                 ? 'h-[60px] w-[60px] sm:h-[60px] sm:w-[60px] lg:h-[62px] lg:w-[62px]'

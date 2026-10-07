@@ -1027,5 +1027,16 @@
         "width": 1920
       }
     ]
+  },
+  "images/brand/easy-lux-site-logo-refined.png": {
+    "src": "images/brand/easy-lux-site-logo-refined.webp",
+    "width": 192,
+    "height": 192,
+    "variants": [
+      {
+        "src": "images/brand/easy-lux-site-logo-refined.webp",
+        "width": 192
+      }
+    ]
   }
 }

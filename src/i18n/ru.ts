@@ -21,6 +21,12 @@ Toggle menu¦Открыть или закрыть меню
 Language¦Язык
 Private transfers from Venice across Italy and Europe.¦Индивидуальные трансферы из Венеции по Италии и Европе.
 Airport pick-ups, hourly chauffeurs and journeys on request.¦Встреча в аэропорту, водитель с почасовой оплатой и поездки по вашему маршруту.
+Based in Venice and Treviso, we offer private transfers across Italy and Europe.¦Работаем в Венеции и Тревизо: индивидуальные трансферы по Италии и Европе.
+Airport pick-ups, hourly chauffeur services and journeys tailored to your plans.¦Встреча в аэропорту, услуги водителя с почасовой оплатой и поездки по вашему маршруту.
+We’re based in Venice and Treviso.¦Мы работаем в Венеции и Тревизо.
+Airport pick-ups, a driver for a few hours or a trip across Italy and Europe — we’ll arrange the details with you.¦Встреча в аэропорту, водитель на несколько часов или поездка по Италии и Европе — обсудим детали с вами.
+Private airport and door-to-door transfers in Venice and Treviso, Water Taxi connections and a driver by the hour.¦Индивидуальные трансферы в Венеции и Тревизо: в аэропорт и между адресами, организация водного такси и водитель с почасовой оплатой.
+We’ll also take you to the mountains, the coast and cruise ports across Italy and Europe.¦Также отвезём вас в горы, к морю и в круизные порты по Италии и Европе.
 Easy Lux social media¦Easy Lux в социальных сетях
 Phone & WhatsApp¦Телефон и WhatsApp
 Operational base¦Место работы
@@ -1021,6 +1027,7 @@ Driven by passion.¦Движимые увлечённостью.
 Committed to excellence.¦Преданные качеству.
 Ready to travel?¦Готовы к поездке?
 Tell us where¦Расскажите, куда
+you want to go.¦вы хотите поехать.
 you need to be.¦вам нужно добраться.
 Tell us your pick-up, destination and date. We’ll check availability and send you a quote.¦Укажите место подачи, пункт назначения и дату. Мы проверим доступность и пришлём предложение.
 Book your ride¦Заказать поездку
@@ -1136,18 +1143,18 @@ Object.assign(russian, {
 Object.assign(russian, { 'Child {0}: {1}': 'Ребёнок {0}: {1}' })
 
 Object.assign(russian, Object.fromEntries(`
-Venice & Treviso Private Transfers | Easy Lux Transfer¦Трансферы в Венеции и Тревизо | Easy Lux Transfer
-Venice Transfer Services & Prices | Easy Lux Transfer¦Услуги и цены на трансферы | Easy Lux Transfer
-About Our Chauffeur Service | Easy Lux Transfer¦О нашем сервисе личного водителя | Easy Lux Transfer
-Transfer Booking FAQ | Easy Lux Transfer¦Вопросы о трансферах и бронировании | Easy Lux Transfer
-Contact & Transfer Quotes | Easy Lux Transfer¦Контакты и расчёт стоимости | Easy Lux Transfer
-Privacy Policy | Easy Lux Transfer¦Политика конфиденциальности | Easy Lux Transfer
-Private transfers from Venice and Treviso, airport pick-ups and Water Taxi connections. Travel across Italy and Europe with Easy Lux Transfer.¦Индивидуальные трансферы из Венеции и Тревизо, встреча в аэропорту и водное такси. Поездки по Италии и Европе с Easy Lux Transfer.
-Explore Easy Lux Transfer services and indicative fares for airports, Water Taxi connections, hourly chauffeurs, Italy, Europe and cruise ports.¦Услуги и ориентировочные цены Easy Lux Transfer: аэропорты, водное такси, водитель по часам, Италия, Европа и круизные порты.
-Meet the founders of Easy Lux Transfer and discover their approach to private chauffeur travel, with professionalism, punctuality and personal care.¦Познакомьтесь с основателями Easy Lux Transfer и их подходом к поездкам с личным водителем: профессионализм, пунктуальность и забота.
-Find answers from Easy Lux Transfer about quotes, booking confirmation, deposits, airport pick-ups, luggage and Water Taxi connections in Venice.¦Ответы Easy Lux Transfer о стоимости, подтверждении бронирования, предоплате, встрече в аэропорту, багаже и водном такси в Венеции.
-Contact Easy Lux Transfer for a private journey from Venice or Treviso. Share your route and date for airport, Water Taxi or long-distance quotes.¦Свяжитесь с Easy Lux Transfer для поездки из Венеции или Тревизо. Укажите маршрут и дату для трансфера в аэропорт, водного такси или дальней поездки.
-Learn how Easy Lux Transfer handles contact details, journey requests and optional services, and how to manage your privacy and cookie preferences.¦Как Easy Lux Transfer обрабатывает контактные данные и заявки, использует дополнительные сервисы и позволяет управлять настройками конфиденциальности и cookie.
+Venice & Treviso Airport Transfers | Easy Lux Transfer¦Трансферы из аэропортов Венеции и Тревизо | Easy Lux Transfer
+Venice Private Transfers & Prices | Easy Lux Transfer¦Трансферы в Венеции: услуги и цены | Easy Lux Transfer
+About Easy Lux Transfer | Venice Chauffeur Service¦О Easy Lux Transfer | Личный водитель в Венеции
+Venice Transfer & Booking FAQ | Easy Lux Transfer¦Трансферы в Венеции: вопросы | Easy Lux Transfer
+Venice Transfer Quote & Contact | Easy Lux Transfer¦Расчёт стоимости трансфера | Easy Lux Transfer
+Privacy & Cookie Policy | Easy Lux Transfer¦Конфиденциальность и cookie | Easy Lux Transfer
+Private airport transfers from Venice Marco Polo and Treviso with Easy Lux Transfer. Travel to hotels, cruise ports and destinations across Italy and Europe.¦Индивидуальные трансферы из аэропортов Марко Поло и Тревизо с Easy Lux Transfer. Поездки в Венецию, к отелям и круизным портам, по Италии и Европе.
+Explore Easy Lux Transfer services and indicative prices: Venice and Treviso airport transfers, Water Taxi connections, cruise ports and hourly chauffeurs.¦Услуги и ориентировочные цены Easy Lux Transfer: трансферы в Венеции и Тревизо, водное такси, круизные порты и водитель по часам. Запросите расчёт поездки.
+Meet Easy Lux Transfer, a private chauffeur service based in Venice and Treviso. Discover our founders and approach to personal travel across Italy and Europe.¦Познакомьтесь с Easy Lux Transfer — сервисом личного водителя в Венеции и Тревизо. Наша команда и подход к индивидуальным поездкам по Италии и Европе.
+Planning a Venice or Treviso transfer? Easy Lux Transfer answers questions about airport pick-ups, luggage, deposits, Water Taxi and cancellations.¦Ответы Easy Lux Transfer о трансферах в Венеции и Тревизо: встреча в аэропорту, багаж, предоплата, водное такси, изменения и отмена бронирования.
+Request a private transfer quote from Easy Lux Transfer. Share your Venice or Treviso airport, hotel or cruise port route, date and passenger details.¦Запросите стоимость трансфера у Easy Lux Transfer. Укажите маршрут из Венеции или Тревизо, аэропорт, отель или круизный порт, дату и число пассажиров.
+Read the Easy Lux Transfer Privacy and Cookie Policy. Learn how enquiry details are handled and manage Google Analytics and address suggestion preferences.¦Политика конфиденциальности и cookie Easy Lux Transfer: обработка заявок и контактных данных, выбор настроек Google Analytics и подсказок адресов.
 Easy Lux Transfer — Home¦Easy Lux Transfer: Главная
 Skip to content¦Перейти к содержимому
 No. We’ll check availability and send you a quote. Your booking is confirmed after agreement of the details and receipt of the deposit.¦Нет. Мы проверим доступность и пришлём предложение. Бронирование подтверждается после согласования деталей и получения предоплаты.
@@ -1238,8 +1245,8 @@ Object.assign(russian, {
 Object.assign(russian, {
   "Booking Terms": "Условия бронирования",
   "Booking Terms & Conditions": "Условия бронирования и поездки",
-  "Booking Terms & Conditions | Easy Lux Transfer": "Условия бронирования | Easy Lux Transfer",
-  "Read Easy Lux Transfer booking terms: deposit, payment to the driver after your journey, changes and the 24-hour cancellation and refund policy.": "Условия бронирования Easy Lux Transfer: предоплата, оплата водителю после поездки, изменения и отмена с возвратом предоплаты не менее чем за 24 часа.",
+  "Transfer Booking Terms | Easy Lux Transfer": "Условия бронирования трансфера | Easy Lux Transfer",
+  "Read Easy Lux Transfer booking terms: deposits, balance paid to your driver after the journey, changes and the 24-hour cancellation and refund policy.": "Условия Easy Lux Transfer: предоплата, расчёт с водителем после поездки, изменения и возврат предоплаты при отмене не менее чем за 24 часа до подачи.",
   "EASY LUX · YOUR BOOKING": "EASY LUX · ВАШЕ БРОНИРОВАНИЕ",
   "Clear arrangements for your journey: how we confirm your booking, take payment and handle changes or cancellations.": "Понятные условия поездки: подтверждение бронирования, оплата, изменения и отмена.",
   "7 October 2026": "7 октября 2026 года",

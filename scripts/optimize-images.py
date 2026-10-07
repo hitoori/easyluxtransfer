@@ -53,7 +53,8 @@ for source in archive.rglob('*'):
   if brand:
    # Keep PNG URLs used by the favicon and email adapter valid.
    png = image.copy()
-   if source.stem.endswith('icon'): png.thumbnail((64, 64), Image.Resampling.LANCZOS)
+   if source.stem == 'easy-lux-favicon-round': png.thumbnail((96, 96), Image.Resampling.LANCZOS)
+   elif source.stem.endswith('icon'): png.thumbnail((64, 64), Image.Resampling.LANCZOS)
    png.save(public / rel, 'PNG', optimize=True)
 (root / 'src/config/image-manifest.json').write_text(json.dumps(manifest, indent=2) + '\n')
 print(f'{len(manifest)} images: {original_total/1024/1024:.2f} MiB -> {optimized_total/1024/1024:.2f} MiB (main WebP variants; {100*(1-optimized_total/original_total):.1f}% smaller)')

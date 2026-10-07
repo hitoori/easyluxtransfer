@@ -2208,6 +2208,8 @@
   letter-spacing: -.025em;
   color: var(--text-primary);
 }
+.home-final-request-copy h2 > span { display: block; }
+html[lang="en"] .home-final-request-copy h2 > span { white-space: nowrap; }
 .home-final-request-copy > p:not(.h2-kicker), .home-final-request-note p {
   max-width: 440px; margin: 0;
   color: var(--text-secondary); font-size: clamp(15px, 1.15vw, 18px); line-height: 1.75;
@@ -2241,8 +2243,6 @@
 .home-final-request-status { min-height: 32px; margin: 14px 0 0; color: var(--text-muted); font-size: 12px; line-height: 1.6; }
 @media (max-width: 900px) {
   .home-final-request { grid-template-columns: 1fr; gap: 36px; }
-  .home-final-request-copy h2 br { display: none; }
-  .home-final-request-copy h2 span::before { content: ' '; }
   .home-final-request-copy h2 { max-width: 550px; }
   .home-final-request-copy > p:not(.h2-kicker), .home-final-request-note { max-width: 560px; }
 }
