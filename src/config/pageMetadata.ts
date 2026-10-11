@@ -1,9 +1,11 @@
 import type { Page } from '../types/navigation'
 import { pagePath } from '../types/navigation'
-import { publicAsset } from '../lib/publicAsset'
+import { imageAttributes, publicAsset } from '../lib/publicAsset'
 import { getLanguage, t, type Language } from '../i18n/locale'
+import { company } from './company'
+import { structuredDataJson } from './structuredData'
 
-export const siteOrigin = 'https://easyluxtransfer.com'
+export const siteOrigin = company.website
 export const pageMetadata: Record<Page, { title: string; description: string; image: string; imageAlt: string }> = {
   home: { title: 'Venice & Treviso Airport Transfers | Easy Lux Transfer', description: 'Private airport transfers from Venice Marco Polo and Treviso with Easy Lux Transfer. Travel to hotels, cruise ports and destinations across Italy and Europe.', image: 'images/home/hero/venice-canal-boats.jpg', imageAlt: 'Boats on Venice Grand Canal' },
   services: { title: 'Venice Private Transfers & Prices | Easy Lux Transfer', description: 'Explore Easy Lux Transfer services and indicative prices: Venice and Treviso airport transfers, Water Taxi connections, cruise ports and hourly chauffeurs.', image: 'images/services/venice-dolomites-transfer.png', imageAlt: 'Private chauffeur transfer in Italy' },
@@ -17,12 +19,15 @@ export const pageMetadata: Record<Page, { title: string; description: string; im
 export function metadataTags(page: Page) {
   const info = pageMetadata[page]
   const url = `${siteOrigin}${pagePath(page)}`
+  const image = imageAttributes(publicAsset(info.image))
   return {
     description: t(info.description),
     robots: 'index, follow, max-image-preview:large',
     'og:type': 'website', 'og:site_name': 'Easy Lux Transfer', 'og:locale': getLanguage() === 'ru' ? 'ru_RU' : 'en_GB',
+    'og:locale:alternate': getLanguage() === 'ru' ? 'en_GB' : 'ru_RU',
     'og:title': t(info.title), 'og:description': t(info.description), 'og:url': url,
     'og:image': new URL(publicAsset(info.image), siteOrigin).href, 'og:image:alt': t(info.imageAlt),
+    ...(image.width && image.height ? { 'og:image:width': String(image.width), 'og:image:height': String(image.height) } : {}),
     'twitter:card': 'summary_large_image', 'twitter:title': t(info.title),
     'twitter:description': t(info.description), 'twitter:image': new URL(publicAsset(info.image), siteOrigin).href,
     'twitter:image:alt': t(info.imageAlt),
@@ -32,6 +37,14 @@ export function metadataTags(page: Page) {
 export function updatePageMetadata(page: Page) {
   document.documentElement.lang = getLanguage()
   document.title = t(pageMetadata[page].title)
+  let structuredData = document.querySelector<HTMLScriptElement>('#site-structured-data')
+  if (!structuredData) {
+    structuredData = document.createElement('script')
+    structuredData.id = 'site-structured-data'
+    structuredData.type = 'application/ld+json'
+    document.head.append(structuredData)
+  }
+  structuredData.textContent = structuredDataJson(page, pageMetadata[page])
   for (const [name, content] of Object.entries(metadataTags(page))) {
     const attribute = name.startsWith('og:') ? 'property' : 'name'
     let meta = document.querySelector<HTMLMetaElement>(`meta[${attribute}="${name}"]`)
@@ -57,4 +70,5 @@ export function updateNotFoundMetadata() {
   if (!robots) { robots = document.createElement('meta'); robots.name = 'robots'; document.head.append(robots) }
   robots.content = 'noindex, follow'
   document.querySelectorAll('link[rel="canonical"], link[rel="alternate"][hreflang]').forEach(link => link.remove())
+  document.querySelector('#site-structured-data')?.remove()
 }

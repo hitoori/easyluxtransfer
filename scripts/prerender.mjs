@@ -13,6 +13,7 @@ try {
     .replace(/<title>[\s\S]*?<\/title>/g, '')
     .replace(/<meta\b(?=[^>]*(?:name|property)="(?:description|robots|og:[^"]+|twitter:[^"]+)")[^>]*>/g, '')
     .replace(/<link\b(?=[^>]*rel="(?:canonical|alternate)")[^>]*>/g, '')
+    .replace(/<script\b(?=[^>]*\bid="site-structured-data")[^>]*>[\s\S]*?<\/script>/g, '')
     .replace(/<div id="root">[\s\S]*?<\/div>\s*<\/body>/, '<div id="root"></div>\n</body>')
   const inlineHashes = new Set()
   for (const language of ['en', 'ru']) for (const page of [...pages, 'not-found']) {

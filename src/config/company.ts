@@ -1,4 +1,6 @@
 export const company = {
+  name: 'Easy Lux Transfer',
+  website: 'https://easyluxtransfer.com',
   legalName: 'EASY LUX NCC DI PISARENCO MIHAI',
   vatNumber: '05519950264',
   phones: [
