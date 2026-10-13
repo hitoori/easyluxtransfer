@@ -1,4 +1,5 @@
 import { company } from './company'
+import { serviceOptions } from './services'
 import { getLanguage, t } from '../i18n/locale'
 import { pagePath, type Page } from '../types/navigation'
 
@@ -40,13 +41,31 @@ export function pageStructuredData(page: Page, info: { title: string; descriptio
       inLanguage: ['en', 'ru'], publisher: { '@id': organizationId },
     },
     {
-      '@type': page === 'about' ? 'AboutPage' : page === 'contact' ? 'ContactPage' : 'WebPage',
+      '@type': page === 'about' ? 'AboutPage' : page === 'contact' ? 'ContactPage' : page === 'services' ? 'CollectionPage' : 'WebPage',
       '@id': `${url}#webpage`, url, name: t(info.title), description: t(info.description),
       inLanguage: getLanguage(), isPartOf: { '@id': websiteId },
       about: { '@id': organizationId }, publisher: { '@id': organizationId },
+      ...(page === 'services' ? { mainEntity: { '@id': `${url}#services` } } : {}),
       ...(page !== 'home' ? { breadcrumb: { '@id': `${url}#breadcrumb` } } : {}),
     },
   ]
+  if (page === 'services') {
+    // Only describe service chapters with visible content and a real anchor.
+    // Custom destination is a quote choice, rather than a separate chapter.
+    const services = serviceOptions.filter(([id]) => id !== 'custom').map(([id, label]) => ({
+      '@type': 'Service', '@id': `${url}#service-${id}`,
+      url: `${url}#service-${id}`, name: t(label), serviceType: t(label),
+      provider: { '@id': organizationId },
+      mainEntityOfPage: { '@id': `${url}#webpage` },
+    }))
+    graph.push({
+      '@type': 'ItemList', '@id': `${url}#services`, name: t(pageNames.services),
+      numberOfItems: services.length,
+      itemListElement: services.map((service, index) => ({
+        '@type': 'ListItem', position: index + 1, item: { '@id': service['@id'] },
+      })),
+    }, ...services)
+  }
   if (page !== 'home') graph.push({
     '@type': 'BreadcrumbList', '@id': `${url}#breadcrumb`,
     itemListElement: [
