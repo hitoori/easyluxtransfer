@@ -9,7 +9,7 @@ import { pagePath, type Page } from './types/navigation'
 import { updateNotFoundMetadata, updatePageMetadata } from './config/pageMetadata'
 import { pageLoaders } from './config/pageLoaders'
 import { useCookieConsent } from './components/CookieConsent'
-import { trackAnalyticsPage } from './lib/analytics'
+import { trackAnalyticsPage, trackWhatsAppClick } from './lib/analytics'
 
 const Services = lazy(pageLoaders.services)
 const About = lazy(pageLoaders.about)
@@ -125,7 +125,10 @@ export default function App({ initialPage, prerenderedContent }: { initialPage?:
     }
   }
 
-  return <div className="min-h-screen bg-[var(--background)] text-cream">
+  return <div className="min-h-screen bg-[var(--background)] text-cream" onClickCapture={event => {
+    const link = event.target instanceof Element ? event.target.closest<HTMLAnchorElement>('a[href]') : null
+    if (link) trackWhatsAppClick(link.href, link.closest('footer') ? 'footer' : link.closest('.contact-page') ? 'contact' : link.closest('.faq-page') ? 'faq' : 'other')
+  }}>
     <a className="skip-to-content" href="#main-content">{t('Skip to content')}</a>
     <Header currentPage={currentPage === 'not-found' ? undefined : currentPage} navigate={navigate} />
     <main id="main-content" tabIndex={-1} aria-busy={isPending} inert={isPending}>

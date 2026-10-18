@@ -1067,6 +1067,10 @@ input[type='datetime-local']::-webkit-calendar-picker-indicator {
 .language-switcher a { display: grid; place-items: center; min-width: 36px; min-height: 44px; color: var(--muted, #aaa59c); font-size: 13px; letter-spacing: .06em; border-bottom: 1px solid transparent; transition: color .2s, border-color .2s; }
 .language-switcher a:hover, .language-switcher a[aria-current] { color: var(--gold, #c29a45); border-bottom-color: var(--gold, #c29a45); }
 .language-switcher a:focus-visible { outline: 1px solid var(--gold, #c29a45); outline-offset: 3px; }
+/* Preserve native hiding when responsive grids style prerendered FAQ and route items. */
+.faq-page .fq-question[hidden],
+.home-sections-flow [data-route-id][hidden],
+.services-new-page [data-route-id][hidden] { display: none !important; }
 @media (min-width: 1280px) {
   html[lang="ru"] header .xl\:flex { gap: 18px; }
   html[lang="ru"] header .xl\:flex > nav:not(.language-switcher) { gap: 18px; }

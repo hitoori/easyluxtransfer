@@ -35,6 +35,7 @@ import './services-tablet.css'
 import AirportTransfers from '../components/services/AirportTransfers'
 import PricingGuide from '../components/services/PricingGuide'
 import FloatingServiceNav from '../components/services/FloatingServiceNav'
+import './services-typography.css'
 
 export default function Services({ navigate }: { navigate: Navigate }) {
   useLocale()
@@ -111,8 +112,8 @@ export default function Services({ navigate }: { navigate: Navigate }) {
       <div className="services-masthead-shell">
         <div className="services-masthead-copy">
           <p className="services-masthead-eyebrow">{t("SERVICES & PRICES")}</p>
-          <h1 id="services-title">{t("Private transfers from Venice and Treviso.")}</h1>
-          <p className="services-masthead-description">{t("Airport pick-ups, Water Taxi connections, chauffeurs by the hour and longer routes across Italy and Europe.")}</p>
+          <h1 id="services-title">{t("Private transfers in Venice and Treviso.")}</h1>
+          <p className="services-masthead-description">{t("Private transfers (NCC) from airports, stations or your chosen address in Venice and Treviso, with journeys across Italy and Europe.")}</p>
           <div className="services-masthead-actions">
             <button type="button" className="services-masthead-primary" onClick={() => scrollTo('airport')}>{t("EXPLORE SERVICES ↓")}</button>
           </div>
@@ -126,7 +127,7 @@ export default function Services({ navigate }: { navigate: Navigate }) {
       </nav>
     </section>
     {showFloatingNav && <FloatingServiceNav activeSection={activeSection} onSelect={scrollTo} />}
-    <AirportTransfers onMeetingPoint={openMeetingPoint} onRequest={requestJourney} />
+    <AirportTransfers onMeetingPoint={openMeetingPoint} onRequest={requestJourney} navigate={navigate} />
     <HourlySection onRequest={requestJourney} />
     <WaterTaxiSection onRequest={requestJourney} />
     <EuropeSection onRequest={requestJourney} />

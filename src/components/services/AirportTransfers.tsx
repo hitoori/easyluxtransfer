@@ -1,6 +1,7 @@
 import { t, useLocale } from '../../i18n/locale'
 import OptimizedImage from '../OptimizedImage'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import PageLink, { type Navigate } from '../PageLink'
 import type { RequestJourney } from './ServiceRoutes'
 import './airport-transfers.css'
 import './airport-concierge.css'
@@ -9,7 +10,8 @@ import { publicAsset } from '../../lib/publicAsset'
 const getJourneys = () => [
   {
     label: 'From the airport', title: <>{t("Airport pick-ups at")}<br className="ac-default-title-break" />{' '}<span className="ac-title-second-line">{t("Marco Polo")}<br className="services-tablet-title-break" />{' '}{t("and Treviso.")}</span></>,
-    description: 'We track your flight and adjust the pick-up time if needed. Your driver will meet you at the agreed point, help with your luggage and take you directly to your destination.',
+    description: 'Private transfers from Venice Marco Polo Airport (VCE) or Treviso Airport (TSF) to Venice, Mestre, Treviso or your chosen destination. We track your flight, meet you in Arrivals after baggage claim and send exact meeting instructions before you travel.',
+    guide: ['Airport meeting instructions', 'meeting'],
     cta: 'REQUEST YOUR TRANSFER',
     features: ['Flight tracking', 'Meet & greet', 'Luggage assistance'],
     image: publicAsset('images/services/airport/journeys/from-the-airport.jpg'),
@@ -17,7 +19,8 @@ const getJourneys = () => [
   },
   {
     label: 'To the airport', title: 'To the airport, on time.',
-    description: 'We plan your pick-up around your departure time, terminal and traffic. Your chauffeur meets you at your address, helps with your luggage and takes you directly to the right terminal.',
+    description: 'Travel from your agreed address or meeting point in Venice, Mestre or Treviso to Marco Polo or Treviso Airport. We plan your pick-up around your flight, terminal and traffic, and help with your luggage.',
+    guide: ['Planning a return transfer', 'return'],
     cta: 'REQUEST YOUR TRANSFER',
     features: ['Planned pick-up', 'Direct transfer', 'Luggage assistance'],
     image: publicAsset('images/services/airport/journeys/to-the-airport.jpg'),
@@ -25,7 +28,8 @@ const getJourneys = () => [
   },
   {
     label: 'Address to address', title: <>{t("Direct transfers between")}<br className="services-tablet-title-break" />{' '}{t("addresses.")}</>,
-    description: 'Travel between hotels, stations and other road-accessible addresses. We confirm the pick-up point and luggage space in advance.',
+    description: 'Book a private transfer between Venice, Mestre, Treviso and your chosen destination. Your driver can collect you at a train station or another road-accessible address. Send both addresses, your preferred time and luggage details so we can confirm the meeting point and a suitable vehicle.',
+    guide: ['Pick-up points and road access in Venice', 'venice-pickup'],
     cta: 'REQUEST YOUR TRANSFER',
     features: ['Private journey', 'Flexible pick-up', 'Space for luggage'],
     image: publicAsset('images/services/airport/journeys/address-to-address.jpg'),
@@ -33,11 +37,25 @@ const getJourneys = () => [
   },
 ]
 
-export default function AirportTransfers({ onMeetingPoint, onRequest }: { onMeetingPoint: () => void; onRequest: RequestJourney }) {
+export default function AirportTransfers({ onMeetingPoint, onRequest, navigate }: { onMeetingPoint: () => void; onRequest: RequestJourney; navigate: Navigate }) {
   useLocale()
   const journeys = getJourneys()
   const [selected, setSelected] = useState(0)
   const journey = journeys[selected]
+
+  useEffect(() => {
+    const followTabLink = () => {
+      const match = /^#ac-tab-([012])$/.exec(window.location.hash)
+      if (match) setSelected(Number(match[1]))
+    }
+    followTabLink()
+    window.addEventListener('hashchange', followTabLink)
+    window.addEventListener('popstate', followTabLink)
+    return () => {
+      window.removeEventListener('hashchange', followTabLink)
+      window.removeEventListener('popstate', followTabLink)
+    }
+  }, [])
 
   const selectJourney = (next: number) => {
     setSelected(next)
@@ -53,7 +71,7 @@ export default function AirportTransfers({ onMeetingPoint, onRequest }: { onMeet
             type="button"
             role="tab"
             id={`ac-tab-${index}`}
-            aria-controls="ac-journey"
+            aria-controls={`ac-journey-${index}`}
             aria-selected={selected === index}
             tabIndex={selected === index ? 0 : -1}
             onClick={() => setSelected(index)}
@@ -73,13 +91,14 @@ export default function AirportTransfers({ onMeetingPoint, onRequest }: { onMeet
         </div>
 
         <div className="ac-content">
-          <div className="ac-copy ac-fade" key={`copy-${selected}`} id="ac-journey" role="tabpanel" aria-labelledby={`ac-tab-${selected}`} tabIndex={0}>
+          {journeys.map((item, index) => <div className="ac-copy ac-fade" key={item.label} id={`ac-journey-${index}`} role="tabpanel" aria-labelledby={`ac-tab-${index}`} hidden={selected !== index} tabIndex={0}>
             <span className="ac-eyebrow">{t("PRIVATE TRANSFER")}</span>
-            <h2 id="airport-transfers-title" className={selected === 2 ? 'ac-long-title' : selected === 0 ? 'ac-airport-title' : undefined}>
-              <span>{t(journey.title)}</span>
+            <h2 id={selected === index ? 'airport-transfers-title' : `airport-transfers-title-${index}`} className={index === 2 ? 'ac-long-title' : index === 0 ? 'ac-airport-title' : undefined}>
+              <span>{t(item.title)}</span>
             </h2>
-            <p>{t(journey.description)}</p>
-          </div>
+            <p>{t(item.description)}</p>
+            <PageLink className="ac-guide-link" page="faq" sectionId={`fq-question-${item.guide[1]}`} navigate={navigate}>{t(item.guide[0])}<span aria-hidden="true">{" →"}</span></PageLink>
+          </div>)}
 
           <ul className="ac-features ac-fade" key={`features-${selected}`} aria-label={t("Transfer features")}>
             {journey.features.map(feature => <li key={feature}>{t(feature)}</li>)}

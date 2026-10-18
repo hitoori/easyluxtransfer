@@ -16,7 +16,7 @@ const tabletViewportQuery = '(min-width: 768px) and (max-width: 1100px)'
 
 export default function SeasideTransfer({ onRequest }: { onRequest: RequestJourney }) {
   useLocale()
-  const [isTablet, setIsTablet] = useState(() => typeof window !== 'undefined' && window.matchMedia(tabletViewportQuery).matches)
+  const [isTablet, setIsTablet] = useState(false)
   const [extraVisible, setExtraVisible] = useState(0)
   const visibleCount = Math.min((isTablet ? 4 : 3) + extraVisible, routes.length)
 
@@ -40,9 +40,9 @@ export default function SeasideTransfer({ onRequest }: { onRequest: RequestJourn
       </div>
       <div id="coast-route-prices" className="cs-all-routes">
         <ol id="coast-route-list" className="cs-route-grid">
-          {routes.slice(0, visibleCount).map((route, index) => <li className="cs-route" key={route.id}>
+          {routes.map((route, index) => <li className="cs-route" key={route.id} data-route-id={route.id} hidden={index >= visibleCount}>
             <span className="cs-number" aria-hidden="true">{t(String(index + 1).padStart(2, '0'))}</span>
-            <h3 className={[`${route.from} ${route.to}`.length > 27 && 'cs-long-route', route.id === 'marco-polo-lignano-sabbiadoro' && 'cs-nowrap-route'].filter(Boolean).join(' ')}><span className="cs-origin">{t(route.from)} <span className="cs-arrow">{"→"}</span></span> <span className="cs-destination">{route.id === 'marco-polo-lignano-sabbiadoro' ? <>{t("Lignano")}<br className="cs-mobile-route-break" /> {t(" Sabbiadoro")}</> : route.to}</span></h3>
+            <h3 className={[`${route.from} ${route.to}`.length > 27 && 'cs-long-route', route.id === 'marco-polo-lignano-sabbiadoro' && 'cs-nowrap-route'].filter(Boolean).join(' ')}><span className="cs-origin">{t(route.from)} <span className="cs-arrow">{"→"}</span></span> <span className="cs-destination">{route.id === 'marco-polo-lignano-sabbiadoro' ? <>{t("Lignano")}<br className="cs-mobile-route-break" /> {t(" Sabbiadoro")}</> : t(route.to)}</span></h3>
             <dl className="cs-fares"><div><dt>{t("Sedan")}</dt><dd>{t(fare(route.sedan))}</dd></div><div><dt>{t("Van")}</dt><dd>{t(fare(route.van))}</dd></div><div><dt>{t(route.minibusLabel)}</dt><dd>{t(fare(route.minibus))}</dd></div></dl>
             <button type="button" className="cs-route-request" aria-label={message("Request this route: {0} to {1}", t(route.from), t(route.to))} onClick={() => onRequest({ service: 'coast', pickup: route.pickup, destination: route.destination, airportPickup: route.airportMode === 'pickup' })}>{t("REQUEST THIS ROUTE ")}<span aria-hidden="true">{"→"}</span></button>
           </li>)}

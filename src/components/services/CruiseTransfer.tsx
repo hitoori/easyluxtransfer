@@ -14,7 +14,7 @@ export default function CruiseTransfer({ onRequest }: { onRequest: RequestJourne
       <div className="ct-intro">
         <div className="ct-copy">
           <p className="ct-eyebrow">{t("CRUISE PORT TRANSFERS")}</p>
-          <h2 id="cruise-title">{t("Cruise terminal transfers, both ways.")}</h2>
+          <h2 id="cruise-title">{t("Venice transfers to Ravenna, Trieste & Fusina.")}</h2>
           <p className="ct-description">{t("Travel between your hotel, airport or agreed pick-up point and the cruise terminals in Ravenna, Trieste or Fusina.")}</p>
         </div>
       </div>

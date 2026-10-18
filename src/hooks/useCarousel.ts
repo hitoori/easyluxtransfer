@@ -1,9 +1,18 @@
 import { useCallback, useEffect, useRef, useState, type RefObject } from 'react'
-import { imageAttributes } from '../lib/publicAsset'
+import { imageAttributes, imageAvifSource } from '../lib/publicAsset'
 
 export async function prepareImage(src: string, sizes?: string) {
   const image = new Image()
   const attributes = imageAttributes(src, sizes)
+  const avif = imageAvifSource(src, sizes)
+  if (avif) {
+    const picture = document.createElement('picture')
+    const source = document.createElement('source')
+    source.type = 'image/avif'
+    source.srcset = avif.srcSet ?? ''
+    source.sizes = avif.sizes ?? ''
+    picture.append(source, image)
+  }
   if ('sizes' in attributes) image.sizes = attributes.sizes ?? ''
   if ('srcSet' in attributes) image.srcset = attributes.srcSet ?? ''
   image.src = attributes.src

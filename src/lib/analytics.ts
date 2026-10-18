@@ -1,8 +1,14 @@
+import { company } from '../config/company'
+
 export const analyticsMeasurementId = 'G-M322BVXRJG'
 const scriptId = 'easylux-google-analytics'
 let initialized = false
 let allowed = false
 let lastPage = ''
+const measuredRequests = new Set<string>()
+const leadSources = ['home-booking', 'home-quote', 'services-quote', 'contact'] as const
+const leadKinds = ['transfer', 'hourly', 'tours', 'custom'] as const
+const linkLocations = ['footer', 'contact', 'faq', 'other'] as const
 
 declare global {
   interface Window {
@@ -70,6 +76,40 @@ export function trackAnalyticsPage() {
   window.gtag?.('event', 'page_view', {
     send_to: analyticsMeasurementId, page_location: page, page_title: document.title, page_referrer: referrer,
   })
+}
+
+function trackInteraction(name: 'generate_lead' | 'contact_whatsapp', parameters: Record<string, string>): boolean {
+  if (!allowed || !initialized || typeof window === 'undefined' || typeof window.gtag !== 'function') return false
+  try {
+    window.gtag('event', name, {
+      send_to: analyticsMeasurementId,
+      page_location: analyticsPageUrl(window.location.href),
+      ...parameters,
+    })
+    return true
+  } catch {
+    // Optional measurement must never interrupt a request or contact link.
+    return false
+  }
+}
+
+/** Called only after the booking API confirms success. Never send form fields or IDs. */
+export function trackAnalyticsLead(source: typeof leadSources[number], kind: typeof leadKinds[number], requestId: string) {
+  if (!leadSources.includes(source) || !leadKinds.includes(kind) || !requestId || measuredRequests.has(requestId)) return
+  if (trackInteraction('generate_lead', { form_name: source, service_type: kind })) measuredRequests.add(requestId)
+}
+
+/** Measure a company WhatsApp link separately from a submitted enquiry. */
+export function trackWhatsAppClick(href: string, location: typeof linkLocations[number]) {
+  if (!linkLocations.includes(location)) return
+  try {
+    const url = new URL(href)
+    const isCompanyLink = company.phones.some(phone => {
+      const configured = new URL(phone.whatsapp)
+      return url.origin === configured.origin && url.pathname === configured.pathname
+    })
+    if (isCompanyLink) trackInteraction('contact_whatsapp', { contact_method: 'whatsapp', link_location: location })
+  } catch { /* Ignore unrelated or invalid URLs without changing link behavior. */ }
 }
 
 export function analyticsLoaded(): boolean {

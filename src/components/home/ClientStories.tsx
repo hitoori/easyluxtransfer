@@ -1,18 +1,16 @@
 import { t, useLocale } from '../../i18n/locale'
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import { useCarousel } from '../../hooks/useCarousel'
 import { ArrowLeft, ArrowRight } from '@phosphor-icons/react'
 import { clientReviews } from '../../data/clientReviews'
 
 export default function ClientStories() {
-  const { language } = useLocale()
+  useLocale()
   const sectionRef = useRef<HTMLElement>(null)
-  const [expanded, setExpanded] = useState(false)
-  const carousel = useCarousel(clientReviews.length, 8000, sectionRef, undefined, expanded)
+  const carousel = useCarousel(clientReviews.length, 8000, sectionRef)
   const activeIndex = carousel.activeIndex
   const review = clientReviews[activeIndex]
   const move = (direction: number) => {
-    setExpanded(false)
     void carousel.select((activeIndex + direction + clientReviews.length) % clientReviews.length)
   }
   const indicator = <>{t(String(activeIndex + 1).padStart(2, '0'))} <span>{"/ "}{t(String(clientReviews.length).padStart(2, '0'))}</span></>
@@ -37,15 +35,10 @@ export default function ClientStories() {
             <span className="client-stories-stars" aria-label={t("Five stars")}>{"★★★★★"}</span>
             <div className="client-stories-quote-line">
               <span className="client-stories-quote-icon" aria-hidden="true">{"“"}</span>
-              <blockquote id="client-review-text">{t(expanded || !review.preview ? review.quote : review.preview)}</blockquote>
+              <blockquote id="client-review-text">{t(review.quote)}</blockquote>
             </div>
-            {review.preview && <button type="button" className="client-stories-read-more" aria-expanded={expanded} aria-controls="client-review-text" onClick={() => setExpanded(value => !value)}>
-              {t(expanded ? 'Show less' : 'Read full review')}
-            </button>}
             <figcaption>
               <strong>{review.author}</strong>
-              <span>{t('Google review')}</span>
-              {(language === 'ru' || review.translatedByGoogle) && <span className="client-stories-translation">{t(language === 'ru' ? 'Translation' : 'Translated by Google')}</span>}
             </figcaption>
           </figure>
         </div>

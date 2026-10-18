@@ -22,7 +22,7 @@ interface HomeSectionsProps {
 const services = [
   {
     title: 'Airport & City Transfers',
-    description: 'Pick-ups and drop-offs at Marco Polo and Treviso airports, hotels, addresses and cruise terminals.',
+    description: 'Private transfers between airports, stations, cruise terminals and your chosen addresses in Venice and Treviso.',
     page: 'services' as const,
     sectionId: 'service-airport',
   },
@@ -134,6 +134,10 @@ export default function HomeSections({ navigate, onBookRoute, onPlanJourney }: H
               <p className="h2-kicker">{t("Private vehicle")}</p>
               <h2 id="home-vehicle-title">{t("The right vehicle for your group.")}</h2>
               <p>{t("Tell us how many people and bags are travelling. We’ll confirm a suitable vehicle before you book.")}</p>
+              <div className="mt-4 flex flex-wrap gap-x-5 gap-y-3 text-[13px] text-gold underline underline-offset-4">
+                <PageLink page="faq" sectionId="fq-question-bags" navigate={navigate}>{t("Luggage information")}</PageLink>
+                <PageLink page="faq" sectionId="fq-question-child" navigate={navigate}>{t("Child seat requests")}</PageLink>
+              </div>
             </div>
             <div className="h2-fleet-gallery">
               <OptimizedImage src={publicAsset('images/shared/private-van-passenger-cabin.png')} sizes="(max-width: 760px) 100vw, 35vw" alt={t("Passenger seating inside the private transfer van")} />
@@ -159,6 +163,11 @@ export default function HomeSections({ navigate, onBookRoute, onPlanJourney }: H
                 {t("Popular Routes & Prices")}</h2>
               <p className="mt-4 max-w-[650px] text-[14px] leading-[1.7] text-[var(--text-muted)]">
                 {t("Indicative one-way fares from Venice. We’ll confirm the vehicle and final price with your quote.")}</p>
+              <nav aria-label={t("Plan your private transfer")} className="mt-4 flex flex-wrap gap-x-5 gap-y-3 text-[13px] text-gold underline underline-offset-4">
+                <PageLink page="services" sectionId="ac-tab-2" navigate={navigate}>{t("Venice & Treviso private transfers")}</PageLink>
+                <PageLink page="services" sectionId="service-europe" navigate={navigate}>{t("Italy & Europe routes")}</PageLink>
+                <PageLink page="faq" sectionId="fq-question-return" navigate={navigate}>{t("Return transfers")}</PageLink>
+              </nav>
             </div>
             <button
               type="button"
@@ -178,9 +187,11 @@ export default function HomeSections({ navigate, onBookRoute, onPlanJourney }: H
           </div>
 
           <div id="additional-popular-routes" className="mt-7 lg:mt-0">
-            {popularTransferRoutes.slice(0, visibleRouteCount).map((route) => (
+            {popularTransferRoutes.map((route, index) => (
               <article
                 key={route.id}
+                data-route-id={route.id}
+                hidden={index >= visibleRouteCount}
                 className="grid gap-5 border-b border-[rgba(36,41,44,0.82)] py-7 lg:grid-cols-[minmax(0,2fr)_0.54fr_0.54fr_0.68fr_176px] lg:items-center lg:gap-0"
               >
                 <div className="flex min-w-0 items-stretch gap-5">

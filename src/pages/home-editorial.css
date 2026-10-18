@@ -2357,24 +2357,6 @@ html[lang="en"] .home-final-request-copy h2 > span { white-space: nowrap; }
   color: var(--text-primary);
   font-weight: 600;
 }
-.client-stories-stage figcaption span {
-  display: block;
-  margin-top: 3px;
-  color: var(--text-muted);
-}
-.client-stories-read-more {
-  margin-top: 18px;
-  min-height: 44px;
-  padding: 8px 14px;
-  border: 1px solid var(--border);
-  border-radius: 2px;
-  background: transparent;
-  color: var(--gold);
-  font: 500 12px/1.5 var(--font-body);
-  cursor: pointer;
-}
-.client-stories-read-more:hover { border-color: var(--gold); }
-.client-stories-stage figcaption .client-stories-translation { font-size: 12px; }
 .client-stories-footer {
   display: flex;
   justify-content: center;

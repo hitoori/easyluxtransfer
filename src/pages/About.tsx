@@ -5,10 +5,10 @@ import { useScrollReveal } from '../hooks/useScrollReveal'
 import { WhatsappLogo } from '@phosphor-icons/react'
 import { ArrowRight } from '../components/PikaIcons'
 import { company } from '../config/company'
-import type { Page } from '../types/navigation'
+import PageLink, { type Navigate } from '../components/PageLink'
 import './about.css'
 
-interface AboutProps { navigate: (page: Page) => void }
+interface AboutProps { navigate: Navigate }
 
 type PhotoSlotProps = {
   className?: string
@@ -45,8 +45,8 @@ const standards = [
   },
   {
     number: '03',
-    title: 'Genuine Italian hospitality',
-    description: 'We want you to feel welcome from the moment you meet your driver.',
+    title: 'A vehicle for your group',
+    description: 'Passenger numbers, luggage and child seat requests are checked before we confirm your vehicle.',
   },
 ]
 
@@ -61,9 +61,9 @@ export default function About({ navigate }: AboutProps) {
           <p className="ab-eyebrow">{t("About Easy Lux")}</p>
           <h1 id="about-title">{t("Why we started")}<br />{t("Easy Lux.")}</h1>
           <p className="ab-hero-intro">{t("Private transfers from Venice and Treviso, across Italy and Europe.")}</p>
-          <button className="ab-outline-button" type="button" onClick={() => navigate('services')}>
+          <PageLink className="ab-outline-button" page="services" navigate={navigate}>
             {t("Discover our services ")}<ArrowRight size={18} aria-hidden="true" />
-          </button>
+          </PageLink>
         </div>
         <PhotoSlot className="ab-hero-photo" src={`${import.meta.env.BASE_URL}images/about/airport-transfer-van.png`} alt={t("Black Mercedes van outside an airport at sunset")} ratio="16:10" position="center 52%" eager />
       </header>
@@ -78,8 +78,8 @@ export default function About({ navigate }: AboutProps) {
         <div className="ab-section-copy">
           <p className="ab-eyebrow">{t("Our story")}</p>
           <h2 id="ab-story-title">{t("A company we believe in.")}</h2>
-          <p>{t("We are two young entrepreneurs, united by a passion for travel, hospitality and excellence. After years of experience in the private transportation industry, we decided to turn our vision into reality and create a service built around one fundamental principle: every journey deserves to be exceptional.")}</p>
-          <p>{t("Our company was born from dedication, sacrifice and the courage to believe in our dream. We have invested our energy, experience and determination into creating a service where professionalism meets genuine Italian hospitality.")}</p>
+          <p>{t("We’re two founders with experience in private transport. We created Easy Lux to arrange private journeys from Venice and Treviso, with a pick-up point, vehicle and price agreed before you travel.")}</p>
+          <p>{t("Tell us where you need to go, when you want to travel and who is coming with you. We check availability and send you a quote. Your driver meets you at the agreed point and helps with your luggage.")}</p>
         </div>
         <PhotoSlot src={`${import.meta.env.BASE_URL}images/about/story-private-journey.png`} alt={t("Chauffeur loading luggage into a private transfer van at the airport")} ratio="4:3" position="center 48%" />
       </section>
@@ -87,8 +87,8 @@ export default function About({ navigate }: AboutProps) {
       <section className="ab-luxury ab-section" aria-labelledby="ab-luxury-title">
         <div className="ab-shell ab-split ab-luxury-layout">
           <div className="ab-section-copy">
-            <h2 id="ab-luxury-title">{t("Luxury is how")}<br />{t("the journey feels.")}</h2>
-            <p>{t("For us, luxury is not simply about travelling in comfort. It is about how you feel throughout the entire experience.")}</p>
+            <h2 id="ab-luxury-title">{t("The right vehicle")}<br />{t("for your journey.")}</h2>
+            <p>{t("Sedans, vans and minibuses suit different group sizes. Tell us how many people and bags are travelling, including pushchairs or sports equipment. We’ll check availability and confirm a suitable vehicle before you book.")}</p>
           </div>
           <PhotoSlot src={`${import.meta.env.BASE_URL}images/about/car-door.jpg`} alt={t("Hand opening the door of a black car")} ratio="16:7" position="center 34%" />
         </div>
@@ -97,7 +97,7 @@ export default function About({ navigate }: AboutProps) {
       <section className="ab-standards ab-shell ab-section" aria-labelledby="ab-standards-title">
         <p className="ab-eyebrow">{t("What guides us")}</p>
         <h2 id="ab-standards-title">{t("The Easy Lux standard.")}</h2>
-        <p className="ab-standards-intro">{t("Our company is the result of our hard work, our ambitions and our belief that passion can become excellence when combined with dedication.")}</p>
+        <p className="ab-standards-intro">{t("Before you travel, we agree the route, pick-up point and vehicle. If you need a child seat, extra luggage space, stops or a return transfer, include those details in your request.")}</p>
         <div className="ab-standard-list">
           {standards.map(standard => (
             <article data-reveal-delay={(Number(standard.number) - 1) * 70} className={`ab-standard${standard.number === '02' ? ' ab-standard-featured' : ''}`} key={standard.number}>
@@ -115,16 +115,16 @@ export default function About({ navigate }: AboutProps) {
         <div className="ab-collage-grid">
           <figure className="ab-collage-main">
             <PhotoSlot src={`${import.meta.env.BASE_URL}images/about/comfortable-vehicle.png`} alt={t("Black Mercedes private transfer van outside a hotel")} ratio="4:3" position="center" />
-            <figcaption>{t("Comfortable vehicles")}</figcaption>
+            <figcaption>{t("Vehicle confirmed before booking")}</figcaption>
           </figure>
           <div className="ab-collage-side" data-reveal-delay="70">
             <figure>
               <PhotoSlot src={`${import.meta.env.BASE_URL}images/shared/private-van-passenger-cabin.png`} alt={t("Comfortable passenger seating inside the private transfer van")} ratio="16:7" position="center" />
-              <figcaption>{t("Comfort on board")}</figcaption>
+              <figcaption>{t("Space for your group and bags")}</figcaption>
             </figure>
             <figure>
               <PhotoSlot src={`${import.meta.env.BASE_URL}images/about/personal-chauffeur-service.png`} alt={t("Chauffeur assisting a passenger with luggage beside a private van")} ratio="16:7" position="center" />
-              <figcaption>{t("Personal service")}</figcaption>
+              <figcaption>{t("Luggage assistance")}</figcaption>
             </figure>
           </div>
         </div>
@@ -134,10 +134,10 @@ export default function About({ navigate }: AboutProps) {
         <div className="ab-section-copy">
           <p className="ab-eyebrow">{t("Where we operate")}</p>
           <h2 id="ab-operate-title">{t("From Venice and Treviso, across Italy and Europe.")}</h2>
-          <p>{t("We are proud to share the beauty of Italy with our guests, turning every transfer into an opportunity to discover its cities, landscapes and hidden treasures.")}</p>
-          <button className="ab-inline-link" type="button" onClick={() => navigate('services')}>
+          <p>{t("From airports, train stations or your agreed address in Venice, Mestre and Treviso, we take you to your chosen destination. Our routes also cover other Italian cities, the Dolomites, seaside resorts and destinations across Europe.")}</p>
+          <PageLink className="ab-inline-link" page="services" navigate={navigate}>
             {t("View all destinations ")}<ArrowRight size={17} aria-hidden="true" />
-          </button>
+          </PageLink>
           <p className="ab-countries">{t("Italy · Austria · Slovenia · Croatia · France")}</p>
         </div>
         <PhotoSlot src={`${import.meta.env.BASE_URL}images/about/dolomites-where-we-operate.jpg`} alt={t("Mountain peaks, forest and village in the Dolomites")} ratio="4:3" position="center" />
@@ -157,9 +157,9 @@ export default function About({ navigate }: AboutProps) {
             <h2 id="ab-final-title">{t("Tell us where")}<br />{t("you need to be.")}</h2>
             <p>{t("Tell us your pick-up, destination and date. We’ll check availability and send you a quote.")}</p>
             <div className="ab-final-actions">
-              <button className="ab-outline-button" type="button" onClick={() => navigate('contact')}>
-                {t("Book your ride ")}<ArrowRight size={18} aria-hidden="true" />
-              </button>
+              <PageLink className="ab-outline-button" page="contact" navigate={navigate}>
+                {t("Request a quote")}<ArrowRight size={18} aria-hidden="true" />
+              </PageLink>
               <a className="ab-whatsapp-link" href={company.phones[0].whatsapp} target="_blank" rel="noopener noreferrer">
                 <WhatsappLogo size={19} aria-hidden="true" /> {t(" WhatsApp us ")}<ArrowRight size={17} aria-hidden="true" />
               </a>

@@ -1300,3 +1300,72 @@ Object.assign(russian, {
   "Contact us as soon as your plans change. We’ll check availability and any price difference. A change takes effect only after our team confirms it.": "Свяжитесь с нами сразу, как изменятся планы. Мы проверим доступность и разницу в стоимости. Изменение действует только после подтверждения нашей командой.",
   "Contact us by email or WhatsApp as soon as your plans change. Cancel at least 24 hours before the agreed pick-up time for a full refund of your deposit. For a customer cancellation less than 24 hours before pick-up, the deposit is retained for the reserved vehicle and driver time, subject to your statutory rights. See our Booking Terms & Conditions for details.": "Если планы изменились, сразу напишите по электронной почте или в WhatsApp. При отмене не менее чем за 24 часа до согласованного времени подачи предоплата возвращается полностью. При отмене клиентом менее чем за 24 часа предоплата удерживается за зарезервированные автомобиль и время водителя с сохранением законных прав клиента. Подробнее — в условиях бронирования и поездки."
 })
+
+// Local SEO copy: retain the existing EN/RU service structure and confirmed policies.
+Object.assign(russian, {
+  "Venice to Cortina": "Из Венеции в Кортину",
+  "and the Dolomites.": "и Доломиты.",
+  "Venice transfers to Ravenna, Trieste & Fusina.": "Трансферы из Венеции в Равенну, Триест и Фузину.",
+  "Private chauffeur transfers (NCC) from Venice Marco Polo (VCE) and Treviso (TSF), with Water Taxi connections, hourly bookings and journeys across Italy and Europe.": "Индивидуальные трансферы с водителем (NCC) из аэропортов Венеции Марко Поло (VCE) и Тревизо (TSF), водное такси, почасовые поездки и маршруты по Италии и Европе.",
+  "We track your flight and adjust the pick-up time if needed. Your driver meets you in Arrivals after baggage claim, with your name displayed, and helps with your luggage. We send the exact meeting instructions before you travel.": "Мы отслеживаем ваш рейс и при необходимости корректируем время встречи. Водитель встретит вас в зоне прилёта после получения багажа с табличкой с вашим именем и поможет с чемоданами. Точные инструкции мы отправим до поездки."
+})
+
+// The main offer covers private transfers from agreed pick-up points, including airports.
+Object.assign(russian, {
+  "From airports, stations or your chosen address to destinations across Italy and Europe.": "Из аэропорта, с вокзала или по указанному вами адресу — к месту назначения в Италии и Европе.",
+  "Private transfers between airports, stations, cruise terminals and your chosen addresses in Venice and Treviso.": "Индивидуальные трансферы между аэропортами, вокзалами, круизными терминалами и указанными вами адресами в Венеции и Тревизо.",
+  "Private transfers in Venice and Treviso.": "Индивидуальные трансферы в Венеции и Тревизо.",
+  "Private transfers (NCC) from airports, stations or your chosen address in Venice and Treviso, with journeys across Italy and Europe.": "Индивидуальные трансферы с водителем (NCC) из аэропортов, с вокзалов или по указанному адресу в Венеции и Тревизо. Поездки по Италии и Европе.",
+  "Venice & Treviso Private Transfers | Easy Lux Transfer": "Индивидуальные трансферы в Венеции и Тревизо | Easy Lux Transfer",
+  "Private transfers in Venice and Treviso with Easy Lux Transfer. Pick-ups at airports, stations or your chosen address, with journeys across Italy and Europe.": "Индивидуальные трансферы в Венеции и Тревизо с Easy Lux Transfer. Встреча в аэропорту, на вокзале или по вашему адресу. Поездки по Италии и Европе."
+})
+
+Object.assign(russian, {
+  "Where can you pick me up in Venice?": "Где вы можете забрать меня в Венеции?",
+  "Send us your pick-up address and destination when requesting a quote. We’ll confirm a meeting point that the vehicle can reach. If your address needs water access, we can discuss a separate Water Taxi connection and confirm its price before you book.": "Укажите адрес подачи и место назначения при запросе стоимости. Мы согласуем точку встречи, доступную для автомобиля. Если к адресу можно добраться только по воде, мы можем обсудить отдельный трансфер на водном такси и подтвердить его стоимость до бронирования.",
+  "For Venice addresses without road access, we can arrange a Water Taxi to Piazzale Roma, where your private driver continues the journey. The same service is available in reverse.": "Если к вашему адресу в Венеции нельзя подъехать на автомобиле, мы можем организовать водное такси до Пьяццале Рома, откуда поездку продолжит ваш водитель. Трансфер возможен и в обратном направлении.",
+  "Optional. Google Analytics measures page visits, successful request submissions and WhatsApp clicks. Google receives cookie identifiers, page, device and connection information. Your enquiry details are not sent to Analytics.": "Необязательно. Google Analytics измеряет посещения страниц, успешную отправку заявок и нажатия на ссылки WhatsApp. Google получает идентификаторы cookie, сведения о странице, устройстве и соединении. Содержание вашей заявки в Analytics не передаётся.",
+  "With your consent, Google Analytics helps us understand page visits, successful request submissions and WhatsApp clicks. Google receives cookie identifiers, page, device and connection information. We do not send your enquiry contents to Analytics or use it for advertising personalization.": "С вашего согласия Google Analytics помогает анализировать посещения страниц, успешную отправку заявок и нажатия на ссылки WhatsApp. Google получает идентификаторы cookie, сведения о странице, устройстве и соединении. Мы не передаём содержание заявок в Analytics и не используем его для персонализации рекламы."
+})
+
+// Practical transfer information and descriptive links for visitors planning their journey.
+Object.assign(russian, {
+  "Private transfers from Venice Marco Polo Airport (VCE) or Treviso Airport (TSF) to Venice, Mestre, Treviso or your chosen destination. We track your flight, meet you in Arrivals after baggage claim and send exact meeting instructions before you travel.": "Индивидуальные трансферы из аэропортов Венеции Марко Поло (VCE) и Тревизо (TSF) в Венецию, Местре, Тревизо или к месту назначения по вашему выбору. Мы отслеживаем рейс, встречаем вас в зоне прилёта после получения багажа и заранее отправляем точные инструкции.",
+  "Travel from your agreed address or meeting point in Venice, Mestre or Treviso to Marco Polo or Treviso Airport. We plan your pick-up around your flight, terminal and traffic, and help with your luggage.": "Поездка из согласованного адреса или места встречи в Венеции, Местре или Тревизо в аэропорт Марко Поло или Тревизо. Мы планируем время подачи с учётом рейса, терминала и дорожной обстановки и помогаем с багажом.",
+  "Book a private transfer between Venice, Mestre, Treviso and your chosen destination. Your driver can collect you at a train station or another road-accessible address. Send both addresses, your preferred time and luggage details so we can confirm the meeting point and a suitable vehicle.": "Закажите индивидуальный трансфер между Венецией, Местре, Тревизо и выбранным местом назначения. Водитель может встретить вас на вокзале или по другому адресу, доступному для автомобиля. Укажите оба адреса, желаемое время и сведения о багаже, чтобы мы согласовали место встречи и подходящий автомобиль.",
+  "Airport meeting instructions": "Как встретиться с водителем в аэропорту",
+  "Planning a return transfer": "Как заказать обратный трансфер",
+  "Pick-up points and road access in Venice": "Места встречи и доступ для автомобиля в Венеции",
+  "Can I book a private transfer from an address or train station?": "Можно ли заказать трансфер от указанного адреса или вокзала?",
+  "Yes. We arrange private transfers from road-accessible addresses and train stations in Venice, Mestre and Treviso. Send your pick-up point, destination and preferred time. For a cruise terminal, include your ship, terminal and disembarkation time so we can agree on a meeting point.": "Да. Мы организуем индивидуальные трансферы от доступных для автомобиля адресов и вокзалов в Венеции, Местре и Тревизо. Укажите место подачи, пункт назначения и желаемое время. Для встречи в круизном терминале сообщите название судна, терминал и время высадки, чтобы мы согласовали место встречи.",
+  "Addresses, stations and luggage": "Адреса, вокзалы и багаж",
+  "Flights, meeting points and boat connections": "Рейсы, места встречи и водные трансферы",
+  "Explore private transfers": "Посмотреть индивидуальные трансферы",
+  "Venice and Treviso airport transfers": "Трансферы из аэропортов Венеции и Тревизо",
+  "Car and Water Taxi connections": "Автомобиль и водное такси",
+  "Italy & Europe routes": "Маршруты по Италии и Европе",
+  "Request a return transfer": "Запросить обратный трансфер",
+  "Plan your private transfer": "Спланировать индивидуальный трансфер",
+  "Request a suitable vehicle": "Запросить подходящий автомобиль",
+  "Luggage information": "Информация о багаже",
+  "Child seat requests": "Запрос детского кресла",
+  "Venice & Treviso private transfers": "Индивидуальные трансферы в Венеции и Тревизо",
+  "Return transfers": "Обратные трансферы"
+})
+
+// About Us: concrete service and vehicle information, retaining the existing design and photos.
+Object.assign(russian, {
+  "We’re two founders with experience in private transport. We created Easy Lux to arrange private journeys from Venice and Treviso, with a pick-up point, vehicle and price agreed before you travel.": "Мы — два основателя с опытом работы в сфере частных перевозок. Мы создали Easy Lux, чтобы организовывать индивидуальные поездки из Венеции и Тревизо с заранее согласованными местом встречи, автомобилем и стоимостью.",
+  "Tell us where you need to go, when you want to travel and who is coming with you. We check availability and send you a quote. Your driver meets you at the agreed point and helps with your luggage.": "Расскажите, куда и когда вы хотите поехать и кто будет с вами. Мы проверим доступность и отправим предложение со стоимостью. Водитель встретит вас в согласованном месте и поможет с багажом.",
+  "The right vehicle": "Подходящий автомобиль",
+  "for your journey.": "для вашей поездки.",
+  "Sedans, vans and minibuses suit different group sizes. Tell us how many people and bags are travelling, including pushchairs or sports equipment. We’ll check availability and confirm a suitable vehicle before you book.": "Для разных групп предусмотрены седаны, минивэны и микроавтобусы. Сообщите количество пассажиров и багажа, включая коляски или спортивное снаряжение. Мы проверим доступность и подтвердим подходящий автомобиль до бронирования.",
+  "Before you travel, we agree the route, pick-up point and vehicle. If you need a child seat, extra luggage space, stops or a return transfer, include those details in your request.": "До поездки мы согласуем маршрут, место подачи и автомобиль. Если нужны детское кресло, дополнительное место для багажа, остановки или обратный трансфер, укажите это в заявке.",
+  "A vehicle for your group": "Автомобиль для вашей группы",
+  "Passenger numbers, luggage and child seat requests are checked before we confirm your vehicle.": "Перед подтверждением автомобиля мы уточняем количество пассажиров, багаж и запросы на детские кресла.",
+  "Vehicle confirmed before booking": "Автомобиль согласован до бронирования",
+  "Space for your group and bags": "Место для вашей группы и багажа",
+  "From airports, train stations or your agreed address in Venice, Mestre and Treviso, we take you to your chosen destination. Our routes also cover other Italian cities, the Dolomites, seaside resorts and destinations across Europe.": "Мы заберём вас из аэропорта, с вокзала или по согласованному адресу в Венеции, Местре или Тревизо и отвезём в выбранное место. Наши маршруты также охватывают другие города Италии, Доломиты, морские курорты и направления по Европе.",
+  "Request a quote": "Запросить стоимость",
+  "Meet Easy Lux Transfer, based in Venice and Treviso. Learn how we plan private transfers and confirm the right vehicle for your group and luggage.": "Easy Lux Transfer в Венеции и Тревизо: как мы планируем индивидуальные трансферы и подбираем автомобиль с учётом пассажиров и багажа."
+})

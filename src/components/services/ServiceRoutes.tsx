@@ -34,7 +34,7 @@ export function RouteList({ routes, title, service, onRequest, initial = 4, more
     <div id={tableId} className={`sv-table-wrap${compact ? ' sv-table-wrap-compact' : ''}`}>
       <table className="sv-route-table" aria-label={t(title)}>
         <thead><tr><th scope="col">{t("Route")}</th><th scope="col">{t("Sedan")}</th><th scope="col">{t("Van")}</th><th scope="col">{t("Minibus")}</th><th scope="col"><span className={compact ? undefined : 'sv-sr-only'}>{t(compact ? 'Action' : 'Request')}</span></th></tr></thead>
-        <tbody>{(expanded ? routes : routes.slice(0, initial)).map(route => <tr key={route.id} data-route-id={route.id}>
+        <tbody>{routes.map((route, index) => <tr key={route.id} data-route-id={route.id} hidden={!expanded && index >= initial}>
           <th scope="row"><span className={editorial ? 'sv-editorial-route' : undefined}><span className="sv-route-origin">{t(route.from)} <ArrowRight size={17} aria-hidden="true" /></span> <span>{t(route.to)}</span>{editorial && !compact && <span className="sv-editorial-description">{t("Address-to-address private transfer")}</span>}</span></th>
           <td data-label="Sedan">{t(priceLabel(route.sedan))}</td><td data-label="Van">{t(priceLabel(route.van))}</td><td data-label="Minibus">{t(priceLabel(route.minibus))}</td>
           <td className="sv-route-action"><button type="button" aria-label={message("Request this route: {0} to {1}", t(route.from), t(route.to))} onClick={() => onRequest({ service, pickup: route.pickup, destination: route.destination, airportPickup: route.airportMode === 'pickup' })}><span className={compact ? 'sv-compact-action' : editorial ? 'sv-editorial-action' : 'sv-mobile-label'}>{t("Request this route")}</span><ArrowRight size={compact ? 19 : 23} aria-hidden="true" /></button></td>
@@ -92,7 +92,7 @@ export function RouteSection({ title, children, id, openRequest = 0 }: { title: 
       </button>
 
       <div id={panelId} hidden={!expanded} className="sv-route-disclosure-panel">
-        {t(expanded && children)}
+        {children}
       </div>
     </div>
   </div>

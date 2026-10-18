@@ -1,6 +1,6 @@
 import imageManifest from '../config/image-manifest.json'
 
-type ImageRecord = { src: string; width: number; height: number; variants: { src: string; width: number }[] }
+type ImageRecord = { src: string; width: number; height: number; variants: { src: string; width: number }[]; avifVariants?: { src: string; width: number }[] }
 type ResponsiveImageAttributes = { src: string; width?: number; height?: number; srcSet?: string; sizes?: string }
 const images: Record<string, ImageRecord> = imageManifest
 const byOptimizedPath = new Map(Object.values(images).map(image => [image.src, image]))
@@ -20,5 +20,15 @@ export function imageAttributes(source: string, sizes = '(max-width: 760px) 100v
     ...(image.variants.length > 1 ? {
       srcSet: image.variants.map(variant => `${assetUrl(variant.src)} ${variant.width}w`).join(', '), sizes,
     } : {}),
+  }
+}
+
+export function imageAvifSource(source: string, sizes?: string): Pick<ResponsiveImageAttributes, 'srcSet' | 'sizes'> | null {
+  const path = source.startsWith(import.meta.env.BASE_URL) ? source.slice(import.meta.env.BASE_URL.length) : source
+  const image = images[path] ?? byOptimizedPath.get(path)
+  if (!image?.avifVariants?.length) return null
+  return {
+    srcSet: image.avifVariants.map(variant => `${assetUrl(variant.src)} ${variant.width}w`).join(', '),
+    sizes: imageAttributes(source, sizes).sizes,
   }
 }

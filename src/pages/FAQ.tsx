@@ -1,10 +1,11 @@
 import { countLabel, t, useLocale } from '../i18n/locale'
 import OptimizedImage from '../components/OptimizedImage'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useScrollReveal } from '../hooks/useScrollReveal'
 import { CreditCard, MapPin, AirplaneTilt, Car, Info, WhatsappLogo } from '@phosphor-icons/react'
 import { ArrowRight, Close, Minus, Plus, Search } from '../components/PikaIcons'
-import { pagePath, type Page } from '../types/navigation'
+import { pagePath } from '../types/navigation'
+import PageLink, { type Navigate } from '../components/PageLink'
 import { company } from '../config/company'
 import { faqTopics } from './faqData'
 import './faq.css'
@@ -13,23 +14,73 @@ import { publicAsset } from '../lib/publicAsset'
 const questions = faqTopics.flatMap(group => [...group.questions])
 const categories = [
   { id: 'booking', title: 'Booking & Payment', subtitle: 'Quotes, payment and changes', Icon: CreditCard, ids: ['book', 'price', 'payment', 'modify', 'cancel'] },
-  { id: 'journey', title: 'Pick-up & Journey', subtitle: 'Hotels, cruise ports and luggage', Icon: MapPin, ids: ['port', 'bags', 'child'] },
-  { id: 'airport', title: 'Airport & Water Taxi', subtitle: 'Flights, Venice hotels and boat connections', Icon: AirplaneTilt, ids: ['meeting', 'delay', 'cancelled-flight', 'hotel', 'combine', 'boat-price'] },
+  { id: 'journey', title: 'Pick-up & Journey', subtitle: 'Addresses, stations and luggage', Icon: MapPin, ids: ['port', 'venice-pickup', 'bags', 'child'] },
+  { id: 'airport', title: 'Airport & Water Taxi', subtitle: 'Flights, meeting points and boat connections', Icon: AirplaneTilt, ids: ['meeting', 'delay', 'cancelled-flight', 'hotel', 'combine', 'boat-price'] },
   { id: 'distance', title: 'Long-distance & Hourly', subtitle: 'Stops, returns and longer routes', Icon: Car, ids: ['hourly', 'return', 'stops', 'europe', 'prosecco'] },
   { id: 'general', title: 'Special requests', subtitle: 'Accessibility and pets', Icon: Info, ids: ['access', 'pets'] },
 ]
 
-export default function FAQ({ navigate }: { navigate: (page: Page) => void }) {
+const serviceLinks: Record<string, { sectionId: string; label: string }> = {
+  port: { sectionId: 'ac-tab-2', label: 'Explore private transfers' },
+  meeting: { sectionId: 'service-airport', label: 'Venice and Treviso airport transfers' },
+  delay: { sectionId: 'service-airport', label: 'Venice and Treviso airport transfers' },
+  'venice-pickup': { sectionId: 'service-water-taxi', label: 'Car and Water Taxi connections' },
+  hotel: { sectionId: 'service-water-taxi', label: 'Car and Water Taxi connections' },
+  combine: { sectionId: 'service-water-taxi', label: 'Car and Water Taxi connections' },
+  'boat-price': { sectionId: 'service-water-taxi', label: 'Car and Water Taxi connections' },
+  hourly: { sectionId: 'service-hourly', label: 'Chauffeur by the Hour' },
+  europe: { sectionId: 'service-europe', label: 'Italy & Europe routes' },
+  return: { sectionId: 'service-custom', label: 'Request a return transfer' },
+  stops: { sectionId: 'service-custom', label: 'Plan your private transfer' },
+  bags: { sectionId: 'service-custom', label: 'Request a suitable vehicle' },
+  child: { sectionId: 'service-custom', label: 'Request a suitable vehicle' },
+}
+
+export default function FAQ({ navigate }: { navigate: Navigate }) {
   useLocale()
   const pageRef = useRef<HTMLDivElement>(null)
   useScrollReveal(pageRef, '.fq-sidebar > nav, .fq-results, .fq-help > *')
   const [topic, setTopic] = useState('booking')
   const [query, setQuery] = useState('')
   const [open, setOpen] = useState<string | null>(null)
+  const pendingQuestion = useRef<string | null>(null)
+
+  useEffect(() => {
+    const followQuestionLink = () => {
+      let fragment: string
+      try { fragment = decodeURIComponent(window.location.hash.slice(1)) } catch { return }
+      const category = categories.find(item => item.ids.some(id => fragment === `fq-question-${id}`))
+      if (!category) return
+      const id = fragment.slice('fq-question-'.length)
+      pendingQuestion.current = id
+      setTopic(category.id)
+      setQuery('')
+      setOpen(id)
+    }
+    followQuestionLink()
+    window.addEventListener('hashchange', followQuestionLink)
+    window.addEventListener('popstate', followQuestionLink)
+    return () => {
+      window.removeEventListener('hashchange', followQuestionLink)
+      window.removeEventListener('popstate', followQuestionLink)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!open || pendingQuestion.current !== open) return
+    const frame = window.requestAnimationFrame(() => {
+      pendingQuestion.current = null
+      const question = document.getElementById(`fq-question-${open}`)
+      question?.scrollIntoView({ block: 'start', behavior: 'auto' })
+      question?.focus({ preventScroll: true })
+    })
+    return () => window.cancelAnimationFrame(frame)
+  }, [open, topic])
   const active = categories.find(category => category.id === topic)!
   const words = query.trim().toLowerCase().split(/\s+/).filter(Boolean)
   const searching = words.length > 0
   const visible = searching ? questions.filter(item => words.every(word => `${t(item.q)} ${t(item.a)}`.toLocaleLowerCase().includes(word))) : active.ids.map(id => questions.find(item => item.id === id)!)
+  const visibleIds = new Set(visible.map(item => item.id))
   const chooseTopic = (id: string) => { setTopic(id); setQuery(''); setOpen(null) }
 
   return <div ref={pageRef} className="faq-page">
@@ -47,7 +98,7 @@ export default function FAQ({ navigate }: { navigate: (page: Page) => void }) {
         <div className="fq-results-toolbar"><div className="fq-results-title"><span className="fq-index">{t(searching ? 'Search' : `0${categories.indexOf(active) + 1}`)}</span><h2>{t(searching ? 'Search results' : active.title)}</h2></div><div className="fq-search" role="search"><Search size={18} aria-hidden="true" /><input type="search" aria-label={t("Search questions")} placeholder={t("Search questions")} value={query} onChange={event => { setQuery(event.target.value); setOpen(null) }} />{query && <button aria-label={t("Clear search")} onClick={() => { setQuery(''); setOpen(null) }}><Close size={17} aria-hidden="true" /></button>}</div></div>
         <div className="fq-results-content" key={searching ? 'search' : topic}>
           <div className="fq-results-heading">{searching && <p>{t("Matching answers from every topic.")}</p>}<span className="fq-count" role="status">{countLabel(visible.length, 'question')}</span></div>
-          <div className="fq-questions">{visible.map(item => <article className={`fq-question${open === item.id ? ' is-open' : ''}`} key={item.id}><h3><button type="button" id={`fq-question-${item.id}`} aria-expanded={open === item.id} aria-controls={`fq-answer-${item.id}`} onClick={() => setOpen(open === item.id ? null : item.id)}>{t(item.q)}{open === item.id ? <Minus size={18} aria-hidden="true" /> : <Plus size={18} aria-hidden="true" />}</button></h3><div id={`fq-answer-${item.id}`} role="region" aria-labelledby={`fq-question-${item.id}`} aria-hidden={open !== item.id} className="fq-answer"><div><p>{t(item.a)}</p>{["payment", "modify", "cancel", "cancelled-flight"].includes(item.id) && <p><a href={pagePath("terms")} target="_blank" rel="noopener noreferrer">{t("Booking Terms & Conditions")}</a></p>}</div></div></article>)}</div>
+          <div className="fq-questions">{questions.map(item => <article hidden={!visibleIds.has(item.id)} className={`fq-question${open === item.id ? ' is-open' : ''}`} key={item.id}><h3><button type="button" id={`fq-question-${item.id}`} aria-expanded={open === item.id} aria-controls={`fq-answer-${item.id}`} onClick={() => setOpen(open === item.id ? null : item.id)}>{t(item.q)}{open === item.id ? <Minus size={18} aria-hidden="true" /> : <Plus size={18} aria-hidden="true" />}</button></h3><div id={`fq-answer-${item.id}`} role="region" aria-labelledby={`fq-question-${item.id}`} aria-hidden={open !== item.id} className="fq-answer"><div><p>{t(item.a)}</p>{serviceLinks[item.id] && <p><PageLink page="services" sectionId={serviceLinks[item.id].sectionId} navigate={navigate}>{t(serviceLinks[item.id].label)}</PageLink></p>}{["payment", "modify", "cancel", "cancelled-flight"].includes(item.id) && <p><a href={pagePath("terms")} target="_blank" rel="noopener noreferrer">{t("Booking Terms & Conditions")}</a></p>}</div></div></article>)}</div>
           {!visible.length && <div className="fq-empty"><h3>{t("No matching questions.")}</h3><p>{t("Try “luggage”, “flight” or “payment”, or contact us about your journey.")}</p><button className="fq-text-link" onClick={() => setQuery('')}>{t("Back to ")}{t(active.title)} <ArrowRight size={17} aria-hidden="true" /></button></div>}
         </div>
       </div>

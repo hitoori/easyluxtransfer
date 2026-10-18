@@ -1,0 +1,33 @@
+/* Consistent type family and rhythm, with sizes adapted to each section's role. */
+.services-new-page.services-experience {
+  --service-description-size: 15px;
+  --service-description-leading: 1.75;
+}
+
+.services-new-page.services-experience #service-hourly,
+.services-new-page.services-experience #service-water-taxi,
+.services-new-page.services-experience #service-europe,
+.services-new-page.services-experience #service-coast {
+  --service-description-size: 16px;
+}
+
+@media (max-width: 760px) {
+  .services-new-page.services-experience #service-water-taxi,
+  .services-new-page.services-experience #service-europe,
+  .services-new-page.services-experience #service-coast {
+    --service-description-size: 15px;
+  }
+}
+
+.services-new-page.services-experience #service-airport.airport-concierge .ac-copy > p,
+.services-new-page.services-experience #service-hourly .hourly-mockup-description,
+.services-new-page.services-experience #service-water-taxi .wt-description,
+.services-new-page.services-experience #service-europe .et-description,
+.services-new-page.services-experience #service-prosecco .ph-description,
+.services-new-page.services-experience #service-mountains .mt-description,
+.services-new-page.services-experience #service-coast .cs-description,
+.services-new-page.services-experience #service-cruise .ct-description {
+  color: var(--svc-body);
+  font: 400 var(--service-description-size)/var(--service-description-leading) var(--font-body);
+  letter-spacing: normal;
+}

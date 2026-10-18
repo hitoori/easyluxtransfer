@@ -89,6 +89,24 @@
   padding: 0;
 }
 
+.services-new-page.services-experience .airport-concierge .ac-copy[hidden] {
+  display: none !important;
+}
+
+.services-new-page.services-experience .airport-concierge .ac-guide-link {
+  display: inline-block;
+  margin-top: 16px;
+  color: var(--svc-gold);
+  font: 500 13px/1.6 var(--font-body);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.services-new-page.services-experience .airport-concierge .ac-guide-link:focus-visible {
+  outline: 2px solid var(--svc-gold);
+  outline-offset: 4px;
+}
+
 .services-new-page.services-experience .airport-concierge .ac-content {
   grid-area: content;
   display: flex;

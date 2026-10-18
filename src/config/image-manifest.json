@@ -272,6 +272,24 @@
         "src": "images/services/water-taxi/venice-lagoon-water-taxi.webp",
         "width": 1920
       }
+    ],
+    "avifVariants": [
+      {
+        "src": "images/services/water-taxi/venice-lagoon-water-taxi-640w.avif",
+        "width": 640
+      },
+      {
+        "src": "images/services/water-taxi/venice-lagoon-water-taxi-960w.avif",
+        "width": 960
+      },
+      {
+        "src": "images/services/water-taxi/venice-lagoon-water-taxi-1280w.avif",
+        "width": 1280
+      },
+      {
+        "src": "images/services/water-taxi/venice-lagoon-water-taxi.avif",
+        "width": 1920
+      }
     ]
   },
   "images/services/water-taxi/arriving-mobile-map-v2.jpg": {
@@ -1024,6 +1042,24 @@
       },
       {
         "src": "images/home/hero/venice-canal-boats.webp",
+        "width": 1920
+      }
+    ],
+    "avifVariants": [
+      {
+        "src": "images/home/hero/venice-canal-boats-640w.avif",
+        "width": 640
+      },
+      {
+        "src": "images/home/hero/venice-canal-boats-960w.avif",
+        "width": 960
+      },
+      {
+        "src": "images/home/hero/venice-canal-boats-1280w.avif",
+        "width": 1280
+      },
+      {
+        "src": "images/home/hero/venice-canal-boats.avif",
         "width": 1920
       }
     ]

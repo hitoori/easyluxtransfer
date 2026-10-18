@@ -89,14 +89,9 @@ export default function Home({ navigate }: HomeProps) {
         <div className="h2-hero-copy">
           <p className="h2-kicker"><span className="home-desktop-copy">{t("PRIVATE CHAUFFEUR SERVICE · VENICE & TREVISO")}</span><span className="home-mobile-copy">{t('PRIVATE CHAUFFEUR SERVICE')}</span></p>
           <h1>
-            <span className="home-desktop-copy">
-            {t("Private transfers from")}<br className="home-hero-mobile-break" />{' '}
-            {t("Venice,")}<br className="home-hero-desktop-break" />{' '}
-            <span>{t("across Italy")}<br className="home-hero-mobile-break" />{' '}{t("and Europe.")}</span>
-            </span>
-            <span className="home-mobile-copy">{t('Private transfers in')}<br />{t('Venice & Treviso.')}</span>
+            {t('Private transfers in')}<br />{t('Venice & Treviso.')}
           </h1>
-          <p className="h2-lead"><span className="home-desktop-copy">{t("Airport pick-ups, city transfers, a chauffeur by the hour and longer journeys.")}</span>{' '}<span className="home-mobile-copy" data-nosnippet>{t('Airport pick-ups, hourly chauffeurs and journeys across Italy & Europe.')}</span></p>
+          <p className="h2-lead">{t("From airports, stations or your chosen address to destinations across Italy and Europe.")}</p>
         </div>
 
         <div

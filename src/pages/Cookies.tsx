@@ -116,7 +116,7 @@ export default function Cookies() {
           </details>
           <details className="privacy-cookie-details">
             <summary>{t("Website statistics · Google Analytics")}</summary>
-            <p>{t("With your consent, Google Analytics helps us understand page visits and website use. Google receives cookie identifiers, page, device and connection information. We do not send your enquiry contents to Analytics or use it for advertising personalization.")}</p>
+            <p>{t("With your consent, Google Analytics helps us understand page visits, successful request submissions and WhatsApp clicks. Google receives cookie identifiers, page, device and connection information. We do not send your enquiry contents to Analytics or use it for advertising personalization.")}</p>
             <dl className="privacy-storage-list"><div><dt><code>_ga</code> / <code>_ga_*</code></dt><dd>{t("Google Analytics cookies · Up to 180 days, renewed during use · Used to distinguish visits and measure website use. Created only after you allow Analytics.")}</dd></div></dl>
             <p>{t("Read ")}<a href="https://policies.google.com/privacy">{t("Google’s privacy policy")}</a> {t(" and ")}<a href="https://policies.google.com/technologies/cookies">{t("Google’s cookie information")}</a>{"."}</p>
           </details>

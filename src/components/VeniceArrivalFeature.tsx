@@ -28,7 +28,7 @@ export default function VeniceArrivalFeature({ navigate }: VeniceArrivalFeatureP
           <p className="water-route-kicker">{t("Venice Water Taxi")}</p>
           <h2><span>{t("Water Taxi and private")}</span>{' '}<span>{t("car, arranged together.")}</span></h2>
           <div className="water-route-description">
-            <p>{t("We arrange a Water Taxi between your Venice address and Piazzale Roma, where a private driver continues your journey. The same service is available in reverse.")}</p>
+            <p>{t("For Venice addresses without road access, we can arrange a Water Taxi to Piazzale Roma, where your private driver continues the journey. The same service is available in reverse.")}</p>
             <p>{t("We’ll send your boarding point and boat number the day before travel.")}</p>
           </div>
 

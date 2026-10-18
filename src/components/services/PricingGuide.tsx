@@ -1,5 +1,5 @@
 import { t, useLocale } from '../../i18n/locale'
-import type { Page } from '../../types/navigation'
+import PageLink, { type Navigate } from '../PageLink'
 
 const questions = [
   ['Which transfer service should I choose?', 'Choose Airport & City for airport or local journeys, By the Hour for a driver who stays with you, or the section that matches your destination: Water Taxi, Italy & Europe, Prosecco Hills, Mountains, Seaside or Cruise Ports. You can request a different destination if it is not listed.'],
@@ -8,7 +8,7 @@ const questions = [
   ['Which cruise terminals can you serve?', 'Ravenna, Trieste and Fusina. Include your ship and terminal details when you request a quote.'],
 ]
 
-export default function PricingGuide({ navigate }: { navigate: (page: Page) => void }) {
+export default function PricingGuide({ navigate }: { navigate: Navigate }) {
   useLocale()
   return <section className="services-pricing-guide" aria-labelledby="services-pricing-title">
     <div className="svc-shell services-pricing-layout">
@@ -17,9 +17,9 @@ export default function PricingGuide({ navigate }: { navigate: (page: Page) => v
           <p className="svc-eyebrow">{t("Useful to know")}</p>
           <h2 id="services-pricing-title">{t("Quick answers")}</h2>
         </div>
-        <button type="button" className="services-pricing-link" onClick={() => navigate('faq')}>
+        <PageLink page="faq" className="services-pricing-link" navigate={navigate}>
           {t("Explore all FAQs ")}<span aria-hidden="true">{"→"}</span>
-        </button>
+        </PageLink>
       </div>
       <div className="services-pricing-questions">
         {questions.map(([question, answer]) => <details key={question}>

@@ -154,7 +154,7 @@ function EuropeRouteTable({ routes, region, onRequest }: { routes: typeof italyR
   return <>
     <table className="et-table sr-home-table" id={`et-${region}-routes`} aria-label={message("{0} routes and prices", t(region))}>
       <thead><tr><th scope="col">{t("Route")}</th><th scope="col">{t("Sedan")}</th><th scope="col">{t("Van")}</th><th scope="col">{t("Minibus 12")}</th><th scope="col">{t("Action")}</th></tr></thead>
-      <tbody>{(showAll ? routes : routes.slice(0, 3)).map(route => <tr key={route.id}>
+      <tbody>{routes.map((route, index) => <tr key={route.id} data-route-id={route.id} hidden={!showAll && index >= 3}>
         <th scope="row"><span className="sr-route-copy"><span className="sr-route-title">{t(route.from)} <span className="et-arrow">{"→"}</span> {t(route.to)}</span></span></th>
         <td><span className="et-mobile-label">{t("Sedan")}</span>{t(priceLabel(route.sedan))}</td>
         <td><span className="et-mobile-label">{t("Van")}</span>{t(priceLabel(route.van))}</td>

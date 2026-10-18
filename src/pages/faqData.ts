@@ -7,7 +7,8 @@ export const faqTopics = [
     { id: 'cancel', q: 'What happens if I need to cancel?', a: 'Contact us by email or WhatsApp as soon as your plans change. Cancel at least 24 hours before the agreed pick-up time for a full refund of your deposit. For a customer cancellation less than 24 hours before pick-up, the deposit is retained for the reserved vehicle and driver time, subject to your statutory rights. See our Booking Terms & Conditions for details.' },
   ] },
   { id: 'journey', title: 'Pick-up & Journey', questions: [
-    { id: 'port', q: 'Can you pick us up from a hotel, train station or cruise terminal?', a: 'Yes. Send us the address or station name. For a cruise pick-up, include your ship, terminal and disembarkation time so we can agree on a meeting point.' },
+    { id: 'port', q: 'Can I book a private transfer from an address or train station?', a: 'Yes. We arrange private transfers from road-accessible addresses and train stations in Venice, Mestre and Treviso. Send your pick-up point, destination and preferred time. For a cruise terminal, include your ship, terminal and disembarkation time so we can agree on a meeting point.' },
+    { id: 'venice-pickup', q: 'Where can you pick me up in Venice?', a: 'Send us your pick-up address and destination when requesting a quote. We’ll confirm a meeting point that the vehicle can reach. If your address needs water access, we can discuss a separate Water Taxi connection and confirm its price before you book.' },
     { id: 'bags', q: 'Will all our luggage fit?', a: 'Tell us how many people and bags are travelling. Mention large suitcases, skis or pushchairs so we can confirm a suitable vehicle.' },
     { id: 'child', q: 'Can you provide a child seat?', a: 'Tell us each child’s age and size when requesting a quote. We’ll confirm the suitable seat, availability and any charge.' },
   ] },

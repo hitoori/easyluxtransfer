@@ -82,3 +82,58 @@ test('Google tag is blocked before opt-in, loads once, counts committed EN/RU pa
     if (oldDocument === undefined) delete globalThis.document; else globalThis.document = oldDocument
   }
 })
+
+test('successful requests are consent-gated and deduplicated; WhatsApp stays separate and no form data is measured', async () => {
+  const oldWindow = globalThis.window, oldDocument = globalThis.document
+  const scripts = []
+  globalThis.window = { location: { href: 'https://easyluxtransfer.com/ru/contact?email=private@example.com#secret', hostname: 'easyluxtransfer.com' } }
+  globalThis.document = {
+    title: 'Contact | Easy Lux Transfer', referrer: '',
+    head: { appendChild: node => scripts.push(node) },
+    createElement: () => ({}),
+  }
+  try {
+    const analytics = await import(typescriptModule(new URL('../src/lib/analytics.ts', import.meta.url)) + '#interactions')
+    const events = () => (window.dataLayer ?? []).map(args => Array.from(args)).filter(args => args[0] === 'event')
+    analytics.trackAnalyticsLead('contact', 'custom', 'request-before-consent')
+    analytics.trackWhatsAppClick('https://wa.me/393207874212?text=private-message', 'contact')
+    assert.equal(scripts.length, 0)
+    assert.equal(events().length, 0)
+    analytics.setAnalyticsConsent(true)
+    assert.equal(events().length, 0, 'Do not replay interactions that occurred before consent')
+    for (const source of ['home-booking', 'home-quote', 'services-quote', 'contact']) {
+      analytics.trackAnalyticsLead(source, source === 'home-booking' ? 'transfer' : 'custom', `private-request-${source}`)
+      analytics.trackAnalyticsLead(source, 'custom', `private-request-${source}`)
+    }
+    assert.equal(events().filter(args => args[1] === 'generate_lead').length, 4)
+    analytics.trackAnalyticsLead('private@example.com', 'custom', 'invalid-source')
+    analytics.trackAnalyticsLead('contact', 'private message', 'invalid-kind')
+    analytics.trackAnalyticsLead('contact', 'custom', '')
+    assert.equal(events().length, 4)
+    for (const [href, location] of [
+      ['https://wa.me/393207874212?text=private-message', 'contact'],
+      ['https://wa.me/393202416662', 'footer'],
+      ['https://wa.me/393207874212', 'faq'],
+    ]) analytics.trackWhatsAppClick(href, location)
+    for (const href of ['https://wa.me/12345678', 'https://example.com/', 'http://wa.me/393207874212', 'javascript:alert(1)']) analytics.trackWhatsAppClick(href, 'other')
+    const clicks = events().filter(args => args[1] === 'contact_whatsapp')
+    assert.equal(clicks.length, 3)
+    assert.deepEqual(clicks.map(args => args[2].link_location), ['contact', 'footer', 'faq'])
+    for (const [, , parameters] of events()) {
+      assert.equal(parameters.page_location, 'https://easyluxtransfer.com/ru/contact')
+      assert.equal(parameters.send_to, 'G-M322BVXRJG')
+    }
+    assert.doesNotMatch(JSON.stringify(events()), /private|393207874212|393202416662|wa\.me|email=|#secret/)
+    analytics.setAnalyticsConsent(false)
+    analytics.trackAnalyticsLead('contact', 'custom', 'after-withdrawal')
+    analytics.trackWhatsAppClick('https://wa.me/393207874212', 'contact')
+    assert.equal(events().length, 7)
+    analytics.setAnalyticsConsent(true)
+    window.gtag = () => { throw new Error('Tag failed') }
+    assert.doesNotThrow(() => analytics.trackAnalyticsLead('contact', 'custom', 'tag-failure'))
+    assert.doesNotThrow(() => analytics.trackWhatsAppClick('https://wa.me/393207874212', 'contact'))
+  } finally {
+    if (oldWindow === undefined) delete globalThis.window; else globalThis.window = oldWindow
+    if (oldDocument === undefined) delete globalThis.document; else globalThis.document = oldDocument
+  }
+})

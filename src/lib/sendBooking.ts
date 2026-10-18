@@ -1,3 +1,5 @@
+import { trackAnalyticsLead } from './analytics'
+
 export interface BookingPayload {
   kind: 'transfer' | 'hourly' | 'tours' | 'custom'
   source: 'home-booking' | 'home-quote' | 'services-quote' | 'contact'
@@ -29,5 +31,6 @@ export async function sendBooking(payload: BookingPayload, requestId: string): P
   if (!response.ok || !result.requestCode) {
     throw new Error(result.error || 'The request could not be sent. Please try again.')
   }
+  trackAnalyticsLead(payload.source, payload.kind, requestId)
   return result.requestCode
 }
