@@ -1,41 +1,13 @@
 /* Selected Hourly mock: continuous graphite surface, open copy, quiet quote link. */
 .sv-hourly.sv-section { background: var(--background-secondary); }
 .sv-hourly .svc-shell { width: min(1340px, calc(100% - 80px)); }
-.sv-hourly .sv-hourly-grid { grid-template-columns: 1.08fr 1fr; gap: clamp(64px, 8vw, 120px); padding-block: 54px 44px; }
-.sv-hourly .sv-copy { padding: 0; max-width: none; }
 .sv-hourly h2 { font-size: clamp(40px, 4.15vw, 60px); margin: 24px 0 26px; line-height: 1.14; }
 .sv-hourly .sv-lead { max-width: 600px; font-size: 18px; line-height: 1.65; }
-.sv-hourly .sv-copy > .sv-muted { max-width: 490px; font-size: 16px; }
-.sv-hourly .sv-short-rule { width: 62px; background: var(--border); margin-block: 36px; }
-.sv-hourly .sv-use-cases { padding: 0; border: 0; }
-.sv-hourly .sv-use-cases h3 { font-size: 30px; margin-bottom: 10px; }
-.sv-hourly .sv-use-cases article p { max-width: 470px; font-size: 17px; line-height: 1.6; }
-.sv-hourly .sv-use-cases article + article { margin-top: 24px; padding-top: 24px; border-color: var(--border); }
-.sv-hourly .sv-use-cases > .sv-fine-print { margin-top: 24px; font-size: 14px; }
-.sv-hourly .sv-hourly-quote { display: grid; grid-template-columns: .9fr 1.7fr auto; gap: 30px; align-items: center; padding-block: 30px 40px; border-top: 1px solid var(--border); }
-.sv-hourly .sv-hourly-quote h3 { margin: 0; font-size: 30px; }
-.sv-hourly .sv-hourly-quote p { font-size: 15px; line-height: 1.65; }
-.sv-hourly-link { display: inline-flex; align-items: center; justify-content: space-between; gap: 22px; min-height: 44px; padding: 8px 0; border: 0; background: transparent; color: var(--gold); font: 500 16px/1.5 Manrope, sans-serif; text-align: left; }
-.sv-hourly-link svg { flex-shrink: 0; }
-.sv-hourly-link:hover { color: var(--gold-hover); text-decoration: underline; text-underline-offset: 6px; }
-@media (max-width: 1100px) {
-  .sv-hourly .sv-hourly-grid { gap: 48px; }
-  .sv-hourly .sv-hourly-quote { grid-template-columns: 1fr 1.4fr; gap: 16px 30px; }
-  .sv-hourly-link { grid-column: 2; justify-content: start; }
-}
 @media (max-width: 1023px) {
   .sv-hourly .svc-shell { width: calc(100% - 64px); }
-}
-@media (max-width: 820px) {
-  .sv-hourly .sv-hourly-grid { grid-template-columns: 1fr; gap: 36px; padding-block: 44px 32px; }
-  .sv-hourly .sv-hourly-quote { grid-template-columns: 1fr; gap: 14px; padding-block: 24px 32px; }
-  .sv-hourly-link { grid-column: auto; }
 }
 @media (max-width: 639px) {
   .sv-hourly .svc-shell { width: calc(100% - 48px); }
   .sv-hourly h2 { font-size: 38px; }
-  .sv-hourly .sv-lead, .sv-hourly .sv-copy > .sv-muted, .sv-hourly .sv-use-cases article p { font-size: 15px; }
-  .sv-hourly .sv-use-cases h3, .sv-hourly .sv-hourly-quote h3 { font-size: 25px; }
-  .sv-hourly .sv-short-rule { margin-block: 26px; }
-  .sv-hourly .sv-use-cases > .sv-fine-print { font-size: 14px; }
+  .sv-hourly .sv-lead { font-size: 15px; }
 }

@@ -34,13 +34,11 @@
   line-height: 1.75;
   color: var(--svc-body);
 }
-.services-new-page .sv-mountains-note { font-size: 14px !important; line-height: 1.75; color: var(--svc-body); }
 .services-new-page :is(.sv-mountains-details dt, .sv-hourly-ideal > span) {
   font-size: 12px;
   color: var(--svc-muted);
   letter-spacing: .08em;
 }
-.services-new-page .sv-mountains-details dd { font-size: 15px; line-height: 1.75; color: var(--svc-body); }
 .services-new-page :is(.sv-hourly-includes, .sv-europe-benefits) article { padding-block: 22px; }
 .services-new-page :is(.sv-hourly-includes, .sv-europe-benefits) h3 {
   font: 400 25px/1.2 "Source Serif 4", Georgia, serif;
@@ -56,12 +54,6 @@
 .services-new-page .airport-steps p { font-size: 15px; line-height: 1.75; }
 .services-new-page .airport-meeting { border-color: var(--svc-line); }
 .services-new-page .airport-meeting .sv-button { min-height: 48px; font-size: 12px; line-height: 1.5; }
-.services-new-page .sv-water .sv-water-story-point h3 { font-size: 23px; }
-.services-new-page .sv-water .sv-water-story-point p { font-size: 15px; line-height: 1.75; }
-.services-new-page .sv-mountains-photo-location strong { font-size: 12px; }
-.services-new-page .sv-mountains-photo-location small { font-size: 12px; }
-.services-new-page .sv-coast-new .sv-coast-hero figcaption { font-size: 12px; line-height: 1.6; color: var(--svc-muted); }
-.services-new-page .sv-cruise-journeys article > p:last-child { font-size: 15px; line-height: 1.75; }
 
 /* One disclosure and price language across Italy, mountains, coast and ports. */
 .services-new-page .sv-route-disclosure-trigger {
@@ -102,37 +94,11 @@
 
 /* Quote form uses the same calm field surfaces as the Home request. */
 .services-new-page .sv-quote-layout { gap: clamp(40px, 5vw, 80px); }
-.services-new-page .sv-quote-panel { padding: 36px; }
-.services-new-page .sv-form-steps { margin-bottom: 28px; border-color: var(--svc-line); }
-.services-new-page .sv-form-steps button { min-height: 52px; font-size: 13px; }
-.services-new-page .sv-form-steps li[aria-current] button { color: var(--svc-gold-bright); }
-.services-new-page .sv-form-steps button:disabled { color: var(--svc-muted); }
-.services-new-page .sv-field { gap: 10px; }
-.services-new-page .sv-field > span { font-size: 12px; letter-spacing: .08em; line-height: 1.5; }
-.services-new-page .sv-field :is(input, select, textarea) {
-  min-height: 50px;
-  padding: 12px 14px;
-  border: 1px solid var(--svc-line);
-  border-radius: 2px;
-  background: var(--svc-bg-soft);
-  color: var(--svc-ivory);
-  font-size: 15px;
-  line-height: 1.6;
-  transition: border-color 180ms ease;
-}
-.services-new-page .sv-field :is(input, textarea)::placeholder { color: var(--svc-muted); opacity: 1; }
-.services-new-page .sv-field :is(input, select, textarea):focus { border-color: var(--svc-gold); outline: 1px solid var(--svc-gold); outline-offset: 2px; }
-.services-new-page .sv-field [aria-invalid='true'] { border-color: var(--error); }
 .services-new-page .sv-section :is(.sv-form-helper, .sv-preview-notice) { font-size: 13px; line-height: 1.7; color: var(--svc-body); }
-.services-new-page .sv-form-actions .sv-button { font-size: 13px; min-height: 52px; }
-.services-new-page .sv-review > div { padding-block: 13px; font-size: 14px; line-height: 1.7; }
 
 @media (max-width: 1100px) {
   .services-new-page { --svc-gutter: 32px; }
   .services-new-page .sv-quote-layout { grid-template-columns: minmax(0, 1fr); }
-  .services-new-page .sv-quote-copy { max-width: 620px; padding-top: 0; }
-  .services-new-page .sv-quote-copy h2 br { display: none; }
-  .services-new-page .sv-quote-panel { max-width: 760px; width: 100%; }
 }
 @media (max-width: 820px) {
   .services-new-page { --svc-gutter: 24px; }
@@ -152,27 +118,13 @@
   .services-new-page .airport-steps h3 { font-size: 23px; }
   .services-new-page .airport-family-tabs .sv-tabs button { font-size: 11px; letter-spacing: .04em; }
   .services-new-page .airport-direction-tabs .sv-tabs button { font-size: 13px; }
-  .services-new-page .sv-water .sv-water-story-point h3 { font-size: 21px; }
-  .services-new-page .sv-water .sv-water-story-point p { font-size: 14px; }
-  .services-new-page .sv-mountains-new .sv-mountains-lead { font-size: 15px; }
-  .services-new-page .sv-mountains-details dd { font-size: 14px; }
-  .services-new-page .sv-mountains-photo-location strong { font-size: 10px; }
-  .services-new-page .sv-mountains-photo-location small { font-size: 11px; }
   .services-new-page .sv-route-disclosure-trigger { gap: 16px; }
   .services-new-page .sv-route-disclosure-action { font-size: 11px; letter-spacing: .04em; }
   .services-new-page :is(.sv-europe, .sv-mountains, .sv-coast, .sv-cruise) .sv-table-wrap-compact .sv-route-table tbody tr { padding-block: 24px; gap: 12px; }
   .services-new-page :is(.sv-europe, .sv-mountains, .sv-coast, .sv-cruise) .sv-table-wrap-compact .sv-route-table tbody :is(th, td) { padding-block: 8px; }
   .services-new-page :is(.sv-europe, .sv-mountains, .sv-coast, .sv-cruise) .sv-table-wrap-compact .sv-route-table tbody th { font-size: 21px; }
   .services-new-page .sv-route-table td[data-label]::before { font-size: 11px; color: var(--svc-muted); }
-  .services-new-page .sv-quote-panel { padding: 26px 18px; }
-  .services-new-page .sv-section .sv-form-title { font-size: 28px; line-height: 1.2; }
-  .services-new-page .sv-field :is(input, select, textarea) { font-size: 16px; }
-  .services-new-page .sv-field > span { font-size: 11px; }
-  .services-new-page .sv-form-steps button { font-size: 12px; }
-  .services-new-page .sv-form-actions .sv-button { font-size: 12px; padding-inline: 14px; }
-  .services-new-page .sv-form-actions .sv-button svg { width: 18px; flex-shrink: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .services-new-page :is(.services-masthead-nav a, .sv-route-disclosure-trigger),
-  .services-new-page .sv-field :is(input, select, textarea) { transition: none; }
+  .services-new-page :is(.services-masthead-nav a, .sv-route-disclosure-trigger) { transition: none; }
 }

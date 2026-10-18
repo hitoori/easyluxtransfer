@@ -10,6 +10,7 @@ import { updateNotFoundMetadata, updatePageMetadata } from './config/pageMetadat
 import { pageLoaders } from './config/pageLoaders'
 import { useCookieConsent } from './components/CookieConsent'
 import { trackAnalyticsPage, trackWhatsAppClick } from './lib/analytics'
+import { legacyPageDestination } from './lib/legacyNavigation'
 
 const Services = lazy(pageLoaders.services)
 const About = lazy(pageLoaders.about)
@@ -24,8 +25,7 @@ const getPageFromLocation = (): Page | 'not-found' => {
   const pathPage = window.location.pathname.replace(/^\/ru(?:\/|$)/, '/').replace(/^\/+|\/+$/g, '')
   if (pathPage !== 'home' && pageIds.has(pathPage as Page)) return pathPage as Page
   if (pathPage !== '') return 'not-found'
-  const hashPage = window.location.hash.slice(1) as Page
-  return pageIds.has(hashPage) ? hashPage : 'home'
+  return 'home'
 }
 
 const scrollToPage = (sectionId?: string, behavior: ScrollBehavior = 'instant') => {
@@ -81,7 +81,16 @@ export default function App({ initialPage, prerenderedContent }: { initialPage?:
   // Record committed pages after their localized title changes, not in-progress navigation.
   useEffect(() => { if (analytics && !isPending) trackAnalyticsPage() }, [analytics, currentPage, language, isPending])
   useEffect(() => {
+    let normalizingLegacyRoute = false
     const syncPageFromLocation = async () => {
+      if (normalizingLegacyRoute) return
+      const legacyDestination = legacyPageDestination(window.location)
+      if (legacyDestination) {
+        // A fragment navigation can emit both popstate and hashchange.
+        normalizingLegacyRoute = true
+        window.location.replace(legacyDestination)
+        return
+      }
       try { await loadLanguage(getLanguage()) } catch { window.location.reload(); return }
       syncLanguage()
       startTransition(() => {
