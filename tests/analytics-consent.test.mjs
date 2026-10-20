@@ -137,3 +137,63 @@ test('successful requests are consent-gated and deduplicated; WhatsApp stays sep
     if (oldDocument === undefined) delete globalThis.document; else globalThis.document = oldDocument
   }
 })
+
+test('opting in on localhost, local IPs and preview hosts never loads Google Analytics or measures interactions', async () => {
+  const oldWindow = globalThis.window, oldDocument = globalThis.document
+  try {
+    for (const hostname of ['localhost', '127.0.0.1', '[::1]', '192.168.1.10', 'easyluxtransfer.pages.dev', 'easyluxtransfer.com.example.org']) {
+      const scripts = [], commands = []
+      globalThis.window = {
+        location: { hostname, href: `http://${hostname}:5173/contact` },
+        gtag: (...args) => commands.push(args),
+        'ga-disable-G-M322BVXRJG': false,
+      }
+      globalThis.document = {
+        title: 'Contact | Easy Lux Transfer', referrer: '',
+        head: { appendChild: node => scripts.push(node) },
+        createElement: () => ({}),
+      }
+      const analytics = await import(typescriptModule(new URL('../src/lib/analytics.ts', import.meta.url)) + `#blocked-${hostname}`)
+      analytics.setAnalyticsConsent(true)
+      analytics.setAnalyticsConsent(true)
+      analytics.trackAnalyticsPage()
+      analytics.trackAnalyticsLead('contact', 'custom', 'local-success')
+      analytics.trackWhatsAppClick('https://wa.me/393207874212', 'contact')
+      assert.equal(window['ga-disable-G-M322BVXRJG'], true, hostname)
+      assert.equal(window.dataLayer, undefined, hostname)
+      assert.equal(scripts.length, 0, hostname)
+      assert.deepEqual(commands, [], hostname)
+    }
+  } finally {
+    if (oldWindow === undefined) delete globalThis.window; else globalThis.window = oldWindow
+    if (oldDocument === undefined) delete globalThis.document; else globalThis.document = oldDocument
+  }
+})
+
+test('the production www hostname still measures opted-in page views and interactions', async () => {
+  const oldWindow = globalThis.window, oldDocument = globalThis.document
+  const scripts = []
+  globalThis.window = { location: { hostname: 'www.easyluxtransfer.com', href: 'https://www.easyluxtransfer.com/contact' } }
+  globalThis.document = {
+    title: 'Contact | Easy Lux Transfer', referrer: '',
+    head: { appendChild: node => scripts.push(node) },
+    createElement: () => ({}),
+  }
+  try {
+    const analytics = await import(typescriptModule(new URL('../src/lib/analytics.ts', import.meta.url)) + '#production-www')
+    analytics.setAnalyticsConsent(true)
+    analytics.trackAnalyticsPage()
+    analytics.trackAnalyticsLead('contact', 'custom', 'production-success')
+    analytics.trackWhatsAppClick('https://wa.me/393207874212', 'contact')
+    assert.equal(scripts.length, 1)
+    assert.equal(window['ga-disable-G-M322BVXRJG'], false)
+    const events = window.dataLayer.map(args => Array.from(args)).filter(args => args[0] === 'event')
+    assert.deepEqual(events.map(args => args[1]), ['page_view', 'generate_lead', 'contact_whatsapp'])
+    analytics.setAnalyticsConsent(false)
+    analytics.trackAnalyticsPage()
+    assert.equal(window.dataLayer.map(args => Array.from(args)).filter(args => args[0] === 'event').length, 3)
+  } finally {
+    if (oldWindow === undefined) delete globalThis.window; else globalThis.window = oldWindow
+    if (oldDocument === undefined) delete globalThis.document; else globalThis.document = oldDocument
+  }
+})

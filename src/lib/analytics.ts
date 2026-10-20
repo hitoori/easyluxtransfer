@@ -2,6 +2,7 @@ import { company } from '../config/company'
 
 export const analyticsMeasurementId = 'G-M322BVXRJG'
 const scriptId = 'easylux-google-analytics'
+const analyticsHosts = new Set(['easyluxtransfer.com', 'www.easyluxtransfer.com'])
 let initialized = false
 let allowed = false
 let lastPage = ''
@@ -25,9 +26,10 @@ export function analyticsPageUrl(value: string): string {
 
 export function setAnalyticsConsent(consented: boolean) {
   if (typeof window === 'undefined') return
-  allowed = consented
-  window['ga-disable-G-M322BVXRJG'] = !consented
-  if (!consented) {
+  // Local development and preview hosts must never send to production Analytics.
+  allowed = consented && analyticsHosts.has(window.location.hostname)
+  window['ga-disable-G-M322BVXRJG'] = !allowed
+  if (!allowed) {
     if (initialized) window.gtag?.('consent', 'update', { analytics_storage: 'denied' })
     lastPage = ''
     return
