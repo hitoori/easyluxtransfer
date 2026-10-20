@@ -75,6 +75,7 @@
 .home-page [data-home-routes] button[aria-controls] { min-height: 44px; }
 .home-page .h2-fleet-editorial { gap: 24px; }
 .home-page .h2-fleet-heading { padding: 8px 24px 28px; }
+.home-page .h2-fleet-heading h2 + p { margin-top: clamp(24px, 2.4vw, 36px); }
 .home-page .h2-fleet-heading > p:last-child { color: var(--text-secondary); }
 .home-page .h2-fleet-benefits { padding: 24px 24px 0; gap: 24px; }
 .home-page .h2-fleet-benefits p { color: var(--text-secondary); line-height: 1.75; }
@@ -277,7 +278,7 @@
 
 .home-page .h2-hero h1 {
   max-width: 1100px;
-  font-size: clamp(38px, 3.6vw, 52px);
+  font-size: clamp(52px, 4.6vw, 72px);
   line-height: 1.02;
 }
 
@@ -301,7 +302,6 @@
 
 @media (min-width: 761px) and (max-width: 1100px) {
   .home-page .h2-hero-copy { padding-top: clamp(128px, 16vh, 160px); }
-  .home-page .h2-hero h1 { font-size: clamp(36px, 4vw, 44px); }
   .home-page .h2-lead { max-width: 590px; }
 }
 
@@ -342,7 +342,7 @@
   }
   .home-page .h2-hero-copy { padding-top: 118px; }
   .home-page .h2-hero-copy .h2-kicker { margin-bottom: 16px; font-size: 11px; letter-spacing: .15em; }
-  .home-page .h2-hero h1 { font-size: clamp(32px,8.5vw,34px); line-height: 1.16; }
+  .home-page .h2-hero h1 { font-size: clamp(36px, 9.8vw, 44px); line-height: 1.1; }
   .home-page .home-mobile-copy { display: contents; }
   .home-page .home-desktop-copy { display: none; }
   .home-page .home-hero-mobile-break { display: initial; }
@@ -363,6 +363,11 @@
   .home-page .h2-booking-wrap [data-booking-dock] button[type='submit'] { width: 100%; min-height: 52px; font-size: 16px; }
 }
 
+/* Keep the longer Russian heading within the narrowest phone text rail. */
+@media (max-width: 360px) {
+  html[lang="ru"] .home-page .h2-hero h1 { font-size: 34px; }
+}
+
 /* Opacity-only photography transitions keep scrolling and inputs responsive. */
 .home-page .hero-slide { width: 100%; height: 100%; object-fit: cover; z-index: 1; transition: opacity 900ms cubic-bezier(.22,1,.36,1); }
 .home-page .hero-slide.active { z-index: 0; }
@@ -375,7 +380,7 @@
 /* One readable heading scale for Home on tablets and intermediate screens. */
 @media (min-width: 761px) and (max-width: 1279px) {
   .home-page { --home-tablet-heading-size: clamp(48px, 5.6vw, 62px); }
-  .home-page .h2-hero h1 { font-size: clamp(48px, 5.6vw, 64px); line-height: 1.08; }
+  .home-page .h2-hero h1 { font-size: clamp(48px, 6vw, 70px); line-height: 1.08; }
   .home-page [data-home-services] h2,
   .home-page [data-home-routes] > div > div:first-child h2,
   .home-page .h2-fleet-heading h2,

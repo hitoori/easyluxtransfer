@@ -78,7 +78,7 @@ export default function About({ navigate }: AboutProps) {
         <div className="ab-section-copy">
           <p className="ab-eyebrow">{t("Our story")}</p>
           <h2 id="ab-story-title">{t("A company we believe in.")}</h2>
-          <p>{t("We’re two founders with experience in private transport. We created Easy Lux to arrange private journeys from Venice and Treviso, with a pick-up point, vehicle and price agreed before you travel.")}</p>
+          <p>{t("We’re two founders with experience in private transport. We created Easy Lux to arrange private journeys from Venice and Treviso, with a pick-up point, vehicle and price agreed before you travel.")}{' '}{t("We arrange private transfers and chauffeur services, known in Italy as NCC (noleggio con conducente).")}</p>
           <p>{t("Tell us where you need to go, when you want to travel and who is coming with you. We check availability and send you a quote. Your driver meets you at the agreed point and helps with your luggage.")}</p>
         </div>
         <PhotoSlot src={`${import.meta.env.BASE_URL}images/about/story-private-journey.png`} alt={t("Chauffeur loading luggage into a private transfer van at the airport")} ratio="4:3" position="center 48%" />

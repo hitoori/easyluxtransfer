@@ -415,7 +415,7 @@ About Easy Lux | A Personal Approach to Private Travel¦О компании Easy
 Meet the young couple behind Easy Lux. A personal approach to private chauffeur travel, guided by professionalism, punctuality and care.¦Познакомьтесь с молодой парой, основавшей Easy Lux. Индивидуальный подход к поездкам с водителем, профессионализм, пунктуальность и забота.
 Private transfer van at an airport¦Минивэн для индивидуального трансфера у аэропорта
 Easy Lux FAQ | Booking, Pick-ups & Water Taxi¦Вопросы и ответы Easy Lux | Бронирование, встреча и водное такси
-Answers about booking, prices, pick-ups, luggage and Venice Water Taxi connections.¦Ответы на вопросы о бронировании, ценах, встрече, багаже и водном такси в Венеции.
+Answers about private transfers in Venice and Treviso: pick-ups, prices, luggage and booking.¦Ответы о частных трансферах в Венеции и Тревизо: место встречи, цены, багаж и бронирование.
 Black private transfer van in Venice¦Чёрный минивэн для индивидуальных трансферов в Венеции
 Contact Easy Lux | Venice Transfers & Chauffeur Quotes¦Контакты Easy Lux | Трансферы в Венеции и расчёт стоимости
 Request a private transfer quote from Venice or Treviso. Contact Easy Lux for airport pick-ups, Water Taxi connections and travel across Italy and Europe.¦Запросите стоимость индивидуального трансфера из Венеции или Тревизо. Встреча в аэропорту, водное такси и поездки по Италии и Европе с Easy Lux.
@@ -1312,12 +1312,12 @@ Object.assign(russian, {
 
 // The main offer covers private transfers from agreed pick-up points, including airports.
 Object.assign(russian, {
-  "From airports, stations or your chosen address to destinations across Italy and Europe.": "Из аэропорта, с вокзала или по указанному вами адресу — к месту назначения в Италии и Европе.",
-  "Private transfers between airports, stations, cruise terminals and your chosen addresses in Venice and Treviso.": "Индивидуальные трансферы между аэропортами, вокзалами, круизными терминалами и указанными вами адресами в Венеции и Тревизо.",
+  "From airports, train stations, hotels or your chosen address to destinations across Italy and Europe.": "Из аэропорта, с железнодорожного вокзала, из отеля или по указанному вами адресу к месту назначения в Италии и Европе.",
+  "Private transfers between airports, train stations, hotels, cruise terminals and your chosen addresses in Venice and Treviso.": "Индивидуальные трансферы между аэропортами, железнодорожными вокзалами, отелями, круизными терминалами и указанными вами адресами в Венеции и Тревизо.",
   "Private transfers in Venice and Treviso.": "Индивидуальные трансферы в Венеции и Тревизо.",
-  "Private transfers (NCC) from airports, stations or your chosen address in Venice and Treviso, with journeys across Italy and Europe.": "Индивидуальные трансферы с водителем (NCC) из аэропортов, с вокзалов или по указанному адресу в Венеции и Тревизо. Поездки по Италии и Европе.",
+  "Private transfers (NCC) from airports, train stations, hotels or your chosen address in Venice and Treviso, with journeys across Italy and Europe.": "Индивидуальные трансферы с водителем (NCC) из аэропортов, с железнодорожных вокзалов, из отелей или по указанному адресу в Венеции и Тревизо. Поездки по Италии и Европе.",
   "Venice & Treviso Private Transfers | Easy Lux Transfer": "Индивидуальные трансферы в Венеции и Тревизо | Easy Lux Transfer",
-  "Private transfers in Venice and Treviso with Easy Lux Transfer. Pick-ups at airports, stations or your chosen address, with journeys across Italy and Europe.": "Индивидуальные трансферы в Венеции и Тревизо с Easy Lux Transfer. Встреча в аэропорту, на вокзале или по вашему адресу. Поездки по Италии и Европе."
+  "Private transfers in Venice and Treviso. Pick-ups at airports, train stations, hotels or your chosen address, with journeys across Italy and Europe.": "Индивидуальные трансферы в Венеции и Тревизо. Встреча в аэропорту, на железнодорожном вокзале, в отеле или по вашему адресу. Поездки по Италии и Европе."
 })
 
 Object.assign(russian, {
@@ -1368,4 +1368,22 @@ Object.assign(russian, {
   "From airports, train stations or your agreed address in Venice, Mestre and Treviso, we take you to your chosen destination. Our routes also cover other Italian cities, the Dolomites, seaside resorts and destinations across Europe.": "Мы заберём вас из аэропорта, с вокзала или по согласованному адресу в Венеции, Местре или Тревизо и отвезём в выбранное место. Наши маршруты также охватывают другие города Италии, Доломиты, морские курорты и направления по Европе.",
   "Request a quote": "Запросить стоимость",
   "Meet Easy Lux Transfer, based in Venice and Treviso. Learn how we plan private transfers and confirm the right vehicle for your group and luggage.": "Easy Lux Transfer в Венеции и Тревизо: как мы планируем индивидуальные трансферы и подбираем автомобиль с учётом пассажиров и багажа."
+})
+
+// Explain the Italian NCC term on Services, About and FAQ, keeping Home copy unchanged.
+Object.assign(russian, {
+  "Private transfers and chauffeur services (NCC) in Venice and Treviso. Airport, station, hotel and address pick-ups, with indicative prices and custom quotes.": "Индивидуальные трансферы с водителем (NCC) в Венеции и Тревизо. Встреча в аэропорту, на вокзале, в отеле или по адресу. Ориентировочные цены и расчёт поездки.",
+  "Meet Easy Lux Transfer, providing private transfers and chauffeur services (NCC) in Venice and Treviso. Learn about our team and vehicle options.": "Easy Lux Transfer организует индивидуальные трансферы с водителем (NCC) в Венеции и Тревизо. Узнайте о нашей команде и вариантах автомобилей.",
+  "We arrange private transfers and chauffeur services, known in Italy as NCC (noleggio con conducente).": "Мы организуем индивидуальные трансферы и поездки с водителем, которые в Италии называют NCC (noleggio con conducente).",
+  "What is an NCC service?": "Что такое услуга NCC?",
+  "NCC stands for “noleggio con conducente”, a pre-booked chauffeur service in Italy. You choose your pick-up point and destination, whether an airport, train station, hotel or another address. We confirm availability, the meeting point and your quote before you book.": "NCC означает «noleggio con conducente», услугу поездки с водителем по предварительному заказу в Италии. Вы выбираете место подачи и назначения: аэропорт, железнодорожный вокзал, отель или другой адрес. До бронирования мы подтверждаем доступность, место встречи и стоимость поездки."
+})
+
+// Page-specific search titles and descriptions for the broad private-transfer offer.
+Object.assign(russian, {
+  "Venice & Treviso Transfers & Prices | Easy Lux Transfer": "Трансферы в Венеции и Тревизо: цены | Easy Lux Transfer",
+  "Venice & Treviso Transfer Quote | Easy Lux Transfer": "Расчёт трансфера в Венеции и Тревизо | Easy Lux Transfer",
+  "Venice & Treviso Transfer FAQ | Easy Lux Transfer": "Трансферы в Венеции и Тревизо: вопросы | Easy Lux Transfer",
+  "Request a private transfer quote in Venice or Treviso. Share your pick-up address, destination, date, passengers and luggage. We’ll confirm availability.": "Запросите стоимость трансфера в Венеции или Тревизо. Укажите адрес подачи, место назначения, дату, пассажиров и багаж. Мы проверим доступность.",
+  "Answers about private transfers in Venice and Treviso: airport, hotel and station pick-ups, luggage, quotes, payments and booking changes.": "Ответы о трансферах в Венеции и Тревизо: встреча в аэропорту, отеле или на вокзале, багаж, расчёт стоимости, оплата и изменения бронирования."
 })

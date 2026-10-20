@@ -14,13 +14,14 @@ import { publicAsset } from '../lib/publicAsset'
 const questions = faqTopics.flatMap(group => [...group.questions])
 const categories = [
   { id: 'booking', title: 'Booking & Payment', subtitle: 'Quotes, payment and changes', Icon: CreditCard, ids: ['book', 'price', 'payment', 'modify', 'cancel'] },
-  { id: 'journey', title: 'Pick-up & Journey', subtitle: 'Addresses, stations and luggage', Icon: MapPin, ids: ['port', 'venice-pickup', 'bags', 'child'] },
+  { id: 'journey', title: 'Pick-up & Journey', subtitle: 'Addresses, stations and luggage', Icon: MapPin, ids: ['ncc', 'port', 'venice-pickup', 'bags', 'child'] },
   { id: 'airport', title: 'Airport & Water Taxi', subtitle: 'Flights, meeting points and boat connections', Icon: AirplaneTilt, ids: ['meeting', 'delay', 'cancelled-flight', 'hotel', 'combine', 'boat-price'] },
   { id: 'distance', title: 'Long-distance & Hourly', subtitle: 'Stops, returns and longer routes', Icon: Car, ids: ['hourly', 'return', 'stops', 'europe', 'prosecco'] },
   { id: 'general', title: 'Special requests', subtitle: 'Accessibility and pets', Icon: Info, ids: ['access', 'pets'] },
 ]
 
 const serviceLinks: Record<string, { sectionId: string; label: string }> = {
+  ncc: { sectionId: 'service-airport', label: 'Explore private transfers' },
   port: { sectionId: 'ac-tab-2', label: 'Explore private transfers' },
   meeting: { sectionId: 'service-airport', label: 'Venice and Treviso airport transfers' },
   delay: { sectionId: 'service-airport', label: 'Venice and Treviso airport transfers' },
@@ -86,7 +87,7 @@ export default function FAQ({ navigate }: { navigate: Navigate }) {
   return <div ref={pageRef} className="faq-page">
     <header className="fq-hero" aria-labelledby="faq-title">
       <OptimizedImage src={publicAsset('images/home/vehicle/black-private-van-venice.png')} alt={""} className="fq-hero-photo" fetchPriority="high" />
-      <div className="fq-shell fq-hero-content"><div><p className="fq-eyebrow">{t("FAQ")}</p><h1 id="faq-title">{t("Questions about your transfer?")}</h1><p className="fq-intro-copy">{t("Answers about booking, prices, pick-ups, luggage and Venice Water Taxi connections.")}</p></div></div>
+      <div className="fq-shell fq-hero-content"><div><p className="fq-eyebrow">{t("FAQ")}</p><h1 id="faq-title">{t("Questions about your transfer?")}</h1><p className="fq-intro-copy">{t("Answers about private transfers in Venice and Treviso: pick-ups, prices, luggage and booking.")}</p></div></div>
     </header>
 
     <section className="fq-directory fq-shell" aria-label={t("Frequently asked questions")}>

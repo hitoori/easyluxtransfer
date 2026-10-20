@@ -105,7 +105,7 @@ export default function Services({ navigate }: { navigate: Navigate }) {
         <div className="services-masthead-copy">
           <p className="services-masthead-eyebrow">{t("SERVICES & PRICES")}</p>
           <h1 id="services-title">{t("Private transfers in Venice and Treviso.")}</h1>
-          <p className="services-masthead-description">{t("Private transfers (NCC) from airports, stations or your chosen address in Venice and Treviso, with journeys across Italy and Europe.")}</p>
+          <p className="services-masthead-description">{t("Private transfers (NCC) from airports, train stations, hotels or your chosen address in Venice and Treviso, with journeys across Italy and Europe.")}</p>
           <div className="services-masthead-actions">
             <button type="button" className="services-masthead-primary" onClick={() => scrollTo('airport')}>{t("EXPLORE SERVICES ↓")}</button>
           </div>

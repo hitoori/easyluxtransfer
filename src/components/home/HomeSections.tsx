@@ -22,7 +22,7 @@ interface HomeSectionsProps {
 const services = [
   {
     title: 'Airport & City Transfers',
-    description: 'Private transfers between airports, stations, cruise terminals and your chosen addresses in Venice and Treviso.',
+    description: 'Private transfers between airports, train stations, hotels, cruise terminals and your chosen addresses in Venice and Treviso.',
     page: 'services' as const,
     sectionId: 'service-airport',
   },

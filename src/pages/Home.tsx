@@ -53,7 +53,7 @@ export default function Home({ navigate }: HomeProps) {
   }, [])
   useLocale()
   const heroRef = useRef<HTMLElement>(null)
-  const carousel = useCarousel(heroSlides.length, 8000, heroRef, prepareHero)
+  const carousel = useCarousel(heroSlides.length, 5000, heroRef, prepareHero)
   const activeSlide = carousel.activeIndex
   const [routePrefill, setRoutePrefill] = useState<BookingPrefill | null>(null)
 
@@ -91,7 +91,7 @@ export default function Home({ navigate }: HomeProps) {
           <h1>
             {t('Private transfers in')}<br />{t('Venice & Treviso.')}
           </h1>
-          <p className="h2-lead">{t("From airports, stations or your chosen address to destinations across Italy and Europe.")}</p>
+          <p className="h2-lead">{t("From airports, train stations, hotels or your chosen address to destinations across Italy and Europe.")}</p>
         </div>
 
         <div
