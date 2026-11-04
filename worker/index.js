@@ -1,5 +1,6 @@
 import { authorizeBooking } from "./booking-security.js";
 import { MAX_REQUEST_BYTES, readLimitedBody, RequestTooLarge } from "./request-body.js";
+import { isGoogleTagGatewayRequest, forwardGoogleTagRequest } from "./google-tag-gateway.js";
 export { BookingRateLimiter } from "./booking-security.js";
 
 const json = (body, status = 200, extraHeaders = {}) => new Response(JSON.stringify(body), {
@@ -138,6 +139,7 @@ export async function handleBookingRequest(request, env) {
 
 export default {
   async fetch(request, env) {
+    if (isGoogleTagGatewayRequest(request)) return forwardGoogleTagRequest(request);
     if (new URL(request.url).pathname === "/api/booking") return handleBookingRequest(request, env);
     return env.ASSETS.fetch(request);
   },
