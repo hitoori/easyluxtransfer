@@ -17,7 +17,8 @@ export async function forwardGoogleTagRequest(request) {
 
   // A fixed Google origin prevents this endpoint from becoming an arbitrary proxy.
   url.protocol = 'https:';
-  url.hostname = `${googleTagId.toLowerCase()}.fps.goog`;
+  // Use the header-based form from Google's Cloudflare example, without repeating the ID in the host.
+  url.hostname = 'fps.goog';
   url.port = '';
   const forwarded = new Request(url, request);
   forwarded.headers.delete('authorization');
@@ -37,7 +38,17 @@ export async function forwardGoogleTagRequest(request) {
   }
 
   try {
-    const upstream = await fetch(forwarded, { redirect: 'manual' });
+    let upstream = await fetch(forwarded, { redirect: 'manual' });
+    // Google can redirect script delivery to its tag CDN. Follow it on the server so the
+    // browser continues to load from our domain, without following arbitrary destinations.
+    for (let hop = 0; ['GET', 'HEAD'].includes(request.method) && [301, 302, 303, 307, 308].includes(upstream.status); hop++) {
+      const location = upstream.headers.get('Location');
+      const destination = location && new URL(location, forwarded.url);
+      if (hop >= 2 || !destination || destination.protocol !== 'https:' || destination.hostname !== 'www.googletagmanager.com' || destination.port) {
+        throw new Error('Unexpected tag redirect');
+      }
+      upstream = await fetch(new Request(destination, { method: request.method, headers: forwarded.headers }), { redirect: 'manual' });
+    }
     const response = new Response(upstream.body, upstream);
     response.headers.set('X-Robots-Tag', 'noindex, nofollow');
     response.headers.set('X-Content-Type-Options', 'nosniff');

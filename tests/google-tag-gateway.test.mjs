@@ -47,7 +47,7 @@ test('gateway preserves script and collection requests and responses with a fixe
       assert.equal(response.headers.get('cache-control'), 'no-store')
       assert.equal(response.headers.get('x-robots-tag'), 'noindex, nofollow')
       const forwarded = received.at(-1)
-      assert.equal(forwarded.request.url, `https://g-m322bvxrjg.fps.goog${path}`)
+      assert.equal(forwarded.request.url, `https://fps.goog${path}`)
       assert.equal(forwarded.request.method, method)
       assert.equal(forwarded.options.redirect, 'manual')
       assert.equal(forwarded.request.headers.get('x-gtg-tag-id'), 'G-M322BVXRJG')
@@ -60,6 +60,31 @@ test('gateway preserves script and collection requests and responses with a fixe
       assert.equal(forwarded.request.headers.get('cookie'), '_ga=test')
       assert.equal(forwarded.body, method === 'POST' ? 'en=generate_lead&gcs=G111' : '')
     }
+  } finally { globalThis.fetch = originalFetch }
+})
+
+test('Google CDN redirects are served through the gateway, while unrelated destinations and loops fail closed', async () => {
+  const originalFetch = globalThis.fetch
+  try {
+    let calls = 0
+    globalThis.fetch = async request => {
+      calls++
+      if (calls === 1) return new Response(null, { status: 302, headers: { Location: 'https://www.googletagmanager.com/gtag/js?id=G-M322BVXRJG&mpath=%2F5tpj%2F' } })
+      assert.equal(new URL(request.url).hostname, 'www.googletagmanager.com')
+      return new Response('google-script', { headers: { 'Content-Type': 'application/javascript' } })
+    }
+    const script = await worker.fetch(new Request('https://easyluxtransfer.com/5tpj/'), {})
+    assert.equal(script.status, 200)
+    assert.equal(await script.text(), 'google-script')
+    assert.equal(calls, 2)
+    calls = 0
+    globalThis.fetch = async () => { calls++; return new Response(null, { status: 302, headers: { Location: 'https://example.com/' } }) }
+    assert.equal((await worker.fetch(new Request('https://easyluxtransfer.com/5tpj/'), {})).status, 502)
+    assert.equal(calls, 1)
+    calls = 0
+    globalThis.fetch = async () => { calls++; return new Response(null, { status: 302, headers: { Location: 'https://www.googletagmanager.com/loop' } }) }
+    assert.equal((await worker.fetch(new Request('https://easyluxtransfer.com/5tpj/'), {})).status, 502)
+    assert.equal(calls, 3)
   } finally { globalThis.fetch = originalFetch }
 })
 
