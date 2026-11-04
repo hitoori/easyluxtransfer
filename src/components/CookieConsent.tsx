@@ -3,10 +3,10 @@ import { consentStorageKey as storageKey, readStoredConsent, type StoredConsent 
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from 'react'
 import { pagePath } from '../types/navigation'
 import './cookie-consent.css'
-import { analyticsLoaded, clearAnalyticsCookies, setAnalyticsConsent } from '../lib/analytics'
+import { analyticsLoaded, clearAdvertisingCookies, clearAnalyticsCookies, setAnalyticsConsent } from '../lib/analytics'
 
 export const addressSuggestionsConfigured = Boolean(import.meta.env.VITE_GOOGLE_MAPS_API_KEY?.trim())
-const ConsentContext = createContext({ maps: false, analytics: false, chosen: false, openSettings: () => {}, save: (_maps: boolean, _analytics = false) => {} })
+const ConsentContext = createContext({ maps: false, analytics: false, advertising: false, chosen: false, openSettings: () => {}, save: (_maps: boolean, _analytics = false, _advertising = false) => {} })
 export const useCookieConsent = () => useContext(ConsentContext)
 
 function CookieIcon() {
@@ -14,8 +14,8 @@ function CookieIcon() {
 }
 
 const notice = addressSuggestionsConfigured
-  ? 'We use essential technologies to remember your privacy choices and protect forms. With your permission, Google Analytics measures website use and Google Places suggests addresses. Choose Accept all, Reject non-essential or Manage preferences.'
-  : 'We use essential technologies to remember your privacy choices and protect forms. With your permission, Google Analytics measures website use. Choose Accept all, Reject non-essential or Manage preferences.'
+  ? 'We use essential technologies to remember your privacy choices and protect forms. With your permission, Google measures website use and advertising results, and suggests addresses. Choose Accept all, Reject non-essential or Manage preferences.'
+  : 'We use essential technologies to remember your privacy choices and protect forms. With your permission, Google measures website use and advertising results. Choose Accept all, Reject non-essential or Manage preferences.'
 
 function ConsentCategory({ id, title, description, checked, onChange }: { id: string; title: string; description: string; checked: boolean; onChange?: (checked: boolean) => void }) {
   return <div className="cookie-category">
@@ -32,23 +32,28 @@ export function CookieConsentProvider({ children }: { children: ReactNode }) {
   useLocale()
   const [maps, setMaps] = useState(false)
   const [analytics, setAnalytics] = useState(false)
+  const [advertising, setAdvertising] = useState(false)
   const [chosen, setChosen] = useState(false)
   const [settings, setSettings] = useState(false)
   const [ready, setReady] = useState(false)
   const dialogRef = useRef<HTMLDialogElement>(null)
   const [draftMaps, setDraftMaps] = useState(false)
   const [draftAnalytics, setDraftAnalytics] = useState(false)
+  const [draftAdvertising, setDraftAdvertising] = useState(false)
 
   useEffect(() => {
     const sync = () => {
       const saved = readConsent()
       setMaps(addressSuggestionsConfigured && Boolean(saved?.maps))
       const allowAnalytics = Boolean(saved?.analytics)
-      setAnalyticsConsent(allowAnalytics)
+      const allowAdvertising = Boolean(saved?.advertising)
+      setAnalyticsConsent(allowAnalytics, allowAdvertising)
       setAnalytics(allowAnalytics)
-      setChosen(saved?.version === 2)
+      setAdvertising(allowAdvertising)
+      setChosen(saved?.version === 3)
       setReady(true)
       if (!allowAnalytics) clearAnalyticsCookies()
+      if (!allowAdvertising || !allowAnalytics) clearAdvertisingCookies()
       if ((!saved?.maps && document.querySelector('script[src*="maps.googleapis.com"]')) || (!allowAnalytics && analyticsLoaded())) window.location.reload()
     }
     sync()
@@ -56,24 +61,26 @@ export function CookieConsentProvider({ children }: { children: ReactNode }) {
     return () => window.removeEventListener('storage', sync)
   }, [])
 
-  const save = (allowMaps: boolean, allowAnalytics = false) => {
+  const save = (allowMaps: boolean, allowAnalytics = false, allowAdvertising = false) => {
     const next = addressSuggestionsConfigured && allowMaps
-    try { localStorage.setItem(storageKey, JSON.stringify({ version: 2, maps: next, analytics: allowAnalytics, savedAt: Date.now() })) } catch { /* The choice still applies to this page if browser storage is disabled. */ }
-    setAnalyticsConsent(allowAnalytics)
+    try { localStorage.setItem(storageKey, JSON.stringify({ version: 3, maps: next, analytics: allowAnalytics, advertising: allowAdvertising, savedAt: Date.now() })) } catch { /* The choice still applies to this page if browser storage is disabled. */ }
+    setAnalyticsConsent(allowAnalytics, allowAdvertising)
     if (!allowAnalytics) clearAnalyticsCookies()
+    if (!allowAdvertising || !allowAnalytics) clearAdvertisingCookies()
     setMaps(next)
     setAnalytics(allowAnalytics)
+    setAdvertising(allowAdvertising)
     setChosen(true)
     setSettings(false)
     if ((maps && !next) || (!allowAnalytics && analyticsLoaded())) window.location.reload()
   }
-  const openSettings = () => { setDraftMaps(maps); setDraftAnalytics(analytics); setSettings(true) }
+  const openSettings = () => { setDraftMaps(maps); setDraftAnalytics(analytics); setDraftAdvertising(advertising); setSettings(true) }
   useEffect(() => {
     if (settings) dialogRef.current?.showModal()
     else dialogRef.current?.close()
   }, [settings])
 
-  return <ConsentContext.Provider value={{ maps, analytics, chosen, openSettings, save }}>
+  return <ConsentContext.Provider value={{ maps, analytics, advertising, chosen, openSettings, save }}>
     {children}
     {ready && !chosen && <aside className="cookie-banner" aria-labelledby="cookie-banner-title">
       <CookieIcon />
@@ -81,7 +88,7 @@ export function CookieConsentProvider({ children }: { children: ReactNode }) {
       <div className="cookie-actions">
         <button type="button" className="cookie-settings-link" onClick={openSettings}>{t("Manage preferences")}</button>
         <button type="button" onClick={() => save(false)}>{t("Reject non-essential")}</button>
-        <button type="button" className="cookie-accept" onClick={() => save(true, true)}>{t("Accept all")}</button>
+        <button type="button" className="cookie-accept" onClick={() => save(true, true, true)}>{t("Accept all")}</button>
       </div>
       <button type="button" className="cookie-close" aria-label={t("Reject non-essential and close")} onClick={() => save(false)}>{"×"}</button>
     </aside>}
@@ -91,15 +98,16 @@ export function CookieConsentProvider({ children }: { children: ReactNode }) {
         <CookieIcon />
         <h2 id="cookie-dialog-title">{t("Cookie preferences")}</h2>
         <p>{t("Choose which optional services Easy Lux Transfer may use. Each choice is independent. You can still request a journey if you reject them.")}</p>
-        <p>{t("Your choice is remembered for 180 days. We do not use advertising trackers.")}</p>
+        <p>{t("Your choice is remembered for 180 days. We do not personalise advertising.")}</p>
         <a href={pagePath('cookies')}>{t("Privacy Policy")}</a>
       </div>
       <div className="cookie-dialog-options">
         <ConsentCategory id="cookie-necessary" title="Necessary storage & security" description="Remembers your privacy choice and protects forms against spam using Cloudflare Turnstile when you submit. These services do not measure visits or personalise advertising." checked />
         <ConsentCategory id="cookie-analytics" title="Analytics cookies" description="Optional. Google Analytics measures page visits, successful request submissions and WhatsApp clicks. Google receives cookie identifiers, page, device and connection information. Your enquiry details are not sent to Analytics." checked={draftAnalytics} onChange={setDraftAnalytics} />
+        <ConsentCategory id="cookie-advertising" title="Advertising measurement" description="Optional. With Analytics also enabled, Google may use website activity, cookie identifiers and ad click information to measure advertising results. We do not send your enquiry details or personalise advertising. This choice does not enable Analytics by itself." checked={draftAdvertising} onChange={setDraftAdvertising} />
         {addressSuggestionsConfigured && <ConsentCategory id="cookie-maps" title="Google address suggestions" description="Optional. Google Places receives your typed address searches and connection information. Without this service, you can enter addresses manually and still request a journey." checked={draftMaps} onChange={setDraftMaps} />}
-        <p className="cookie-detail">{t("Disabling a Google service that has already loaded refreshes the page to stop it. Any unsent form entries will be cleared.")}</p>
-        <div className="cookie-actions"><button type="button" onClick={() => save(false)}>{t("Reject non-essential")}</button><button type="button" onClick={() => save(draftMaps, draftAnalytics)}>{t("Save preferences")}</button><button type="button" className="cookie-accept" onClick={() => save(true, true)}>{t("Accept all")}</button></div>
+        <p className="cookie-detail">{t("Disabling Analytics or address suggestions after loading refreshes the page. Any unsent form entries will be cleared.")}</p>
+        <div className="cookie-actions"><button type="button" onClick={() => save(false)}>{t("Reject non-essential")}</button><button type="button" onClick={() => save(draftMaps, draftAnalytics, draftAdvertising)}>{t("Save preferences")}</button><button type="button" className="cookie-accept" onClick={() => save(true, true, true)}>{t("Accept all")}</button></div>
       </div>
     </dialog>
   </ConsentContext.Provider>

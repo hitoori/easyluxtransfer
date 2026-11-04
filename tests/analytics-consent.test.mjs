@@ -6,7 +6,7 @@ const storage = await import(typescriptModule(new URL('../src/lib/consentStorage
 const read = (data, now = 1000) => storage.readStoredConsent({ getItem: () => JSON.stringify(data) }, now)
 
 test('old Maps acceptance does not grant Analytics consent; version 2 validates each preference', () => {
-  assert.deepEqual(read({ version: 1, maps: true, analytics: true, savedAt: 900 }), { version: 1, maps: true, analytics: false, savedAt: 900 })
+  assert.deepEqual(read({ version: 1, maps: true, analytics: true, savedAt: 900 }), { version: 1, maps: true, analytics: false, advertising: false, savedAt: 900 })
   assert.equal(read({ version: 2, maps: false, analytics: true, savedAt: 900 }).analytics, true)
   assert.equal(read({ version: 2, maps: true, savedAt: 900 }), null)
   assert.equal(read({ version: 2, maps: true, analytics: 'true', savedAt: 900 }), null)
@@ -14,6 +14,104 @@ test('old Maps acceptance does not grant Analytics consent; version 2 validates 
   assert.equal(read({ version: 2, maps: true, analytics: true, savedAt: 0 }, storage.consentMaxAge), null)
   assert.equal(storage.readStoredConsent({ getItem: () => '{bad json' }), null)
   assert.equal(storage.readStoredConsent({ getItem: () => { throw Error('storage disabled') } }), null)
+})
+
+test('legacy choices never grant advertising permission; new choices require an explicit boolean', () => {
+  assert.equal(read({ version: 2, maps: true, analytics: true, advertising: true, savedAt: 900 }).advertising, false)
+  const choice = { version: 3, maps: false, analytics: true, advertising: false, savedAt: 900 }
+  assert.deepEqual(read(choice), choice)
+  assert.equal(read({ ...choice, advertising: true }).advertising, true)
+  assert.equal(read({ ...choice, advertising: 'true' }), null)
+  const { advertising, ...incomplete } = choice
+  assert.equal(read(incomplete), null)
+  assert.equal(read({ ...choice, analytics: null }), null)
+  assert.equal(read({ ...choice, savedAt: 0 }, storage.consentMaxAge), null)
+})
+
+test('advertising permission never enables Analytics and all consent combinations preserve non-personalised measurement', async () => {
+  const oldWindow = globalThis.window, oldDocument = globalThis.document
+  try {
+    for (const [analyticsChoice, advertisingChoice] of [[false, false], [false, true], [true, false], [true, true]]) {
+      const scripts = []
+      globalThis.window = { location: { href: 'https://easyluxtransfer.com/?gclid=Allowed_123&email=private@example.com#secret', hostname: 'easyluxtransfer.com' } }
+      globalThis.document = { title: 'Easy Lux Transfer', referrer: '', head: { appendChild: script => scripts.push(script) }, createElement: () => ({}) }
+      const analytics = await import(typescriptModule(new URL('../src/lib/analytics.ts', import.meta.url)) + `#matrix-${analyticsChoice}-${advertisingChoice}`)
+      analytics.setAnalyticsConsent(analyticsChoice, advertisingChoice)
+      analytics.trackAnalyticsPage()
+      analytics.trackAnalyticsLead('contact', 'custom', 'matrix-request')
+      if (!analyticsChoice) {
+        assert.equal(scripts.length, 0)
+        assert.equal(window.dataLayer, undefined)
+        assert.equal(window['ga-disable-G-M322BVXRJG'], true)
+        continue
+      }
+      const commands = window.dataLayer.map(args => Array.from(args))
+      const update = commands.find(args => args[0] === 'consent' && args[1] === 'update')
+      assert.deepEqual(update[2], {
+        analytics_storage: 'granted', ad_storage: advertisingChoice ? 'granted' : 'denied',
+        ad_user_data: advertisingChoice ? 'granted' : 'denied', ad_personalization: 'denied',
+      })
+      const config = commands.find(args => args[0] === 'config')
+      assert.equal(config[2].allow_google_signals, false)
+      assert.equal(config[2].allow_ad_personalization_signals, false)
+      assert.equal(config[2].page_location, `https://easyluxtransfer.com/${advertisingChoice ? '?gclid=Allowed_123' : ''}`)
+      assert.equal(commands.filter(args => args[0] === 'event' && args[1] === 'generate_lead').length, 1)
+      assert.doesNotMatch(JSON.stringify(commands), /email=|private@example|#secret|matrix-request/)
+    }
+  } finally {
+    if (oldWindow === undefined) delete globalThis.window; else globalThis.window = oldWindow
+    if (oldDocument === undefined) delete globalThis.document; else globalThis.document = oldDocument
+  }
+})
+
+test('advertising can be granted and withdrawn without duplicate views, Analytics withdrawal stops every event', async () => {
+  const oldWindow = globalThis.window, oldDocument = globalThis.document
+  const scripts = [], expired = []
+  globalThis.window = { location: { href: 'https://easyluxtransfer.com/?gclid=Click_123&gbraid=Braid-123&wbraid=invalid%40email.com&email=private#secret', hostname: 'easyluxtransfer.com' } }
+  globalThis.document = {
+    title: 'Easy Lux Transfer', referrer: '', head: { appendChild: script => scripts.push(script) }, createElement: () => ({}),
+    get cookie() { return '_gcl_aw=old; _gcl_au=old; _gac_gb_test=old; _ga=keep; necessary=keep' },
+    set cookie(value) { expired.push(value) },
+  }
+  try {
+    const analytics = await import(typescriptModule(new URL('../src/lib/analytics.ts', import.meta.url)) + '#advertising-withdrawal')
+    const commands = () => window.dataLayer.map(args => Array.from(args))
+    const events = () => commands().filter(args => args[0] === 'event')
+    analytics.setAnalyticsConsent(true, false)
+    analytics.trackAnalyticsPage()
+    analytics.setAnalyticsConsent(true, true)
+    analytics.trackAnalyticsPage()
+    analytics.trackAnalyticsLead('contact', 'custom', 'first-request')
+    analytics.trackAnalyticsLead('contact', 'custom', 'first-request')
+    assert.equal(scripts.length, 1)
+    assert.equal(events().filter(args => args[1] === 'page_view').length, 1)
+    assert.equal(events().filter(args => args[1] === 'generate_lead').length, 1)
+    assert.equal(events().at(-1)[2].page_location, 'https://easyluxtransfer.com/?gclid=Click_123&gbraid=Braid-123')
+    assert.doesNotMatch(JSON.stringify(commands()), /invalid|email=|private|#secret|first-request/)
+
+    analytics.setAnalyticsConsent(true, false)
+    analytics.clearAdvertisingCookies()
+    const update = commands().filter(args => args[0] === 'consent' && args[1] === 'update').at(-1)[2]
+    assert.deepEqual(update, { analytics_storage: 'granted', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' })
+    assert.equal(commands().filter(args => args[0] === 'set' && args[1] === 'ads_data_redaction').at(-1)[2], true)
+    assert.equal(commands().filter(args => args[0] === 'set' && typeof args[1] === 'object').at(-1)[1].page_location, 'https://easyluxtransfer.com/')
+    assert.ok(expired.some(value => value.startsWith('_gcl_aw=; Max-Age=0')))
+    assert.ok(expired.some(value => value.startsWith('_gcl_au=; Max-Age=0')))
+    assert.ok(expired.some(value => value.startsWith('_gac_gb_test=; Max-Age=0')))
+    assert.ok(expired.every(value => !value.startsWith('_ga=') && !value.startsWith('necessary=')))
+    analytics.trackAnalyticsLead('contact', 'custom', 'second-request')
+    assert.equal(events().at(-1)[2].page_location, 'https://easyluxtransfer.com/')
+    const count = events().length
+    analytics.setAnalyticsConsent(false, true)
+    analytics.trackAnalyticsLead('contact', 'custom', 'after-withdrawal')
+    analytics.trackWhatsAppClick('https://wa.me/393207874212', 'contact')
+    analytics.trackAnalyticsPage()
+    assert.equal(events().length, count)
+    assert.equal(commands().filter(args => args[0] === 'consent' && args[1] === 'update').at(-1)[2].ad_user_data, 'denied')
+  } finally {
+    if (oldWindow === undefined) delete globalThis.window; else globalThis.window = oldWindow
+    if (oldDocument === undefined) delete globalThis.document; else globalThis.document = oldDocument
+  }
 })
 
 test('Google tag is blocked before opt-in, loads once, counts committed EN/RU pages and stops on withdrawal', async () => {
@@ -155,7 +253,7 @@ test('opting in on localhost, local IPs and preview hosts never loads Google Ana
       }
       const analytics = await import(typescriptModule(new URL('../src/lib/analytics.ts', import.meta.url)) + `#blocked-${hostname}`)
       analytics.setAnalyticsConsent(true)
-      analytics.setAnalyticsConsent(true)
+      analytics.setAnalyticsConsent(true, true)
       analytics.trackAnalyticsPage()
       analytics.trackAnalyticsLead('contact', 'custom', 'local-success')
       analytics.trackWhatsAppClick('https://wa.me/393207874212', 'contact')

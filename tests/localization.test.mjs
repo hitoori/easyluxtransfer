@@ -9,6 +9,9 @@ const { pagePath } = await import(typescriptModule(new URL('../src/types/navigat
 test('Analytics consent and policy copy is translated, including normalized whitespace', () => {
   withRenderLanguage('ru', () => {
     assert.match(t('Optional Google Analytics'), /Необязательная/)
+    assert.equal(t('Advertising measurement'), 'Измерение результатов рекламы')
+    assert.match(t('Your choice is remembered for 180 days. We do not personalise advertising.'), /не персонализируем/)
+    assert.match(t('Google address suggestions, Analytics and advertising measurement require your consent — Article 6(1)(a). You can choose each purpose and withdraw consent in Cookie settings.'), /согласия/)
     assert.match(t('Essential storage remembers your choice for up to 180 days. It is always enabled. Optional services below are controlled separately.'), /180 дней/)
     assert.match(t('Google address suggestions and Google Analytics require your consent — Article 6(1)(a). You can withdraw it in Cookie settings.'), /согласия/)
     assert.match(t(' to remember whether you allow address suggestions and Google Analytics, and when you made that choice. It is a preference record, not an advertising profile, and remains valid for 180 days. You can remove it using your browser settings. Essential preference storage does not require consent for optional tracking.'), /^ для запоминания/)

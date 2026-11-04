@@ -5,6 +5,7 @@ const scriptId = 'easylux-google-analytics'
 const analyticsHosts = new Set(['easyluxtransfer.com', 'www.easyluxtransfer.com'])
 let initialized = false
 let allowed = false
+let advertisingAllowed = false
 let lastPage = ''
 const measuredRequests = new Set<string>()
 const leadSources = ['home-booking', 'home-quote', 'services-quote', 'contact'] as const
@@ -24,18 +25,44 @@ export function analyticsPageUrl(value: string): string {
   try { const url = new URL(value); return `${url.origin}${url.pathname}` } catch { return '' }
 }
 
-export function setAnalyticsConsent(consented: boolean) {
+/** Preserve only advertising click IDs, and only with the separate advertising permission. */
+function measurementPageUrl(value: string): string {
+  const page = analyticsPageUrl(value)
+  if (!page || !advertisingAllowed) return page
+  const source = new URL(value)
+  const result = new URL(page)
+  for (const key of ['gclid', 'gbraid', 'wbraid']) {
+    const id = source.searchParams.get(key)
+    if (id && /^[A-Za-z0-9_-]{1,512}$/.test(id)) result.searchParams.set(key, id)
+  }
+  return result.href
+}
+
+export function setAnalyticsConsent(consented: boolean, advertisingConsented = false) {
   if (typeof window === 'undefined') return
   // Local development and preview hosts must never send to production Analytics.
   allowed = consented && analyticsHosts.has(window.location.hostname)
+  // Ads measurement uses consented Analytics activity; it never enables Analytics itself.
+  advertisingAllowed = allowed && advertisingConsented
   window['ga-disable-G-M322BVXRJG'] = !allowed
+  const consent = {
+    analytics_storage: allowed ? 'granted' : 'denied',
+    ad_storage: advertisingAllowed ? 'granted' : 'denied',
+    ad_user_data: advertisingAllowed ? 'granted' : 'denied',
+    ad_personalization: 'denied',
+  }
+  const updateConsent = () => {
+    window.gtag?.('set', 'ads_data_redaction', !advertisingAllowed)
+    window.gtag?.('set', { page_location: measurementPageUrl(window.location.href), page_referrer: analyticsPageUrl(document.referrer) })
+    window.gtag?.('consent', 'update', consent)
+  }
   if (!allowed) {
-    if (initialized) window.gtag?.('consent', 'update', { analytics_storage: 'denied' })
+    if (initialized) updateConsent()
     lastPage = ''
     return
   }
   if (initialized) {
-    window.gtag?.('consent', 'update', { analytics_storage: 'granted' })
+    updateConsent()
     return
   }
   initialized = true
@@ -45,14 +72,15 @@ export function setAnalyticsConsent(consented: boolean) {
   window.gtag('consent', 'default', {
     analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied',
   })
-  window.gtag('consent', 'update', { analytics_storage: 'granted' })
+  updateConsent()
+  window.gtag('set', 'url_passthrough', false)
   window.gtag('js', new Date())
   window.gtag('config', analyticsMeasurementId, {
     send_page_view: false,
     allow_google_signals: false,
     allow_ad_personalization_signals: false,
     cookie_expires: 180 * 24 * 60 * 60,
-    page_location: analyticsPageUrl(window.location.href),
+    page_location: measurementPageUrl(window.location.href),
     page_referrer: analyticsPageUrl(document.referrer),
   })
   const script = document.createElement('script')
@@ -74,9 +102,10 @@ export function trackAnalyticsPage() {
   if (!page || page === lastPage) return
   const referrer = lastPage || analyticsPageUrl(document.referrer)
   lastPage = page
-  window.gtag?.('set', { page_location: page, page_title: document.title, page_referrer: referrer })
+  const location = measurementPageUrl(window.location.href)
+  window.gtag?.('set', { page_location: location, page_title: document.title, page_referrer: referrer })
   window.gtag?.('event', 'page_view', {
-    send_to: analyticsMeasurementId, page_location: page, page_title: document.title, page_referrer: referrer,
+    send_to: analyticsMeasurementId, page_location: location, page_title: document.title, page_referrer: referrer,
   })
 }
 
@@ -85,7 +114,7 @@ function trackInteraction(name: 'generate_lead' | 'contact_whatsapp', parameters
   try {
     window.gtag('event', name, {
       send_to: analyticsMeasurementId,
-      page_location: analyticsPageUrl(window.location.href),
+      page_location: measurementPageUrl(window.location.href),
       ...parameters,
     })
     return true
@@ -118,13 +147,21 @@ export function analyticsLoaded(): boolean {
   return typeof document !== 'undefined' && Boolean(document.getElementById(scriptId))
 }
 
-export function clearAnalyticsCookies() {
+function clearMeasurementCookies(matches: (name: string) => boolean) {
   if (typeof document === 'undefined') return
   const parts = window.location.hostname.split('.')
   const domains = ['', ...parts.map((_, index) => parts.slice(index).join('.')).filter(domain => domain.includes('.'))]
   for (const cookie of document.cookie.split(';')) {
     const name = cookie.split('=')[0].trim()
-    if (name !== '_ga' && !name.startsWith('_ga_')) continue
+    if (!matches(name)) continue
     for (const domain of domains) document.cookie = `${name}=; Max-Age=0; Path=/; SameSite=Lax${domain ? `; Domain=${domain}` : ''}`
   }
+}
+
+export function clearAnalyticsCookies() {
+  clearMeasurementCookies(name => name === '_ga' || name.startsWith('_ga_'))
+}
+
+export function clearAdvertisingCookies() {
+  clearMeasurementCookies(name => name.startsWith('_gcl_') || name === '_gac_gb' || name.startsWith('_gac_gb_'))
 }
