@@ -137,7 +137,7 @@ test('Google tag is blocked before opt-in, loads once, counts committed EN/RU pa
     analytics.setAnalyticsConsent(true) // StrictMode/storage sync must not load a second tag.
     analytics.trackAnalyticsPage()
     assert.equal(scripts.length, 1)
-    assert.equal(scripts[0].src, 'https://www.googletagmanager.com/gtag/js?id=G-M322BVXRJG')
+    assert.equal(scripts[0].src, '/5tpj/')
     assert.equal(scripts[0].async, true)
     let commands = window.dataLayer.map(args => Array.from(args))
     assert.deepEqual(commands[0], ['consent', 'default', { analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' }])

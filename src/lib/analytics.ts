@@ -86,7 +86,8 @@ export function setAnalyticsConsent(consented: boolean, advertisingConsented = f
   const script = document.createElement('script')
   script.id = scriptId
   script.async = true
-  script.src = `https://www.googletagmanager.com/gtag/js?id=${analyticsMeasurementId}`
+  // The reserved Cloudflare route serves this tag and its measurement requests on our domain.
+  script.src = '/5tpj/'
   script.onerror = () => {
     script.remove()
     initialized = false
