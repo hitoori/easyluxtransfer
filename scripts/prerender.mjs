@@ -31,7 +31,11 @@ try {
     await writeFile(path.join(directory, page === 'not-found' ? '404.html' : 'index.html'), html)
   }
   const headers = await readFile('public/_headers', 'utf8')
-  await writeFile('dist/client/_headers', headers.replace('__INLINE_SCRIPT_HASHES__', [...inlineHashes].join(' ')))
+  const renderedHeaders = headers.replace('__INLINE_SCRIPT_HASHES__', [...inlineHashes].join(' '))
+  if (renderedHeaders.split('\n').some(line => line.length > 2000)) {
+    throw new Error('Generated _headers contains a line exceeding Cloudflare’s 2000-character limit')
+  }
+  await writeFile('dist/client/_headers', renderedHeaders)
   await writeFile('dist/client/sitemap.xml', renderSitemap())
   console.log(`Prerendered ${pages.length * 2} pages in English and Russian with canonical URLs and language alternates.`)
 } finally { await server.close() }
