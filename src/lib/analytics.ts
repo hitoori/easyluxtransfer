@@ -1,13 +1,17 @@
 import { company } from '../config/company'
 
 export const analyticsMeasurementId = 'G-M322BVXRJG'
+export const googleAdsTagId = 'AW-18563579918'
+export const googleAdsLeadDestination = `${googleAdsTagId}/mblgCO3uvrQdEI6A55NF`
 const scriptId = 'easylux-google-analytics'
 const analyticsHosts = new Set(['easyluxtransfer.com', 'www.easyluxtransfer.com'])
 let initialized = false
 let allowed = false
 let advertisingAllowed = false
+let advertisingInitialized = false
 let lastPage = ''
 const measuredRequests = new Set<string>()
+const advertisingRequests = new Set<string>()
 const leadSources = ['home-booking', 'home-quote', 'services-quote', 'contact'] as const
 const leadKinds = ['transfer', 'hourly', 'tours', 'custom'] as const
 const linkLocations = ['footer', 'contact', 'faq', 'other'] as const
@@ -38,6 +42,19 @@ function measurementPageUrl(value: string): string {
   return result.href
 }
 
+/** Add Ads to the existing Google tag only after explicit advertising permission. */
+function configureGoogleAds() {
+  if (!advertisingAllowed || advertisingInitialized || typeof window.gtag !== 'function') return
+  window.gtag('config', googleAdsTagId, {
+    send_page_view: false,
+    allow_ad_personalization_signals: false,
+    cookie_expires: 180 * 24 * 60 * 60,
+    page_location: measurementPageUrl(window.location.href),
+    page_referrer: analyticsPageUrl(document.referrer),
+  })
+  advertisingInitialized = true
+}
+
 export function setAnalyticsConsent(consented: boolean, advertisingConsented = false) {
   if (typeof window === 'undefined') return
   // Local development and preview hosts must never send to production Analytics.
@@ -63,6 +80,7 @@ export function setAnalyticsConsent(consented: boolean, advertisingConsented = f
   }
   if (initialized) {
     updateConsent()
+    configureGoogleAds()
     return
   }
   initialized = true
@@ -83,6 +101,7 @@ export function setAnalyticsConsent(consented: boolean, advertisingConsented = f
     page_location: measurementPageUrl(window.location.href),
     page_referrer: analyticsPageUrl(document.referrer),
   })
+  configureGoogleAds()
   const script = document.createElement('script')
   script.id = scriptId
   script.async = true
@@ -91,6 +110,7 @@ export function setAnalyticsConsent(consented: boolean, advertisingConsented = f
   script.onerror = () => {
     script.remove()
     initialized = false
+    advertisingInitialized = false
     lastPage = ''
     window.dataLayer = []
   }
@@ -129,6 +149,26 @@ function trackInteraction(name: 'generate_lead' | 'contact_whatsapp', parameters
 export function trackAnalyticsLead(source: typeof leadSources[number], kind: typeof leadKinds[number], requestId: string) {
   if (!leadSources.includes(source) || !leadKinds.includes(kind) || !requestId || measuredRequests.has(requestId)) return
   if (trackInteraction('generate_lead', { form_name: source, service_type: kind })) measuredRequests.add(requestId)
+}
+
+/** Called at confirmed API success, alongside GA4; never replay a past consent decision. */
+export function trackGoogleAdsLead(source: typeof leadSources[number], kind: typeof leadKinds[number], requestId: string) {
+  if (!leadSources.includes(source) || !leadKinds.includes(kind) || !requestId || advertisingRequests.has(requestId)) return
+  // Record the successful submission even if measurement is declined or unavailable.
+  // A retry or later opt-in must not convert the same enquiry again.
+  advertisingRequests.add(requestId)
+  if (!advertisingAllowed || !initialized || !advertisingInitialized || typeof window === 'undefined' || typeof window.gtag !== 'function') return
+  try {
+    window.gtag('event', 'conversion', {
+      send_to: googleAdsLeadDestination,
+      value: 1.0,
+      currency: 'EUR',
+      page_location: measurementPageUrl(window.location.href),
+      page_referrer: analyticsPageUrl(document.referrer),
+    })
+  } catch {
+    // Optional Ads measurement must never change a successful booking result.
+  }
 }
 
 /** Measure a company WhatsApp link separately from a submitted enquiry. */

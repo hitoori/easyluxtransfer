@@ -1,4 +1,4 @@
-import { trackAnalyticsLead } from './analytics'
+import { trackAnalyticsLead, trackGoogleAdsLead } from './analytics'
 
 export interface BookingPayload {
   kind: 'transfer' | 'hourly' | 'tours' | 'custom'
@@ -32,5 +32,6 @@ export async function sendBooking(payload: BookingPayload, requestId: string): P
     throw new Error(result.error || 'The request could not be sent. Please try again.')
   }
   trackAnalyticsLead(payload.source, payload.kind, requestId)
+  trackGoogleAdsLead(payload.source, payload.kind, requestId)
   return result.requestCode
 }
