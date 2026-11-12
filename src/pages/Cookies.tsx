@@ -65,7 +65,7 @@ export default function Cookies() {
       <p className="privacy-eyebrow">{t("EASY LUX · YOUR PRIVACY")}</p>
       <h1>{t("Privacy Policy")}</h1>
       <p className="privacy-intro">{t("Your journey is personal. Here is how we use your information when you browse, request a quote or travel with Easy Lux.")}</p>
-      <p className="privacy-updated">{t("Last updated ")}<time dateTime="2026-11-12">{t("12 November 2026")}</time> <span aria-hidden="true">{"·"}</span> {t(" Italy & European Union")}</p>
+      <p className="privacy-updated">{t("Last updated ")}<time dateTime="2026-11-04">{t("4 November 2026")}</time> <span aria-hidden="true">{"·"}</span> {t(" Italy & European Union")}</p>
       <ul className="privacy-highlights" aria-label={t("Privacy at a glance")}><li>{t("Information for your journey")}</li><li>{t("No personalised advertising")}</li><li>{t("Optional services are your choice")}</li></ul>
     </header>
     <div className="privacy-layout">
@@ -119,11 +119,6 @@ export default function Cookies() {
             <p>{t("With your consent, Google Analytics helps us understand page visits, successful request submissions and WhatsApp clicks. Google receives cookie identifiers, page, device and connection information. We do not send your enquiry contents to Analytics or use it for advertising personalization.")}</p>
             <dl className="privacy-storage-list"><div><dt><code>_ga</code> / <code>_ga_*</code></dt><dd>{t("Google Analytics cookies · Up to 180 days, renewed during use · Used to distinguish visits and measure website use. Created only after you allow Analytics.")}</dd></div></dl>
             <p>{t("Read ")}<a href="https://policies.google.com/privacy">{t("Google’s privacy policy")}</a> {t(" and ")}<a href="https://policies.google.com/technologies/cookies">{t("Google’s cookie information")}</a>{"."}</p>
-          </details>
-          <details className="privacy-cookie-details">
-            <summary>{t("Website statistics · Ahrefs Web Analytics")}</summary>
-            <p>{t("With Analytics enabled, Ahrefs measures page visits, link clicks and form submission attempts. It receives page addresses without query parameters, browser, language, screen and connection information. We do not send form contents. Ahrefs uses no analytics cookies and says it discards raw IP addresses after deriving aggregate location and daily visitor statistics. You can disable it in Cookie settings.")}</p>
-            <p>{t("Read ")}<a href="https://ahrefs.com/privacy-policy">{t("Ahrefs privacy policy")}</a>{"."}</p>
           </details>
           <details className="privacy-cookie-details">
             <summary>{t("Advertising measurement")}</summary>
