@@ -4,6 +4,7 @@ import { createContext, useContext, useEffect, useRef, useState, type ReactNode 
 import { pagePath } from '../types/navigation'
 import './cookie-consent.css'
 import { analyticsLoaded, clearAdvertisingCookies, clearAnalyticsCookies, setAnalyticsConsent } from '../lib/analytics'
+import { ahrefsAnalyticsLoaded, setAhrefsAnalyticsConsent } from '../lib/ahrefsAnalytics'
 
 export const addressSuggestionsConfigured = Boolean(import.meta.env.VITE_GOOGLE_MAPS_API_KEY?.trim())
 const ConsentContext = createContext({ maps: false, analytics: false, advertising: false, chosen: false, openSettings: () => {}, save: (_maps: boolean, _analytics = false, _advertising = false) => {} })
@@ -14,8 +15,8 @@ function CookieIcon() {
 }
 
 const notice = addressSuggestionsConfigured
-  ? 'We use essential technologies to remember your privacy choices and protect forms. With your permission, Google measures website use and advertising results, and suggests addresses. Choose Accept all, Reject non-essential or Manage preferences.'
-  : 'We use essential technologies to remember your privacy choices and protect forms. With your permission, Google measures website use and advertising results. Choose Accept all, Reject non-essential or Manage preferences.'
+  ? 'We use essential technologies to remember your privacy choices and protect forms. With your permission, Google and Ahrefs measure website use. Google also measures advertising results and suggests addresses. Choose Accept all, Reject non-essential or Manage preferences.'
+  : 'We use essential technologies to remember your privacy choices and protect forms. With your permission, Google and Ahrefs measure website use. Google also measures advertising results. Choose Accept all, Reject non-essential or Manage preferences.'
 
 function ConsentCategory({ id, title, description, checked, onChange }: { id: string; title: string; description: string; checked: boolean; onChange?: (checked: boolean) => void }) {
   return <div className="cookie-category">
@@ -48,13 +49,15 @@ export function CookieConsentProvider({ children }: { children: ReactNode }) {
       const allowAnalytics = Boolean(saved?.analytics)
       const allowAdvertising = Boolean(saved?.advertising)
       setAnalyticsConsent(allowAnalytics, allowAdvertising)
+      // Earlier choices named Google only. Ahrefs requires the updated notice.
+      setAhrefsAnalyticsConsent(saved?.version === 4 && allowAnalytics)
       setAnalytics(allowAnalytics)
       setAdvertising(allowAdvertising)
-      setChosen(saved?.version === 3)
+      setChosen(saved?.version === 4)
       setReady(true)
       if (!allowAnalytics) clearAnalyticsCookies()
       if (!allowAdvertising || !allowAnalytics) clearAdvertisingCookies()
-      if ((!saved?.maps && document.querySelector('script[src*="maps.googleapis.com"]')) || (!allowAnalytics && analyticsLoaded())) window.location.reload()
+      if ((!saved?.maps && document.querySelector('script[src*="maps.googleapis.com"]')) || (!allowAnalytics && (analyticsLoaded() || ahrefsAnalyticsLoaded()))) window.location.reload()
     }
     sync()
     window.addEventListener('storage', sync)
@@ -63,8 +66,9 @@ export function CookieConsentProvider({ children }: { children: ReactNode }) {
 
   const save = (allowMaps: boolean, allowAnalytics = false, allowAdvertising = false) => {
     const next = addressSuggestionsConfigured && allowMaps
-    try { localStorage.setItem(storageKey, JSON.stringify({ version: 3, maps: next, analytics: allowAnalytics, advertising: allowAdvertising, savedAt: Date.now() })) } catch { /* The choice still applies to this page if browser storage is disabled. */ }
+    try { localStorage.setItem(storageKey, JSON.stringify({ version: 4, maps: next, analytics: allowAnalytics, advertising: allowAdvertising, savedAt: Date.now() })) } catch { /* The choice still applies to this page if browser storage is disabled. */ }
     setAnalyticsConsent(allowAnalytics, allowAdvertising)
+    setAhrefsAnalyticsConsent(allowAnalytics)
     if (!allowAnalytics) clearAnalyticsCookies()
     if (!allowAdvertising || !allowAnalytics) clearAdvertisingCookies()
     setMaps(next)
@@ -72,7 +76,7 @@ export function CookieConsentProvider({ children }: { children: ReactNode }) {
     setAdvertising(allowAdvertising)
     setChosen(true)
     setSettings(false)
-    if ((maps && !next) || (!allowAnalytics && analyticsLoaded())) window.location.reload()
+    if ((maps && !next) || (!allowAnalytics && (analyticsLoaded() || ahrefsAnalyticsLoaded()))) window.location.reload()
   }
   const openSettings = () => { setDraftMaps(maps); setDraftAnalytics(analytics); setDraftAdvertising(advertising); setSettings(true) }
   useEffect(() => {
@@ -103,7 +107,7 @@ export function CookieConsentProvider({ children }: { children: ReactNode }) {
       </div>
       <div className="cookie-dialog-options">
         <ConsentCategory id="cookie-necessary" title="Necessary storage & security" description="Remembers your privacy choice and protects forms against spam using Cloudflare Turnstile when you submit. These services do not measure visits or personalise advertising." checked />
-        <ConsentCategory id="cookie-analytics" title="Analytics cookies" description="Optional. Google Analytics measures page visits, successful request submissions and WhatsApp clicks. Google receives cookie identifiers, page, device and connection information. Your enquiry details are not sent to Analytics." checked={draftAnalytics} onChange={setDraftAnalytics} />
+        <ConsentCategory id="cookie-analytics" title="Analytics cookies" description="Optional. Google Analytics measures visits, successful requests and WhatsApp clicks. Ahrefs measures page visits, link clicks and form submission attempts without cookies. These services receive page, device and connection information; Google also uses cookie identifiers. Your enquiry details are not sent." checked={draftAnalytics} onChange={setDraftAnalytics} />
         <ConsentCategory id="cookie-advertising" title="Advertising measurement" description="Optional. With Analytics also enabled, Google may use website activity, cookie identifiers and ad click information to measure advertising results. We do not send your enquiry details or personalise advertising. This choice does not enable Analytics by itself." checked={draftAdvertising} onChange={setDraftAdvertising} />
         {addressSuggestionsConfigured && <ConsentCategory id="cookie-maps" title="Google address suggestions" description="Optional. Google Places receives your typed address searches and connection information. Without this service, you can enter addresses manually and still request a journey." checked={draftMaps} onChange={setDraftMaps} />}
         <p className="cookie-detail">{t("Disabling Analytics or address suggestions after loading refreshes the page. Any unsent form entries will be cleared.")}</p>

@@ -402,7 +402,7 @@ export default function BookingForm({ prefill, variant = 'home', quoteSelection,
         </header>
         <div ref={dialogScrollRef} className="min-h-0 overflow-y-auto px-5 py-5 sm:px-7 sm:py-6">
           {requestCode ? <div className="br-success"><CheckCircle size={48} weight="light" aria-hidden="true" /><p>{t("We’ll contact you by your preferred method with availability and your final quote.")}</p><p className="br-reference">{requestCode}</p><p className="br-hint">{t("Your request is not yet a confirmed booking. Confirmation follows agreement of the details and receipt of the deposit.")}</p><div className="br-stop-actions"><button type="button" className="br-back" onClick={closeDialog}>{t("Close")}</button><button type="button" className="br-primary" onClick={startNew}>{t("Start a new request")}</button></div></div>
-          : step === 1 ? <form onSubmit={goToPassengers} noValidate>
+          : step === 1 ? <form action="/contact" onSubmit={goToPassengers} noValidate>
             <section className="br-summary" aria-label={t("Your initial details")}><MapPin className="br-summary-icon" size={18} weight="light" aria-hidden="true" /><div><p>{draft.pickup.text}{t(activeTab === 'transfer' ? ` → ${draft.destination.text}` : ` · ${t(activeTab === 'hourly' ? draft.duration : draft.category)}`)}</p><p className="br-hint">{t(activeTab === 'transfer' && context.airportMode === 'pickup' ? 'Flight arrival · ' : '')}{t(readableDateTime(draft.dateTime))}</p></div><button type="button" className="br-text-button" aria-expanded={editingInitial} aria-controls="booking-initial-editor" onClick={() => {
               setEditingInitial(current => !current)
               if (!editingInitial) window.requestAnimationFrame(() => document.getElementById(fieldId('pickup'))?.focus())
@@ -476,7 +476,7 @@ export default function BookingForm({ prefill, variant = 'home', quoteSelection,
             </>}
             {navigation(null, 'Continue')}
           </form>
-          : step === 2 ? <form onSubmit={goToReview} noValidate>
+          : step === 2 ? <form action="/contact" onSubmit={goToReview} noValidate>
             <div className="br-passenger-counters">
               <Counter label={t("Passengers")} hint={t("Including children")} value={passengers.passengers} min={1} max={12} onChange={value => {
                 const requested = Number(childSeatCount)
@@ -536,7 +536,7 @@ export default function BookingForm({ prefill, variant = 'home', quoteSelection,
             </div><p className="br-hint">{t("Availability and any charges will be confirmed with your quote.")}</p><Field id="booking-special-requests" label={t("Special requests · Optional")}><textarea id="booking-special-requests" rows={3} className="br-control br-textarea" maxLength={500} value={passengers.specialRequests} onChange={event => updatePassengers('specialRequests', event.target.value)} /></Field></section>
             {navigation(1, 'Continue to review')}
           </form>
-          : <form onSubmit={submitRequest} noValidate>
+          : <form action="/contact" onSubmit={submitRequest} noValidate>
             <div className="br-contact-review">
               <section className="br-contact-fields"><h3>{t("Contact details")}</h3>
                 {(['fullName', 'email'] as const).map(field => <Field key={field} id={`booking-${field}`} label={t(field === 'fullName' ? 'Full name' : 'Email')} error={contactErrors[field]}><input id={`booking-${field}`} type={field === 'email' ? 'email' : 'text'} autoComplete={field === 'fullName' ? 'name' : 'email'} placeholder={t(field === 'fullName' ? 'e.g. Alex Smith' : 'e.g. alex@example.com')} maxLength={field === 'fullName' ? 120 : 160} aria-invalid={Boolean(contactErrors[field])} aria-describedby={contactErrors[field] ? `booking-${field}-error` : undefined} className="br-control" value={contact[field]} onChange={event => updateContact(field, event.target.value)} /></Field>)}
@@ -590,7 +590,7 @@ export default function BookingForm({ prefill, variant = 'home', quoteSelection,
         </button> })}
       </div>}
       <div id={`booking-panel-${activeTab}`} role={servicesVariant ? undefined : 'tabpanel'} aria-labelledby={servicesVariant ? undefined : `booking-tab-${activeTab}`} className={servicesVariant ? 'services-booking-panel' : 'pt-3 lg:pt-4'}>
-        <form onSubmit={openRequest} noValidate><div className={servicesVariant ? 'services-booking-fields' : 'grid grid-cols-1 gap-2 md:grid-cols-2 sm:gap-2.5 lg:grid-cols-[1.1fr_1.1fr_1fr_150px] lg:gap-3'}>
+        <form action="/contact" onSubmit={openRequest} noValidate><div className={servicesVariant ? 'services-booking-fields' : 'grid grid-cols-1 gap-2 md:grid-cols-2 sm:gap-2.5 lg:grid-cols-[1.1fr_1.1fr_1fr_150px] lg:gap-3'}>
           {servicesVariant && <ServiceSelect value={quoteService} onChange={selectQuoteService} />}
           {servicesVariant && initialDateField}
           <FieldShell label={t("Pick-up")} icon={<MapPin size={23} weight="light" aria-hidden="true" />} error={initialErrors.pickup}><PlaceInput value={draft.pickup.text} onChange={value => updateLocation('pickup', value)} onMetadataChange={meta => updateLocation('pickup', undefined, meta)} placeholder={t(mobileHero ? 'City, airport or address' : 'City, airport, address, hotel...')} className={controlClass} label={t("Pick-up")} invalid={Boolean(initialErrors.pickup)} /></FieldShell>

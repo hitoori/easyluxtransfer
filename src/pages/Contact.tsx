@@ -93,7 +93,7 @@ export default function Contact({ navigate }: { navigate: (page: Page, sectionId
             </div>
           </div>
 
-          <form onSubmit={submitContact} onChange={() => { if (sendStatus && !requestCode) setSendStatus('') }}>
+          <form action="/contact" onSubmit={submitContact} onChange={() => { if (sendStatus && !requestCode) setSendStatus('') }}>
             <div className="ct-fields">
               <label htmlFor="ct-name">{t("Full name")}<input id="ct-name" name="name" minLength={2} maxLength={120} autoComplete="name" value={name} onChange={event => setName(event.target.value)} placeholder={t("Your name")} required />
               </label>

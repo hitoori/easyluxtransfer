@@ -47,7 +47,7 @@ export default function JourneyRequest() {
         <p>{t("Share your route, date, number of passengers and any stops. We’ll reply with availability and a price before you confirm.")}</p>
       </div>
 
-      <form className="home-final-request-form" aria-labelledby="journey-request-form-title"
+      <form action="/contact" className="home-final-request-form" aria-labelledby="journey-request-form-title"
         onChange={() => { setStatus(''); setSentCode('') }}
         onSubmit={submit}>
         <h3 id="journey-request-form-title">{t("Request a transfer quote")}</h3>

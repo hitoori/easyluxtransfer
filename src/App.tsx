@@ -10,6 +10,7 @@ import { updateNotFoundMetadata, updatePageMetadata } from './config/pageMetadat
 import { pageLoaders } from './config/pageLoaders'
 import { useCookieConsent } from './components/CookieConsent'
 import { trackAnalyticsPage, trackWhatsAppClick } from './lib/analytics'
+import { trackAhrefsPage } from './lib/ahrefsAnalytics'
 import { legacyPageDestination } from './lib/legacyNavigation'
 
 const Services = lazy(pageLoaders.services)
@@ -79,7 +80,7 @@ export default function App({ initialPage, prerenderedContent }: { initialPage?:
 
   useEffect(() => { currentPage === 'not-found' ? updateNotFoundMetadata() : updatePageMetadata(currentPage) }, [currentPage, language])
   // Record committed pages after their localized title changes, not in-progress navigation.
-  useEffect(() => { if (analytics && !isPending) trackAnalyticsPage() }, [analytics, currentPage, language, isPending])
+  useEffect(() => { if (analytics && !isPending) { trackAnalyticsPage(); trackAhrefsPage() } }, [analytics, currentPage, language, isPending])
   useEffect(() => {
     let normalizingLegacyRoute = false
     const syncPageFromLocation = async () => {
