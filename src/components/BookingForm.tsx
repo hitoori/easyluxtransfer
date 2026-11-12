@@ -155,6 +155,7 @@ export default function BookingForm({ prefill, variant = 'home', quoteSelection,
   const [dialogOpen, setDialogOpen] = useState(false)
   const [editingInitial, setEditingInitial] = useState(false)
   const [showAllDetails, setShowAllDetails] = useState(false)
+  const [showOptionalExtras, setShowOptionalExtras] = useState(false)
   const [sending, setSending] = useState(false)
   const [sendError, setSendError] = useState('')
   const [submitted, setSubmitted] = useState<Partial<Record<BookingService, string>>>({})
@@ -332,6 +333,7 @@ export default function BookingForm({ prefill, variant = 'home', quoteSelection,
     setPassengers(newPassengers())
     setChildSeatCount('1')
     setShowAllDetails(false)
+    setShowOptionalExtras(false)
     setContact(newContact())
     setPhoneCountry('IT')
     setPhoneNational('')
@@ -520,7 +522,7 @@ export default function BookingForm({ prefill, variant = 'home', quoteSelection,
                 </>}
               </div>}
             </section>
-            <section className="br-section"><h3>{t("Extras for your journey")}</h3><div className="br-extras">
+            <details className="br-section br-optional-extras" open={showOptionalExtras} onToggle={event => setShowOptionalExtras(event.currentTarget.open)}><summary>{t("Extras for your journey")}{t(" · Optional")}<ArrowDown size={14} aria-hidden="true" /></summary><div className="br-extras">
               {bottleExtras.length > 0 && <div className="br-extra" data-selected={bottleSelected}>
                 <label><input className="br-option-input" type="checkbox" checked={bottleSelected} onChange={event => selectBottles(event.target.checked ? bottleType : null)} /><Wine className="br-extra-icon" size={18} weight="light" aria-hidden="true" /><span className="br-extra-copy"><strong>{t("Wine / Prosecco")}</strong><span className="br-hint">{t("Bottles for the journey; tastings are separate.")}</span></span><span className="br-extra-check" aria-hidden="true"><Check size={11} weight="bold" /></span></label>
                 {bottleSelected && <>
@@ -533,7 +535,7 @@ export default function BookingForm({ prefill, variant = 'home', quoteSelection,
                 const ExtraIcon = extraIcons[extra.id as keyof typeof extraIcons] ?? Plus
                 return <div key={extra.id} className="br-extra" data-selected={quantity > 0}><label><input className="br-option-input" type="checkbox" checked={quantity > 0} onChange={event => updatePassengers('extras', { ...passengers.extras, [extra.id]: event.target.checked ? 1 : 0 })} /><ExtraIcon className="br-extra-icon" size={18} weight="light" aria-hidden="true" /><span className="br-extra-copy"><strong>{t(extra.name)}</strong><span className="br-extra-price">{t(extraPriceLabel(extra))}</span><span className="br-hint">{t(extra.description)}</span></span><span className="br-extra-check" aria-hidden="true"><Check size={11} weight="bold" /></span></label>{t(quantity > 0 && extra.quantity && extraQuantity(extra.id, extra.unit === 'hour' ? 'Hours' : 'Packages'))}</div>
               })}
-            </div><p className="br-hint">{t("Availability and any charges will be confirmed with your quote.")}</p><Field id="booking-special-requests" label={t("Special requests · Optional")}><textarea id="booking-special-requests" rows={3} className="br-control br-textarea" maxLength={500} value={passengers.specialRequests} onChange={event => updatePassengers('specialRequests', event.target.value)} /></Field></section>
+            </div><p className="br-hint">{t("Availability and any charges will be confirmed with your quote.")}</p><Field id="booking-special-requests" label={t("Special requests · Optional")}><textarea id="booking-special-requests" rows={3} className="br-control br-textarea" maxLength={500} value={passengers.specialRequests} onChange={event => updatePassengers('specialRequests', event.target.value)} /></Field></details>
             {navigation(1, 'Continue to review')}
           </form>
           : <form onSubmit={submitRequest} noValidate>
@@ -552,9 +554,8 @@ export default function BookingForm({ prefill, variant = 'home', quoteSelection,
                 <Choice name="preferred-contact" label={t("Preferred contact")} value={contact.preferredContact} options={[{ value: 'email', label: 'Email' }, { value: 'whatsapp', label: 'WhatsApp' }]} onChange={value => updateContact('preferredContact', value as ContactDetails['preferredContact'])} />
                 <label className="br-consent"><input type="checkbox" checked={contact.consent} onChange={event => updateContact('consent', event.target.checked)} aria-invalid={Boolean(contactErrors.consent)} aria-describedby={contactErrors.consent ? 'booking-consent-error' : undefined} /><span>{t("I agree to be contacted about this request. ")}<a href={pagePath('cookies')} target="_blank" rel="noopener noreferrer">{t("Privacy Policy")}</a>{"."}</span></label>{contactErrors.consent && <p id="booking-consent-error" className="br-error" role="alert">{t(contactErrors.consent)}</p>}
               </section>
-              <section className="br-essential-review"><ReviewGroup title={t("Request summary")} entries={essentialReview} onEdit={() => { setEditingInitial(true); setStep(1) }} />
+              <section className="br-essential-review"><ReviewGroup title={t("Request summary")} entries={essentialReview.filter(item => ['Route', 'Pick-up', 'Date & time', 'Flight arrival', 'Trip', 'Return', 'Passengers', 'Journey price'].includes(item.label))} onEdit={() => { setEditingInitial(true); setStep(1) }} />
                 <button type="button" className="br-text-button" onClick={() => setStep(2)}>{t("Edit passengers & extras")}</button>
-                <p className="br-hint">{t("We’ll confirm availability and the final quote. Booking is confirmed after agreement and receipt of the deposit.")}</p>
                 <p className="br-hint br-terms">{t("The balance is paid to the driver after your journey. ")}<a href={pagePath('terms')} target="_blank" rel="noopener noreferrer">{t("Booking Terms & Conditions")}</a></p>
               </section>
               <section className="br-all-details">
@@ -564,6 +565,7 @@ export default function BookingForm({ prefill, variant = 'home', quoteSelection,
                 </div>
               </section>
             </div>
+            <p className="br-hint br-confirmation-note">{t("We’ll confirm availability and the final quote. Booking is confirmed after agreement and receipt of the deposit.")}</p>
             {navigation(2, servicesVariant ? 'Send your request' : 'Send booking request')}
             {sendError && <p className="br-error" role="alert">{t(sendError)} {t(" Your details have been kept; you can retry.")}</p>}
           </form>}

@@ -1122,6 +1122,9 @@ Day Trips¦Поездки на день
 City, airport or address¦Город, аэропорт или адрес
 `.trim().split('\n').map(line => line.split('¦'))))
 Object.assign(russian, {
+  "Private airport, hotel and station transfers in Venice and Treviso. Explore indicative prices and request a quote for your journey.": "Индивидуальные трансферы в аэропорты, отели и на вокзалы Венеции и Тревизо. Посмотрите ориентировочные цены и запросите расчёт поездки.",
+  "Book a private airport transfer from Venice Marco Polo Airport VCE or Treviso Airport TSF to Venice, Mestre, Treviso or your chosen destination. We track your flight, meet you in Arrivals after baggage claim and send your meeting instructions before you travel.": "Закажите индивидуальный трансфер из аэропорта Венеции Марко Поло VCE или аэропорта Тревизо TSF в Венецию, Местре, Тревизо или другое место. Мы отслеживаем ваш рейс, встречаем вас в зоне прибытия после получения багажа и заранее отправляем инструкции о месте встречи.",
+  "Read the full answer in our FAQ": "Полный ответ в разделе вопросов и ответов",
   'Wine / Prosecco': 'Вино / Просекко',
   'Boarding / disembarkation time': 'Время посадки / высадки',
   'Terminal / boarding details': 'Терминал / информация о посадке',
@@ -1330,7 +1333,7 @@ Object.assign(russian, {
 
 // Practical transfer information and descriptive links for visitors planning their journey.
 Object.assign(russian, {
-  "Private transfers from Venice Marco Polo Airport (VCE) or Treviso Airport (TSF) to Venice, Mestre, Treviso or your chosen destination. We track your flight, meet you in Arrivals after baggage claim and send exact meeting instructions before you travel.": "Индивидуальные трансферы из аэропортов Венеции Марко Поло (VCE) и Тревизо (TSF) в Венецию, Местре, Тревизо или к месту назначения по вашему выбору. Мы отслеживаем рейс, встречаем вас в зоне прилёта после получения багажа и заранее отправляем точные инструкции.",
+  "Private transfers from Venice Marco Polo Airport VCE or Treviso Airport TSF to Venice, Mestre, Treviso or your chosen destination. We track your flight, meet you in Arrivals after baggage claim and send exact meeting instructions before you travel.": "Индивидуальные трансферы из аэропортов Венеции Марко Поло VCE и Тревизо TSF в Венецию, Местре, Тревизо или к месту назначения по вашему выбору. Мы отслеживаем рейс, встречаем вас в зоне прилёта после получения багажа и заранее отправляем точные инструкции.",
   "Travel from your agreed address or meeting point in Venice, Mestre or Treviso to Marco Polo or Treviso Airport. We plan your pick-up around your flight, terminal and traffic, and help with your luggage.": "Поездка из согласованного адреса или места встречи в Венеции, Местре или Тревизо в аэропорт Марко Поло или Тревизо. Мы планируем время подачи с учётом рейса, терминала и дорожной обстановки и помогаем с багажом.",
   "Book a private transfer between Venice, Mestre, Treviso and your chosen destination. Your driver can collect you at a train station or another road-accessible address. Send both addresses, your preferred time and luggage details so we can confirm the meeting point and a suitable vehicle.": "Закажите индивидуальный трансфер между Венецией, Местре, Тревизо и выбранным местом назначения. Водитель может встретить вас на вокзале или по другому адресу, доступному для автомобиля. Укажите оба адреса, желаемое время и сведения о багаже, чтобы мы согласовали место встречи и подходящий автомобиль.",
   "Airport meeting instructions": "Как встретиться с водителем в аэропорту",
@@ -1404,4 +1407,18 @@ Object.assign(russian, {
   "Venice & Treviso Transfer FAQ | Easy Lux Transfer": "Трансферы в Венеции и Тревизо: вопросы | Easy Lux Transfer",
   "Request a private transfer quote in Venice or Treviso. Share your pick-up address, destination, date, passengers and luggage. We’ll confirm availability.": "Запросите стоимость трансфера в Венеции или Тревизо. Укажите адрес подачи, место назначения, дату, пассажиров и багаж. Мы проверим доступность.",
   "Answers about private transfers in Venice and Treviso: airport, hotel and station pick-ups, luggage, quotes, payments and booking changes.": "Ответы о трансферах в Венеции и Тревизо: встреча в аэропорту, отеле или на вокзале, багаж, расчёт стоимости, оплата и изменения бронирования."
+})
+
+
+// Tourist-facing transfer copy and descriptive internal links (localhost review).
+Object.assign(russian, {
+  "Private transfers from Venice Marco Polo and Treviso airports, train stations, hotels and your chosen address. Travel across Italy and Europe, with your quote confirmed before booking.": "Индивидуальные трансферы из аэропортов Венеции Марко Поло и Тревизо, с вокзалов, из отелей и по указанному вами адресу. Поездки по Италии и Европе с согласованием стоимости до бронирования.",
+  "Airport, city and long-distance transfers": "Трансферы из аэропортов, по городу и на дальние расстояния",
+  "Private NCC transfers in Venice and Treviso, including Marco Polo Airport VCE, Treviso Airport TSF, train stations, hotels and your chosen address. Travel across Italy and Europe, with the route, vehicle and price agreed before booking.": "Индивидуальные трансферы с водителем NCC в Венеции и Тревизо: аэропорты Марко Поло VCE и Тревизо TSF, вокзалы, отели и указанный вами адрес. Поездки по Италии и Европе с согласованием маршрута, автомобиля и стоимости до бронирования.",
+  "Private transfers in Venice and Treviso: airport, hotel, station and address pick-ups. Request a personalised quote for your journey.": "Индивидуальные трансферы в Венеции и Тревизо: встреча в аэропорту, отеле, на вокзале или по адресу. Запросите стоимость вашей поездки.",
+  "Transfer services & prices": "Услуги трансфера и цены",
+  "Marco Polo & Treviso airport transfers": "Трансферы из аэропортов Марко Поло и Тревизо",
+  "Transfer prices & quotes": "Цены и расчёт трансфера",
+  "Venice hotel & water taxi transfers": "Трансферы в отели Венеции и водное такси",
+  "Transfer & booking FAQs ": "Вопросы о трансферах и бронировании "
 })

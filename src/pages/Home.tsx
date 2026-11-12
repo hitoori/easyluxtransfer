@@ -91,7 +91,7 @@ export default function Home({ navigate }: HomeProps) {
           <h1>
             {t('Private transfers in')}<br />{t('Venice & Treviso.')}
           </h1>
-          <p className="h2-lead">{t("From airports, train stations, hotels or your chosen address to destinations across Italy and Europe.")}</p>
+          <p className="h2-lead">{t("Private transfers from Venice Marco Polo and Treviso airports, train stations, hotels and your chosen address. Travel across Italy and Europe, with your quote confirmed before booking.")}</p>
         </div>
 
         <div

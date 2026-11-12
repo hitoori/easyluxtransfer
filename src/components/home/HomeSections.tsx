@@ -83,7 +83,7 @@ export default function HomeSections({ navigate, onBookRoute, onPlanJourney }: H
               page="services" navigate={navigate}
               className="group mt-4 flex items-center gap-2 text-[12px] font-medium text-gold transition-colors hover:text-gold-light"
             >
-              {t("Explore transfer services")}<ArrowRight
+              {t("Transfer services & prices")}<ArrowRight
                 size={14}
                 className="transition-transform group-hover:translate-x-1"
                 aria-hidden="true"
@@ -164,7 +164,9 @@ export default function HomeSections({ navigate, onBookRoute, onPlanJourney }: H
               <p className="mt-4 max-w-[650px] text-[14px] leading-[1.7] text-[var(--text-muted)]">
                 {t("Indicative one-way fares from Venice. We’ll confirm the vehicle and final price with your quote.")}</p>
               <nav aria-label={t("Plan your private transfer")} className="mt-4 flex flex-wrap gap-x-5 gap-y-3 text-[13px] text-gold underline underline-offset-4">
+                <PageLink page="services" sectionId="service-airport" navigate={navigate}>{t("Marco Polo & Treviso airport transfers")}</PageLink>
                 <PageLink page="services" sectionId="ac-tab-2" navigate={navigate}>{t("Venice & Treviso private transfers")}</PageLink>
+                <PageLink page="faq" sectionId="fq-question-price" navigate={navigate}>{t("Transfer prices & quotes")}</PageLink>
                 <PageLink page="services" sectionId="service-europe" navigate={navigate}>{t("Italy & Europe routes")}</PageLink>
                 <PageLink page="faq" sectionId="fq-question-return" navigate={navigate}>{t("Return transfers")}</PageLink>
               </nav>

@@ -44,7 +44,7 @@ export default function VeniceArrivalFeature({ navigate }: VeniceArrivalFeatureP
           </div>
 
           <PageLink page="services" sectionId="service-water-taxi" navigate={navigate} className="water-route-cta">
-            {t("Plan your connection")}<ArrowRight size={17} aria-hidden="true" />
+            {t("Venice hotel & water taxi transfers")}<ArrowRight size={17} aria-hidden="true" />
           </PageLink>
         </div>
       </div>

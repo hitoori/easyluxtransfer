@@ -104,8 +104,8 @@ export default function Services({ navigate }: { navigate: Navigate }) {
       <div className="services-masthead-shell">
         <div className="services-masthead-copy">
           <p className="services-masthead-eyebrow">{t("SERVICES & PRICES")}</p>
-          <h1 id="services-title">{t("Private transfers in Venice and Treviso.")}</h1>
-          <p className="services-masthead-description">{t("Private transfers (NCC) from airports, train stations, hotels or your chosen address in Venice and Treviso, with journeys across Italy and Europe.")}</p>
+          <h1 id="services-title">{t("Airport, city and long-distance transfers")}</h1>
+          <p className="services-masthead-description">{t("Private NCC transfers in Venice and Treviso, including Marco Polo Airport VCE, Treviso Airport TSF, train stations, hotels and your chosen address. Travel across Italy and Europe, with the route, vehicle and price agreed before booking.")}</p>
           <div className="services-masthead-actions">
             <button type="button" className="services-masthead-primary" onClick={() => scrollTo('airport')}>{t("EXPLORE SERVICES ↓")}</button>
           </div>

@@ -3,7 +3,12 @@
 .booking-request :is(button, input, select, textarea, a, summary):focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
 .booking-request h2:focus { outline: none; }
 .booking-request h3 { margin: 0; color: var(--text-primary); font-size: 14px; font-weight: 600; }
-.booking-request .br-section { margin-top: 20px; }
+.booking-request .br-section { margin-top: 16px; }
+.booking-request .br-optional-extras > summary { display: flex; align-items: center; gap: 8px; min-height: 44px; color: var(--text-primary); font-size: 13px; font-weight: 600; cursor: pointer; list-style: none; }
+.booking-request .br-optional-extras > summary::-webkit-details-marker { display: none; }
+.booking-request .br-optional-extras > summary svg { margin-left: auto; color: var(--gold); transition: transform .2s; }
+.booking-request .br-optional-extras[open] > summary svg { transform: rotate(180deg); }
+.booking-request .br-confirmation-note { margin-top: 16px; }
 .booking-request .br-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 .booking-request .br-grid-three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .booking-request .br-detail-panel { margin-top: 12px; padding: 12px; border: 1px solid rgba(116,111,105,.28); border-radius: 8px; }

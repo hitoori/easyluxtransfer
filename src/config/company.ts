@@ -8,8 +8,8 @@ export const company = {
     { display: '+39 320 241 6662', tel: 'tel:+393202416662', whatsapp: 'https://wa.me/393202416662' },
   ],
   email: 'easyluxtransfer@gmail.com',
-  // Account URLs will be supplied by the owner.
-  social: { facebook: '', instagram: '', tiktok: '' },
+  // Only show profiles confirmed by the owner.
+  social: { facebook: '', instagram: 'https://www.instagram.com/easy.luxtransfer/', tiktok: '' },
   registeredOffice: 'Strada S. Bona Nuova 1 A, 31100 Treviso (TV), Italy',
   operationalBase: 'Venice, Veneto – Italy',
   serviceArea: 'Based in Venice and Treviso, travelling across Italy and Europe.',

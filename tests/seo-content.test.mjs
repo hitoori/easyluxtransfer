@@ -74,8 +74,8 @@ for (const language of ['en', 'ru']) {
       assert.ok(!content.includes('Planning a return transfer'))
       assert.ok(!content.includes('Your driver can collect you at a train station'))
     } else {
-      assert.ok(content.includes('Venice Marco Polo Airport (VCE)'))
-      assert.ok(content.includes('Treviso Airport (TSF)'))
+      assert.ok(content.includes('Venice Marco Polo Airport VCE'))
+      assert.ok(content.includes('Treviso Airport TSF'))
       assert.ok(content.includes('Your driver can collect you at a train station'))
     }
   })

@@ -10,7 +10,7 @@ import { publicAsset } from '../../lib/publicAsset'
 const getJourneys = () => [
   {
     label: 'From the airport', title: <>{t("Airport pick-ups at")}<br className="ac-default-title-break" />{' '}<span className="ac-title-second-line">{t("Marco Polo")}<br className="services-tablet-title-break" />{' '}{t("and Treviso.")}</span></>,
-    description: 'Private transfers from Venice Marco Polo Airport (VCE) or Treviso Airport (TSF) to Venice, Mestre, Treviso or your chosen destination. We track your flight, meet you in Arrivals after baggage claim and send exact meeting instructions before you travel.',
+    description: 'Book a private airport transfer from Venice Marco Polo Airport VCE or Treviso Airport TSF to Venice, Mestre, Treviso or your chosen destination. We track your flight, meet you in Arrivals after baggage claim and send your meeting instructions before you travel.',
     guide: ['Airport meeting instructions', 'meeting'],
     cta: 'REQUEST YOUR TRANSFER',
     features: ['Flight tracking', 'Meet & greet', 'Luggage assistance'],

@@ -46,9 +46,13 @@ export default function Footer({ navigate }: { navigate: Navigate }) {
           </a>
           <h2>{t("Private Chauffeur")}</h2>
           <p>{t("Private airport and door-to-door transfers in Venice and Treviso, Water Taxi connections and a driver by the hour.")}<br />{t("We’ll also take you to the mountains, the coast and cruise ports across Italy and Europe.")}</p>
-          {socialChannels.some(channel => channel.href) && <div className="home-footer-social" aria-label={t("Easy Lux social media")}>
-            {socialChannels.filter(channel => channel.href).map(({ label, href, Icon }) => <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={`${label} · Easy Lux Transfer`}><Icon size={21} weight="regular" aria-hidden="true" /></a>)}
-          </div>}
+          <div className="home-footer-social" aria-label={t("Easy Lux social media")}>
+            {socialChannels.map(({ label, href, Icon }) => href ? (
+              <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={`${label} · Easy Lux Transfer`}><Icon size={21} weight="regular" aria-hidden="true" /></a>
+            ) : (
+              <button key={label} type="button" disabled aria-label={`${label} · Easy Lux Transfer`}><Icon size={21} weight="regular" aria-hidden="true" /></button>
+            ))}
+          </div>
         </div>
         <nav className="home-footer-services" aria-labelledby="home-footer-services">
           <h3 id="home-footer-services">{t("Services")}</h3>

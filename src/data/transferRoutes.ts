@@ -18,7 +18,7 @@ export const transferRoutes: TransferRoute[] = [
     pickup: 'Venice Marco Polo Airport (VCE)',
     destination: 'Piazzale Roma, Venice',
     airportMode: 'pickup',
-    sedan: 70,
+    sedan: 80,
     van: 80,
     minibus: 150,
   },
